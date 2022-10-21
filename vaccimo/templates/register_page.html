@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+        <link rel="stylesheet" href="{% static '/css/registerpage.css' %}" />
+
+        <title>Document</title>
+    </head>
+    <body>
+        <img id="bg-main" src="{% static 'images/login.jpg' %}" alt="Cover Image" style="position: absolute; height: 100%; width: 100%;" />
+        <div class="register">
+            <div class="be-wrapper be-login">
+                <div class="be-content">
+                    <div class="main-content container-fluid">
+                        <div class="splash-container">
+                            <!-- @include('system._components.notifications') -->
+                            <div class="panel panel-default panel-border-color panel-border-color-primary" style="padding-bottom: 35px;">
+                                <div class="panel-heading">
+                                    <h1>Sign up</h1>
+                                    <p>It’s quick and easy.</p>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        {% for message in messages %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{message}}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <form action="{% url 'register' %}" method="POST">
+                        
+                                        <!-- {!!csrf_field()!!} -->
+                                        {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input style="font-size: 16px;" id="first_name" name="first_name" type="name" placeholder="First Name" autocomplete="off" class="form-control" required/>
+                                            <span class="help-block"></span>
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input style="font-size: 16px;" id="last_name" name="last_name" type="name" placeholder="Last Name" autocomplete="off" class="form-control" required/>
+                                            <span class="help-block"></span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                        <div class="form-group">
+                                            <input style="font-size: 16px;" id="email" name="email" type="email" placeholder="Email" autocomplete="off" class="form-control" required/>
+                                            <span class="help-block"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <input style="font-size: 16px;" id="username" name="username" type="text" placeholder="Username" autocomplete="off" class="form-control" required/>
+                                            <span class="help-block"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input style="font-size: 16px;" id="password" name="password" type="password" placeholder="Password" class="form-control"required />
+
+                                            <span class="help-block"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <input style="font-size: 16px;" id="password_confirmation" name="password_confirmation" type="password" placeholder="Verify Password" class="form-control" required/>
+                                            <span class="help-block"></span>
+                                        </div>
+
+                                        <div class="form-group login-submit mt-4">
+                                            <button style="font-size: 20px; " data-dismiss="modal" type="submit" class="btn btn-primary btn-xl">Sign up</button>
+                                        </div>
+                                        <div class=" col-xs-12 text-center mt-3" style="font-size: 14px; margin-bottom: 20px;border-radius: 20px ; ">Do you have an account? <a href="{% url 'loginpage' %}">Sign in</a></div>
+                                    </form>
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
