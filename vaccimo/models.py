@@ -1,12 +1,11 @@
 from datetime import datetime
 from distutils.command.upload import upload
 from django.db import models
-# from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser
 
 import datetime
 import os
 # Create your models here.
-
 
 
 
@@ -87,6 +86,11 @@ class questioner (models.Model):
     Q21 = models.CharField(max_length=100, null=True)
     Q22 = models.CharField(max_length=100, null=True)
     allergy = models.CharField(max_length=100, null=True)
+    allergy1 = models.CharField(max_length=100, null=True)
+    allergy2 = models.CharField(max_length=100, null=True)
+    allergy3 = models.CharField(max_length=100, null=True)
+    allergy4 = models.CharField(max_length=100, null=True)
+    allergy5 = models.CharField(max_length=100, null=True)
     Q23 = models.CharField(max_length=100, null=True)
     Q24 = models.CharField(max_length=100, null=True)
 
@@ -97,4 +101,4 @@ class questioner (models.Model):
 
 # class User(AbstractUser):
 #     is_admin = models.BooleanField(default=False)
-#     is_customer = models.BooleanField(default=False)        
+#     is_customer = models.BooleanField(default=False)

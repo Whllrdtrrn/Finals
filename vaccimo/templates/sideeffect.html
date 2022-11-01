@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
     <link rel="stylesheet" href="{% static '/css/sideeffect.css' %}" />
-    <title>Document</title>
+    <title>SideEffectPage</title>
 </head>
 <body>
 
@@ -72,8 +72,9 @@
                                             </div> -->
 
                                             <!-- <select name="muscle_ache" class="form-control" id="txt_check_1_input1" disabled > -->
+                                             
                                             <select name="muscle_ache" class="form-control" id="txt_check_1_input1"  style="text-align: center;"  value="{{prod.muscle_ache}}" required >
-                                                <option selected   value="" >-----Select----- </option>
+                                                <option selected hidden  hidden value="" >-----Select----- </option>
                                                 <option  value="yes">Yes</option>
                                                 <option value="no">No</option>
                                             
@@ -129,7 +130,7 @@
                                             </div> -->
 
                                             <select name="headache" class="form-control" id="txt_check_2_input1" style="text-align: center;"required  value="{{prod.headache}}">
-                                                <option selected disabled value="">-----Select-----</option>
+                                                <option selected hidden disabled value="">-----Select-----</option>
                                                 <option value="yes">Yes</option>
                                                     <option value="no">No</option>
                                             
@@ -183,7 +184,7 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
                                             <select name="fever" class="form-control" id="txt_check_3_input1"style="text-align: center;" required value="{{prod.fever}}">
-                                                <option selected disabled value="">-----Select-----</option>
+                                                <option selected hidden disabled value="">-----Select-----</option>
                                                 <option value="yes">Yes</option>
                                                     <option value="no">No</option>
                                             
@@ -235,7 +236,7 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
                                             <select name="redness" class="form-control" id="txt_check_4_input1" style="text-align: center;"required value="{{prod.redness}}">
-                                                <option selected disabled value="">-----Select-----</option>
+                                                <option selected hidden disabled value="">-----Select-----</option>
                                                 <option value="yes">Yes</option>
                                                     <option value="no">No</option>
                                             
@@ -289,7 +290,7 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
                                             <select name="swelling" class="form-control" id="txt_check_5_input1" style="text-align: center;"required value="{{prod.swelling}}">
-                                                <option selected disabled value="">-----Select-----</option>
+                                                <option selected hidden disabled value="">-----Select-----</option>
                                                 <option value="yes">Yes</option>
                                                     <option value="no">No</option>
                                             
@@ -343,7 +344,7 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
                                             <select name="tenderness" class="form-control" id="txt_check_6_input1"style="text-align: center;"required value="{{prod.tenderness}}">
-                                                <option selected disabled value="">-----Select-----</option>
+                                                <option selected hidden disabled value="">-----Select-----</option>
                                                 <option value="yes">Yes</option>
                                                     <option value="no">No</option>
                                             
@@ -397,7 +398,7 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
                                             <select name="warmth"class="form-control" id="txt_check_7_input1" style="text-align: center;"required value="{{prod.warmth}}">
-                                                <option selected disabled value="">-----Select-----</option>
+                                                <option selected hidden disabled value="">-----Select-----</option>
                                                 <option value="yes">Yes</option>
                                                     <option value="no">No</option>
                                             
@@ -450,7 +451,7 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
                                             <select name="itch" class="form-control" id="txt_check_8_input1"style="text-align: center;"required value="{{prod.itch}}">
-                                                <option selected disabled value="">-----Select-----</option>
+                                                <option selected hidden disabled value="">-----Select-----</option>
                                                 <option value="yes">Yes</option>
                                                     <option value="no">No</option>
                                             
@@ -501,7 +502,7 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
                                             <select name="induration" class="form-control" id="txt_check_9_input1" style="text-align: center;"required value="{{prod.induration}}">
-                                                <option selected disabled value="">-----Select-----</option>
+                                                <option selected hidden disabled value="">-----Select-----</option>
                                                 <option value="yes">Yes</option>
                                                     <option value="no">No</option>
                                             
@@ -552,7 +553,7 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
                                             <select name="feverish" class="form-control" id="txt_check_10_input1" style="text-align: center;"required value="{{prod.feverish}}">
-                                                <option selected disabled value="">-----Select-----</option>
+                                                <option selected hidden disabled value="">-----Select-----</option>
                                                 <option value="yes">Yes</option>
                                                     <option value="no">No</option>
                                             
@@ -603,7 +604,7 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
                                             <select name="chills" class="form-control" id="txt_check_11_input1"style="text-align: center;"required value="{{prod.chills}}">
-                                                <option selected disabled value="">-----Select-----</option>
+                                                <option selected hidden disabled value="">-----Select-----</option>
                                                 <option value="yes">Yes</option>
                                                     <option value="no">No</option>
                                             
@@ -655,7 +656,7 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
                                             <select name="join_pain" class="form-control" id="txt_check_12_input1"style="text-align: center;"required value="{{prod.join_pain}}">
-                                                <option selected disabled value="">-----Select-----</option>
+                                                <option selected hidden disabled value="">-----Select-----</option>
                                                 <option value="yes">Yes</option>
                                                     <option value="no">No</option>
                                             
@@ -708,7 +709,7 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
                                             <select name="fatigue" class="form-control" id="txt_check_13_input1" style="text-align: center;"required value="{{prod.fatigue}}">
-                                                <option selected disabled value="">-----Select-----</option>
+                                                <option selected hidden disabled value="">-----Select-----</option>
                                                 <option value="yes">Yes</option>
                                                 <option value="no">No</option>
                                             
@@ -761,7 +762,7 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
                                             <select name="nausea" class="form-control" id="txt_check_14_input1"style="text-align: center;"required value="{{prod.nausea}}">
-                                                <option selected disabled value="">-----Select-----</option>
+                                                <option selected hidden disabled value="">-----Select-----</option>
                                                 <option value="yes">Yes</option>
                                                 <option value="no">No</option>
                                             
@@ -814,7 +815,7 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
                                             <select name="vomiting" class="form-control" id="txt_check_15_input1"required style="text-align: center;" value="{{prod.vomiting}}">
-                                                <option selected disabled value="">-----Select-----</option>
+                                                <option selected hidden disabled value="">-----Select-----</option>
                                                 <option value="yes">Yes</option>
                                                     <option value="no">No</option>
                                             

@@ -15,6 +15,7 @@ import os
 from .models import sideeffect
 from .models import questioner
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 
 
 
@@ -29,7 +30,7 @@ def home_page(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('login-page/')
+    return redirect('/login-page/')
 
 
 def viewDetails(request):
@@ -223,6 +224,11 @@ def server_form(request):
             prod.Q21 = request.POST.get('Q21')
             prod.Q22 = request.POST.get('Q22')
             prod.allergy = request.POST.get('allergy')
+            prod.allergy1 = request.POST.get('allergy1')
+            prod.allergy2 = request.POST.get('allergy2')
+            prod.allergy3 = request.POST.get('allergy3')
+            prod.allergy4 = request.POST.get('allergy4')
+            prod.allergy5 = request.POST.get('allergy5')            
             prod.Q23 = request.POST.get('Q23')
             prod.Q24 = request.POST.get('Q24')
             #    item = questioner(Q0=Q0,Q1=Q1,Q2=Q2,Q3=Q3,Q4=Q4,Q5=Q5,Q6=Q6,Q7=Q7,Q8=Q8,Q9=Q9,Q10=Q10,Q11=Q11,
@@ -260,6 +266,11 @@ def server_form(request):
             prod.Q21 = request.POST.get('Q21')
             prod.Q22 = request.POST.get('Q22')
             prod.allergy = request.POST.get('allergy')
+            prod.allergy1 = request.POST.get('allergy1')
+            prod.allergy2 = request.POST.get('allergy2')
+            prod.allergy3 = request.POST.get('allergy3')
+            prod.allergy4 = request.POST.get('allergy4')
+            prod.allergy5 = request.POST.get('allergy5')
             prod.Q23 = request.POST.get('Q23')
             prod.Q24 = request.POST.get('Q24')
             #    item = questioner(Q0=Q0,Q1=Q1,Q2=Q2,Q3=Q3,Q4=Q4,Q5=Q5,Q6=Q6,Q7=Q7,Q8=Q8,Q9=Q9,Q10=Q10,Q11=Q11,
@@ -274,21 +285,33 @@ def success_page (request):
      template = loader.get_template('success.html')
      return HttpResponse(template.render()) 
 
+def toggle_status(request,id):
+    status = User.objects.get(id=id)
+    status.is_active = 0
+    status.save()
+    return redirect ('/dashboard/')
+
+def toggle_status_active(request,id):
+    status = User.objects.get(id=id)
+    status.is_active = 1
+    status.save()
+    return redirect ('/dashboard/')    
 
 def dashboard (request):
      item_list = user.objects.all().values()
      item_lists = sideeffect.objects.all().values()
      quesT = questioner.objects.all().values()
-     userAccount = User.objects.all().values().filter(is_superuser=False).filter(is_active=True)
+     userAccount = User.objects.all().values().filter(is_superuser=False)
      total_user = userAccount.count()
      total_admin = User.objects.filter(is_superuser=True).count()
+    
      context = {
         'item_list': item_list,
         'item_lists': item_lists,
         'quesT': quesT,
         'userAccount': userAccount,
         'total_user':total_user,
-        'total_admin':total_admin
+        'total_admin':total_admin,
     }
    
      return render (request,'system/dashboard.html',context)

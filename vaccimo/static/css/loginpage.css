@@ -29,5 +29,25 @@ body{
     width: 100%;
 }
 .form-group{
+    position: relative;
     margin-top: 20px;
+    justify-content: center;
 }
+.form-control{
+    width: 60% !important;
+}
+.panel-body{
+    margin-top: 35px;
+}
+/* .form-group i{
+    position: absolute;
+    color: black;
+    right: 15%;
+} */
+
+/* .errorEmail{
+    
+    justify-content: center;
+    width: 60%;
+    background-color: red;
+} */

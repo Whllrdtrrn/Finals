@@ -15,7 +15,10 @@ urlpatterns = [
     path('side-effect-page/', views.sideeffect_page, name='sideeffect' ),
     path('success-page/', views.success_page, name='success' ),
     path('dashboard/', views.dashboard, name='dashboard' ),
-    path('/',views.logout_view,name='logout' ),
+    path('toggle_status/<str:id>',views.toggle_status,name='toggle_status' ),
+    path('toggle_status_active/<str:id>',views.toggle_status_active,name='toggle_status_active' ),
+    path('logout/',views.logout_view,name='logout' ),
+
     # path('delete/', views.delete, name='delete'),
     # path('edit/<str:pk>', views.edit, name='edit') ,  
 

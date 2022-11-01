@@ -38,3 +38,12 @@ body{
 .panel-heading{
     text-align: left;
 }
+input{
+    border-radius: 0px !important;
+}
+#basic-addon1 {
+    border-radius: 0px;
+}
+.form-group{
+    display:flex;
+}

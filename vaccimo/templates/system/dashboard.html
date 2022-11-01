@@ -10,11 +10,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <link rel="stylesheet" href="{% static '/css/dashboard.css' %}" />
     <title>Document</title>
 </head>
@@ -210,6 +211,8 @@
                                     <th>Username</th>
                                     <th>Email</th>
                                     <th>date/time</th>
+                                    <th>Action</th>
+
                                     <!-- <th>Action</th> -->
 
                                  </tr>
@@ -230,6 +233,18 @@
                                     <td class="cell-detail"> 
                                        <span>{{x.last_login}}</span>
                                     </td>
+                                    <td>
+                                     {% if x.is_active == 1 %}  
+                                    <a href="{% url 'toggle_status' id=x.id %}"  type="button"><button class="btn btn-danger">Deactivate</button></a>
+                                      
+                                    {% else %} 
+                                    <a href="{% url 'toggle_status_active' id=x.id %}" type="button"><button class="btn btn-success">Activate</button></a>
+ 
+                                    <!-- <input data-id="{{x.is_active}}" class="toggle-class" type="checkbox" data-onstyle="success" 
+                                       data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" > -->
+                                    {% endif %}  
+                                    </td>
+                                    
                                     <!-- <td><input  onclick="change('{{x.id}}')" type="button" value="Open Curtain" id="myButton1"></input></td> -->
                                     <!-- <td><a href="{% url 'delete'% x.id} ">delete</a></td> -->
                                  </tr>
@@ -237,6 +252,25 @@
                               </tbody>
                            </table>
                            <div class="footer ">
+<!--                            
+                              <script>
+                                 $(function() {
+                                   $('.toggle-class').change(function() {
+                                       var status = $(userAccount).prop({is_active}) == true ? 1 : 0; 
+                                       var id = $(userAccount).data({id}); 
+                                        
+                                       $.ajax({
+                                           type: "GET",
+                                           dataType: "json",
+                                           url: '/changeStatus',
+                                           data: {'status': status, 'id': id},
+                                           success: function(data){
+                                             console.log(data.success)
+                                           }
+                                       });
+                                   })
+                                 })
+                               </script> -->
                            <div class=" text-center">
                            </div>
                         </div>
@@ -662,6 +696,22 @@
 }
 document.getElementById("defaultOpen").click();
 
+// $(function() {
+//     $('.toggle-class').change(function() {
+//         var status = $(this).prop('checked') == true ? 1 : 0; 
+//         var user_id = $(this).data('id'); 
+         
+//         $.ajax({
+//             type: "GET",
+//             dataType: "json",
+//             url: '/changeStatus',
+//             data: {'status': status, 'user_id': user_id},
+//             success: function(data){
+//               console.log(data.success)
+//             }
+//         });
+//     })
+//   })
    </script>
 </body>
 </html>
