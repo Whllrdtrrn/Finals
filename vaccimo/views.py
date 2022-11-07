@@ -30,7 +30,7 @@ def home_page(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('/login-page/')
+    return redirect('/')
 
 
 def viewDetails(request):
@@ -58,9 +58,10 @@ def login_page(request):
                 # return HttpResponse('/information-page/')          
                 # return redirect('/information-page/')
          else:
-            return render (request,'login_page.html', {'error':'Invalid Username or Password'}) 
+         
+            return render (request,'home_page.html', {'error':'Invalid username or password'}) 
      else:
-         return render(request,'login_page.html')
+         return render(request,'home_page.html')
     
 
 def register_page(request):
@@ -74,24 +75,24 @@ def register_page(request):
 
         if password==confirm_password:
             if User.objects.filter(username=username).exists():
-                messages.info(request, 'Username is already taken')
-                return redirect(register_page)
+                # messages.info(request, 'Username is already taken')
+                return render (request,'home_page.html', {'error':'Username is already taken'}) 
             elif User.objects.filter(email=email).exists():
-                messages.info(request, 'Email is already taken')
-                return redirect(register_page)
+                # messages.info(request, 'Email is already taken')
+                return render (request,'home_page.html', {'error':'Email is already taken'}) 
             else:
                 user = User.objects.create_user(username=username, password=password, 
                 email=email,first_name=first_name,last_name=last_name)
                 user.save()
                 
-                return redirect('loginpage')
+                return redirect('/information-page/')
 
         else:
-            messages.info(request, 'Both passwords are not matching')
-            return redirect('register_page')
+            # messages.info(request, 'Both passwords are not matching')
+            return render (request,'home_page.html', {'error':'Both passwords are not matching'}) 
             
     else:
-        return render(request, 'register_page.html')  
+        return render(request, 'home_page.html')  
 
 def information_page (request):
     try:
@@ -170,8 +171,10 @@ def sideeffect_page(request):
                 prod.nausea= request.POST.get('nausea')
                 prod.vomiting = request.POST.get('vomiting')
                 prod.save()
-                return redirect('/success-page/')
-            else:             
+                messages.success(request, "Successfully Submitted")
+                return redirect('/')
+                # return render (request,'login_page.html')
+            else:               
                 return render (request,'sideeffect.html',{'prod':prod})
     except sideeffect.DoesNotExist:        
             prod = sideeffect()
@@ -192,7 +195,8 @@ def sideeffect_page(request):
                 prod.nausea= request.POST.get('nausea')
                 prod.vomiting = request.POST.get('vomiting')
                 prod.save()
-                return redirect('/success-page/')
+                messages.success(request, "Successfully Submitted")
+                return redirect('/')
             else:             
                  return render (request,'sideeffect.html')
    
@@ -282,6 +286,7 @@ def server_form(request):
             return render (request,'serverform.html')                  
 
 def success_page (request):
+     
      template = loader.get_template('success.html')
      return HttpResponse(template.render()) 
 

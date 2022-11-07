@@ -1,7 +1,7 @@
 from datetime import datetime
 from distutils.command.upload import upload
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
 import datetime
 import os
@@ -21,7 +21,7 @@ class user(models.Model):
     file=models.ImageField(upload_to=filepath, null=True,blank=True)
     email = models.CharField(max_length=100, null=True)
     name = models.CharField(max_length=100, null=True)
-    contact_number = models.CharField(max_length=100, null=True)
+    contact_number = models.CharField(max_length=100, null=True)    
     vaccination_brand = models.CharField(max_length=100, null=True)
     vaccination_site = models.CharField(max_length=100, null=True)
     address = models.CharField(max_length=100, null=True)
@@ -29,6 +29,7 @@ class user(models.Model):
     bday = models.CharField(max_length=100, null=True)
     gender = models.CharField(max_length=100, null=True)
     date_created  = models.DateField(auto_now_add=True, null=True)
+
     def __str__(self):
         return self.name
     class Meta:

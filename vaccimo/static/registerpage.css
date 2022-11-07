@@ -30,6 +30,8 @@ body{
     width: 100%;
 }
 .form-group{
+    justify-content: center;
+
     margin-top: 20px;
 }
 .btn {
@@ -46,4 +48,21 @@ input{
 }
 .form-group{
     display:flex;
+}
+
+@media all  and (max-width: 700px){
+body{
+    overflow: hidden; 
+}
+    .be-wrapper {
+        padding: 30px 10px 10px 10px;
+        width: 60% ;
+        align-items: center;
+    }
+    .form-group{
+        justify-content: center;
+    }
+    .panel-heading {
+        text-align: center;
+    }
 }

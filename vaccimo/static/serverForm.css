@@ -78,6 +78,43 @@ body{
 .card h2{
 margin-bottom: 30px;
 }
-.text{    position: absolute;
+.text{ 
+    position: absolute;
     width: 100%;
-    top: 70px;}
+    top: 70px;
+  }
+
+@media all  and (max-width: 700px){
+  .logOut {
+    width: 20% !important;
+    margin-right: 5px;
+   
+}
+.viewDetails {
+    margin-right: 0px;
+    margin-top: 0px;
+    margin-left: 0px;
+}
+.nav a {
+    font-size: 10px !important;
+}
+.text h1{
+  font-size: 25px;
+}
+.card{
+  width: 90%;
+}
+table, th, td {
+  font-size: 11px;
+  width: 280px
+
+}
+.nav{
+  width: 122%;
+}
+.form-control{
+  font-size: 12px;
+  text-align: center;
+}
+}
+  

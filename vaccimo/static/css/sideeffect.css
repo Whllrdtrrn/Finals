@@ -32,3 +32,33 @@ body{
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+.card .card-body{
+    width: 100% !important;
+    text-align: center;
+    font-size: 14px;
+}
+.list-unstyled li{
+    text-align: start !important;
+    font-size: 16px !important;
+}
+
+@media all and (max-width: 700px) {
+    .logOut {
+        width: 30% !important;
+        margin-right: 5px;
+       
+    }
+    .viewDetails {
+    margin-right: 10px;
+    }
+    .text h1{
+        margin-top: 10%;
+    }
+    .form-control{
+        text-align: center;
+    }
+    .row{
+        justify-content: center;
+    }
+   
+}
