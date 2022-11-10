@@ -47,7 +47,6 @@ table, th, td {
  
   transition-duration: 0.4s;
   cursor: pointer;
-  width: 100px;
   align-self: center;
   margin: 20px;
 }
@@ -84,6 +83,13 @@ margin-bottom: 30px;
     top: 70px;
   }
 
+  .avatar {
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+ 
 @media all  and (max-width: 700px){
   .logOut {
     width: 20% !important;

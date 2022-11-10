@@ -264,12 +264,12 @@
 					<table width="auto">
 						<tr>
 							<td style="padding: 10px;"> <b><i>Allergies <small>(Please check all that apply):</small></i></b>
-								<br>
+								<br>{% if prod %}
 								<h5>{{queId.allergy}} {{queId.allergy1}} {{queId.allergy2}} {{queId.allergy3}} {{queId.allergy4}} {{queId.allergy5}}</h5> <b><i>With Co-morbidities? <span style="color:red;" >*</span></i></b>
 								<br>
 								<h5>{{queId.Q23}}</h5> <b><i>Was diagnosed with COVID-19? <span style="color:red;" >*</span></i></b>
 								<br>
-								<h5>{{queId.Q24}}</h5> </td>
+								<h5>{{queId.Q24}}</h5> </td>{% endif %}
 						</tr>
 					</table>
 					<!-- sideeffect data -->

@@ -184,7 +184,12 @@ header{
 }
 .card {
   border-radius: 10px;
+  height: 60vh;
 
+}
+.panel-body{
+  height: 100%;
+  font-size: 15px;
 }
 .panel-body th{
   color: #23005B;
@@ -212,3 +217,8 @@ header{
   border: 1px solid transparent;
   border-radius: 0.25rem;
 }
+.table{
+  padding: 10px;
+}
+
+

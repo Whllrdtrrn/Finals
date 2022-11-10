@@ -1,0 +1,104 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html >
+{% include "link.html" %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css '%}" />
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="wrapper">
+                <div class="vaccimo">Vac<span style="color:#000000;">cimo</span></div>
+                <div class="container-icon">
+                    <div class="contact">
+                        <div class="icon"><i class="fa fa-volume-control-phone" aria-hidden="true"></i></div>
+                        <div class="icon-title">
+                            <div class="title">Emergency</div>
+                            <div class="text">0967-213-5477</div>
+                        </div>
+                    </div>
+                    <div class="contact">
+                        <div class="icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+                        <div class="icon-title">
+                            <div class="title">Work Hour</div>
+                            <div class="text">09:00 - 20:00 Everyday</div>
+                        </div>
+                    </div>
+                    <div class="contact">
+                        <div class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
+                        <div class="icon-title">
+                            <div class="title">Location</div>
+                            <div class="text">Pembo Makati City</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <div class="navbar">
+                <div class="nav-item">
+                    <ul>
+                        <li>
+                            <a href="{% url 'homepage'%}" class="nav-link">Home</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'aboutUs'%}" class="nav-link">About us</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'services'%}" class="nav-link">Services</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'contacts'%}" class="nav-link">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nav-right"></div>
+            </div>
+        </div>
+    </nav>
+    <section id="contact">
+        <div class="contact-container">
+            <h5>get in touch</h5>
+			<h1 class="contact-text">Contact</h1>
+			<div class="row ">
+                <div class="row-container">
+                    <div class="feature ">
+                        <div class="card-contct">
+                            <i class="icon fa fa-envelope"></i>
+                       
+                            <p style="line-break: anywhere;">wtorreno.k11722006@umak.edu.ph</p>
+                        </div>
+                    </div>
+                    <div class="feature ">
+                        <div class="card-contct">
+                            <i class="icon fa fa-phone"></i> 
+                            <p>09193645186-SMART/TNT</p>
+                    </div>
+                    </div>
+                    <div class="feature ">
+                        <div class="card-contct">
+                        <i class="icon fa fa-location-arrow" aria-hidden="true"></i> 
+                        <p>JP.RIZAL EXTENSION WEST REMBO 1215 MAKATI CITY</p>
+                    </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+    </section>
+    <footer class="footer">
+        <div class="footer-item">
+            
+            <p class="text-center">© 2022 Vaccimo, Inc</p>
+        </div>
+    </footer>
+    <script src="{% static 'js/script.js' %}">
+    </script>
+</body>
+</html>

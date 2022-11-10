@@ -6,7 +6,12 @@
     list-style: none;
     text-decoration: none;
 }
-
+.avatar {
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
 body{
     box-sizing: border-box;
     overflow:hidden;

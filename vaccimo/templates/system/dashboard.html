@@ -15,7 +15,11 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css'%}" />
+
+
 	<title>Document</title>
 </head>
 
@@ -51,6 +55,9 @@
 					</li>
 					<li>
 						<a href="#" class="tab" onclick="openCity(event, 'questionaire')"> <span class="icon"><i class="fa fa-fw fa-question"></i></span> <span class="item">Questionaire</span> </a>
+					</li>
+					<li>
+						<a class="btn btn-primary" href="{% url 'preprocessing' %}" class="tab" style=" display: inline-block;margin-left: 20px;"> Preprocessing </a>
 					</li>
 				</ul>
 			</div>
@@ -97,11 +104,11 @@
 			</div>
 			</div>
 			<div class="row " style="position: relative;">
-				<div class="card w3-white" style="height: 356px;">
-					<div class="panel-body" style="height: 315px;">
+				<div class="card w3-white" >
+					<div class="panel-body" >
 						<div class="contain" style="overflow-y: auto;
                         height: 100%; margin:10px;">
-							<table class=" table table-hover table-wrapper  text-center" style="text-transform: capitalize;padding-left:12px ">
+							<table id="myTable" id="myTable" class="table table-hover table-wrapper " style="text-transform: capitalize;padding-left:12px ">
 								<thead>
 									<tr>
 										<th>No.</th>
@@ -110,12 +117,12 @@
 										<th>date</th>
 									</tr>
 								</thead>
-								<tbody style="text-transform: capitalize;max-height: 300px; "> {% for i in item_list %}
+								<tbody style="text-transform: capitalize;max-height: 300px; text-align: start; "> {% for i in item_list %}
 									<tr style="  border-bottom: 1px ; ">
 										<td class="cell-detail "> <span>{{ forloop.counter }}</span> </td>
 										<td class="cell-detail  "> <span>{{i.name}}</span> </td>
 										<td class="cell-detail"> <span>{{i.gender}}</span> </td>
-										<td class="cell-detail text-center"> <span>{{i.date_created}}</span> </td>
+										<td class="cell-detail"> <span>{{i.date_created}}</span> </td>
 									</tr> {% endfor %} </tbody>
 							</table>
 						</div>
@@ -123,6 +130,7 @@
 				</div>
 			</div>
 		</section>
+		
 		<!-- section account -->
 		<section class="middle-container" id="Account">
 			<header>
@@ -144,11 +152,11 @@
 					</div>
 			</header>
 			<div class="row ">
-				<div class="card w3-white" style="height: 356px;">
-					<div class="panel-body" style="height: 315px;">
+				<div class="card w3-white" style="height: 80vh;">
+					<div class="panel-body" style="height: 100%;">
 						<div class="contain" style="overflow-y: auto;
                            height: 100%; margin:10px;">
-							<table class="table table-hover table-wrapper  text-center" style="text-transform: capitalize;padding-left:12px ">
+							<table id="myTable1" class="table table-hover table-wrapper  " style="text-transform: capitalize;padding-left:12px ">
 								<thead>
 									<tr>
 										<th>No.</th>
@@ -225,15 +233,14 @@
 					</div>
 			</header>
 			<div class="row ">
-				<div class="card w3-white" style="height: 356px;">
-					<div class="panel-body" style="height: 315px;">
+				<div class="card w3-white" style="height: 80vh;">
+					<div class="panel-body" style="height: 100%;">
 						<div class="contain" style="overflow-y: auto;
-                           height: 100%; margin:10px;">
-							<table class="table table-hover table-wrapper  text-center" style="text-transform: capitalize;padding-left:12px ">
+                           height: 99%; margin: 5px; ">
+							<table id="myTable2" class="table table-hover table-wrapper " style="text-transform: capitalize;padding-left:12px ">
 								<thead>
 									<tr>
 										<th>No.</th>
-										<th>Name</th>
 										<th>Muscle ache</th>
 										<th>Headache</th>
 										<th>fever</th>
@@ -254,23 +261,22 @@
 								</thead>
 								<tbody style="text-transform: capitalize;"> {% for y in item_lists %}
 									<tr style="  border-bottom: 1px ; ">
-										<td class="cell-detail "> <span>{{ forloop.counter }}</span> </td>
-										<td class="cell-detail  text-left"> <span>{{y.name}}</span> </td>
+										<td class="cell-detail"> <span>{{ forloop.counter }}</span> </td>
 										<td class="cell-detail"> <span>{{y.muscle_ache}}</span> </td>
 										<td class="cell-detail"> <span>{{y.headache}}</span> </td>
-										<td class="cell-detail text-center"> <span>{{y.fever}}</span> </td>
-										<td class="cell-detail text-center"> <span>{{y.redness}}</span> </td>
-										<td class="cell-detail text-center"> <span>{{y.swelling}}</span> </td>
-										<td class="cell-detail text-center"> <span>{{y.tenderness}}</span> </td>
-										<td class="cell-detail text-center"> <span>{{y.warmth}}</span> </td>
-										<td class="cell-detail text-center"> <span>{{y.itch}}</span> </td>
-										<td class="cell-detail text-center"> <span>{{y.induration}}</span> </td>
-										<td class="cell-detail text-center"> <span>{{y.feverish}}</span> </td>
-										<td class="cell-detail text-center"> <span>{{y.chills}}</span> </td>
-										<td class="cell-detail text-center"> <span>{{y.join_pain}}</span> </td>
-										<td class="cell-detail text-center"> <span>{{y.fatigue}}</span> </td>
-										<td class="cell-detail text-center"> <span>{{y.nausea}}</span> </td>
-										<td class="cell-detail text-center"> <span>{{y.vomiting}}</span> </td>
+										<td class="cell-detail"> <span>{{y.fever}}</span> </td>
+										<td class="cell-detail"> <span>{{y.redness}}</span> </td>
+										<td class="cell-detail"> <span>{{y.swelling}}</span> </td>
+										<td class="cell-detail"> <span>{{y.tenderness}}</span> </td>
+										<td class="cell-detail"> <span>{{y.warmth}}</span> </td>
+										<td class="cell-detail"> <span>{{y.itch}}</span> </td>
+										<td class="cell-detail"> <span>{{y.induration}}</span> </td>
+										<td class="cell-detail"> <span>{{y.feverish}}</span> </td>
+										<td class="cell-detail"> <span>{{y.chills}}</span> </td>
+										<td class="cell-detail"> <span>{{y.join_pain}}</span> </td>
+										<td class="cell-detail"> <span>{{y.fatigue}}</span> </td>
+										<td class="cell-detail"> <span>{{y.nausea}}</span> </td>
+										<td class="cell-detail"> <span>{{y.vomiting}}</span> </td>
 									</tr> {% endfor %} </tbody>
 							</table>
 						</div>
@@ -298,11 +304,11 @@
 					</div>
 			</header>
 			<div class="row ">
-				<div class="card w3-white" style="height: 356px;">
-					<div class="panel-body" style="height: 315px;">
+				<div class="card w3-white" style="height: 80vh;">
+					<div class="panel-body" style="height: 100%;">
 						<div class="contain" style="overflow-y: auto;
                         height: 100%; margin:10px;">
-							<table class="table table-hover table-wrapper  text-center" style="text-transform: capitalize;padding-left:12px ">
+							<table id="myTable3" class="table table-hover table-wrapper  " style="text-transform: capitalize;padding-left:12px ">
 								<thead>
 									<tr>
 										<th>No.</th>
@@ -320,16 +326,16 @@
 								</thead>
 								<tbody style="text-transform: capitalize;"> {% for i in item_list %}
 									<tr style="  border-bottom: 1px ; ">
-										<td class="cell-detail "> <span>{{ forloop.counter }}</span> </td>
-										<td class="cell-detail  text-left"> <span>{{i.name}}</span> </td>
+										<td class="cell-detail"> <span>{{ forloop.counter }}</span> </td>
+										<td class="cell-detail"> <span>{{i.name}}</span> </td>
 										<td class="cell-detail"> <span>{{i.contact_number}}</span> </td>
 										<td class="cell-detail"> <span>{{i.vaccination_brand}}</span> </td>
-										<td class="cell-detail text-center"> <span>{{i.vaccination_site}}</span> </td>
-										<td class="cell-detail  text-left"> <span>{{i.address}}</span> </td>
-										<td class="cell-detail  text-left"> <span>{{i.age}}</span> </td>
-										<td class="cell-detail  text-left"> <span>{{i.bday}}</span> </td>
-										<td class="cell-detail  text-left"> <span>{{i.gender}}</span> </td>
-										<td class="cell-detail  text-left"> <span>{{i.date_created}}</span> </td>
+										<td class="cell-detail"> <span>{{i.vaccination_site}}</span> </td>
+										<td class="cell-detail"> <span>{{i.address}}</span> </td>
+										<td class="cell-detail"> <span>{{i.age}}</span> </td>
+										<td class="cell-detail"> <span>{{i.bday}}</span> </td>
+										<td class="cell-detail"> <span>{{i.gender}}</span> </td>
+										<td class="cell-detail"> <span>{{i.date_created}}</span> </td>
 									</tr> {% endfor %} </tbody>
 							</table>
 						</div>
@@ -357,11 +363,11 @@
 					</div>
 			</header>
 			<div class="row ">
-				<div class="card w3-white" style="height: 356px;">
-					<div class="panel-body" style="height: 315px;">
+				<div class="card w3-white" style="height: 80vh;">
+					<div class="panel-body" style="height: 100%;">
 						<div class="contain" style="overflow-y: auto;
-                        height: 100%; margin:10px;">
-							<table class="table table-hover table-wrapper  text-center" style="text-transform: capitalize;padding-left:12px ">
+                        height: 99%; margin: 5px; ">
+							<table id="myTable4" class="table table-hover table-wrapper " style="text-transform: capitalize;padding-left:12px ">
 								<thead>
 									<tr>
 										<th>No.</th>
@@ -431,16 +437,39 @@
 				</div>
 			</div>
 		</section>
+		
 	</main>
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
+	
 	<script>
+	$(document).ready( function () {
+		$('#myTable').DataTable();
+	} );
+
+	$(document).ready( function () {
+		$('#myTable1').DataTable();
+	} );
+
+	$(document).ready( function () {
+		$('#myTable2').DataTable();
+	} );
+
+	$(document).ready( function () {
+		$('#myTable3').DataTable();
+	} );
+
+	$(document).ready( function () {
+		$('#myTable4').DataTable();
+	} );
+
 	function myFunction() {
 		document.getElementById("myDropdown").classList.toggle("show");
 		document.getElementById("myDropdown1").classList.toggle("show");
 		document.getElementById("myDropdown2").classList.toggle("show");
 		document.getElementById("myDropdown3").classList.toggle("show");
 		document.getElementById("myDropdown4").classList.toggle("show");
+		document.getElementById("myDropdown6").classList.toggle("show");
+
+
 	}
 	// Close the dropdown if the user clicks outside of it
 	window.onclick = function(event) {
@@ -485,7 +514,12 @@
 	//         });
 	//     })
 	//   })
+
+	
 	</script>
+  
+    
+
 </body>
 
 </html>
