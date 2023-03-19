@@ -17,156 +17,50 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,100&family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap"
         rel="stylesheet">
-
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <title>Homepage</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/h.css' %}">
-    <title>Document</title>
+
 </head>
-<style>
-    /* Center the loader */
-    #loader{
-	position: fixed;
-	width: 100%;
-	height: 100vh;
-	background: #21242d url('https://cssauthor.com/wp-content/uploads/2018/06/Bouncy-Preloader.gif') no-repeat center;
-	z-index: 999;
-}
 
-    @-webkit-keyframes spin {
-        0% {
-            -webkit-transform: rotate(0deg);
-        }
+<body>
 
-        100% {
-            -webkit-transform: rotate(360deg);
-        }
-    }
 
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
+    {% for msg in messages %}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    /* Add animation to "page content" */
-    .animate-bottom {
-        -webkit-animation-name: animatebottom;
-        -webkit-animation-duration: 1s;
-        animation-name: animatebottom;
-        animation-duration: 1s
-    }
-
-    @-webkit-keyframes animatebottom {
-        from {
-            bottom: -100px;
-            opacity: 0
-        }
-
-        to {
-            bottom: 0px;
-            opacity: 1
-        }
-    }
-
-    @keyframes animatebottom {
-        from {
-            bottom: -100px;
-            opacity: 0
-        }
-
-        to {
-            bottom: 0;
-            opacity: 1
-        }
-    }
-
-    #myDiv {
-        display: none;
-        text-align: center;
-    }
-</style>
-
-<body onload="myFunction()">
-    <div id="loader"></div>
-    <div class="animate-bottom" id="myDiv" style="height: 100%;">
-        <header>
-            <div class="container">
-                <div class="wrapper">
-                    <div class="vaccimo">Vac<span style="color:#000000;">cimo</span></div>
-                    <div class="container-icon">
-                        <div class="contact">
-                            <div class="icon"><i class="fa fa-volume-control-phone" aria-hidden="true"></i></div>
-                            <div class="icon-title">
-                                <div class="title">Emergency</div>
-                                <div class="text">0967-213-5477</div>
-                            </div>
-                        </div>
-                        <div class="contact">
-                            <div class="icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
-                            <div class="icon-title">
-                                <div class="title">Work Hour</div>
-                                <div class="text">09:00 - 20:00 Everyday</div>
-                            </div>
-                        </div>
-                        <div class="contact">
-                            <div class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
-                            <div class="icon-title">
-                                <div class="title">Location</div>
-                                <div class="text">Pembo Makati City</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <nav>
-            <div class="container">
-                <div class="navbar">
-                    <div class="nav-item">
-                        <ul>
-                            <li>
-                                <a href="" class="nav-link">Home</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'aboutUs'%}" class="nav-link">About us</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'services'%}" class="nav-link">Services</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'contacts'%}" class="nav-link">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="nav-right"></div>
-                </div>
-            </div>
-        </nav>
-        <img id="bg-main" src="{% static 'images/Group94.png' %}" alt="Cover Image"
-            style=" width: 100%;    height: 100%;" />
-        <section class="login">
+    {% if msg.tags == 'success' %}
+    <!-- sweetalert js -->
+    <script>
+        var m = "{{ msg }}";
+        Swal.fire({
+            icon: 'success',
+            title: m,
+        });
+    </script>
+    {% elif msg.tags == 'error' %}
+    <script>
+        var m = "{{ msg }}";
+        Swal.fire({
+            icon: 'error',
+            title: m,
+        });
+    </script>
+    {% endif %}
+    {% endfor %}
+    <section>
+        {% include "header.html" %}
+        <!-- <img id="bg-main" src="{% static 'images/vaccine.jpg' %}" alt="Cover Image"
+            style=" width: 100%;    height: 100%;" /> -->
+        <div class=" login">
             <div class="be-wrapper be-login" style="border-radius: 20px !important;">
                 <div class="be-content">
-                    <div class="main-content container-fluid">
+                    <div class="main-content container">
                         <div class="splash-container">
                             <div class="panel">
                                 <form action="{%url 'loginpage'%}" method="POST">
                                     {% csrf_token %}
-                                    {% for msg in messages %}
-                                    <!-- sweetalert js -->
-                                    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                                    <script>
-                                        var m = "{{ msg }}";
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: m,
-                                        });
-                                    </script>
-                                    {% endfor %}
-                                    <div class="panel-body"> {% if error %}
+                                    <div class="panel-body" style="margin-top: 0;"> {% if error %}
                                         <div class="alert alert-danger error">
                                             <div>
                                                 <p><b>Wrong Credentials </b>
@@ -210,9 +104,7 @@
                     </div>
                 </div>
             </div>
-        </section>
-
-
+        </div>
         <!-- Modal -->
         <div class="modal fade" style="z-index: 10000;" id="exampleModal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -223,21 +115,14 @@
                             <div class="modal-title " style="color:black ;" id="exampleModalLabel">
                                 <h6 style="font-size: 32px;">Sign up </h6>
                                 <p style="font-size: 15px;">It’s quick and easy.</p>
-                                <!-- {% for message in messages %} -->
-                                <!-- {% if error %}
-                                                        <div class="alert alert-danger" style=" padding: 4px; margin: 0px;" role="alert">
-                                                            {{error}} 
-                                                        </div>
-                                                        {% endif %} -->
-                                <!-- {% endfor %} -->
                                 {% csrf_token %}
 
-                                {% if messages %}
+                                <!-- {% if messages %}
                                 <ul class="messages">
                                     {% for message in messages %}
                                     <li class="{{ message.tags }}">{{ message }}</li>
                                     {% endfor %}
-                                </ul> {% endif %}
+                                </ul> {% endif %} -->
                             </div>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -279,7 +164,7 @@
                                 <input style="font-size: 16px; border-radius: 0px;width: 100%!important;" id="password2"
                                     name="password" type="password" data-bs-toggle="popover" placeholder="Password"
                                     class="form-control" minlength="8" pattern="(?=.*\d)(?=.*[\W_]).{7,}"
-                                    title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                    title="Must contain at least one number and one uppercase and lowercase letter,and special characters, and at least 8 or more characters"
                                     required /> <span class="eye" onclick="passwordShow2()">
                                     <i class="fa fa-fw fa-eye" id="hide1s" style="align-self: center;
                                             margin: 7px; position: absolute;color: black;right: 0%; display:none"></i>
@@ -305,28 +190,34 @@
         </div>
         <!-- modal end -->
 
-    </div>
-    <footer style=" position: absolute;
+        <footer class="container-fluid" style=" position: absolute;
                     bottom: 0px;
                     background-color: #1DA1F2;
-                    width: 100%;">
-        <div class="footer-item" style="margin-bottom: 1rem;margin-top: 1rem;">
-            <p class="text-center" style="font-size:12px;color:white">© 2022 Vaccimo, Inc</p>
-        </div>
-    </footer>
-    </div>
+                  
+                    cursor: default;">
+            <div class="footer-item" style="margin-bottom: 1rem;margin-top: 1rem;">
+                <p class="text-center" style="font-size:12px;color:white">© 2022 Vaccimo, Inc</p>
+            </div>
+        </footer>
+    </section>
+
     <script>
-        var myVar;
-
-        function myFunction() {
-            myVar = setTimeout(showPage, 1000);
-        }
-
-        function showPage() {
-            document.getElementById("loader").style.display = "none";
-            document.getElementById("myDiv").style.display = "block";
+        function passwordShow2() {
+            var pass = document.getElementById("password2");
+            var h1 = document.getElementById("hide1s");
+            var h2 = document.getElementById("hide2s");
+            if (pass.type === 'password') {
+                pass.type = "text";
+                h1.style.display = "block";
+                h2.style.display = "none";
+            } else {
+                pass.type = "password";
+                h1.style.display = "none";
+                h2.style.display = "block";
+            }
         }
     </script>
 </body>
+
 
 </html>

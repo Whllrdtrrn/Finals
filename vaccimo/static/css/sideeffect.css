@@ -24,6 +24,10 @@ body{
     margin-right: 10px;
     margin-top: 10px;
 }
+.row .form-group p {
+    text-align: left;
+    margin-left: 10%;
+}
 .nav a{
     font-size: 15px !important;
 
@@ -42,6 +46,18 @@ body{
     width: 100% !important;
     text-align: center;
     font-size: 14px;
+}
+.card{
+    position: relative;
+    width: 100%;
+    height: 35rem;
+    padding: 25px;
+    margin-top: 5%;
+    overflow: hidden;
+}
+.example{
+    overflow-y: auto;
+    height: 22rem;
 }
 .list-unstyled li{
     text-align: start !important;

@@ -58,7 +58,7 @@ ROOT_URLCONF = 'Myproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,9 +81,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'vaccimo_db',
-        'USER':'root',
-        'PASSWORD':'',
-        'HOST':'localhost',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
@@ -130,12 +130,18 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# Base url to serve media files  
-MEDIA_URL = '/media/'  
-  
-# Path where media is stored  
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') 
-LOGIN_REDIRECT_URL='^information-page/(?P<id>\d+)/$'
+# Base url to serve media files
+MEDIA_URL = '/media/'
+
+# Path where media is stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+LOGIN_REDIRECT_URL = '^information-page/(?P<id>\d+)/$'
 
 
 # AUTH_USER_MODEL = 'vaccimo.User'
+# email verification
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'wtorreno.k11722006@umak.edu.ph'
+EMAIL_HOST_PASSWORD = '09193225150'
+EMAIL_PORT = 587

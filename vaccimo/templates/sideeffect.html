@@ -13,6 +13,8 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/sideeffect.css'%}" />
+	<link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">  
+
 	<title>SideEffectPage</title>
 </head>
 
@@ -38,37 +40,19 @@
 			<div class="text" style="position: relative;color:#333">
 				<h1>What Do You Feel?</h1>
 				<p> What pain do you feel? Yes, if you experience something. NO if you are feeling nothing.</p>
-				<!-- Button trigger modal -->
-				<!-- Modal -->
-				<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                
-                <div class="modal-body">
-                </div>
-                
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-            </div> -->
-				<!-- Modal -->
 			</div>
-			<form method="POST" action="" enctype="multipart/form-data"> {% csrf_token %}
-				<div class="row justify-content-center">
-					<div class="col-md-8 mb-3">
+			<form method="POST" action="" enctype="multipart/form-data">
+				 {% csrf_token %}
 						<div class="card">
 							<div class="card-body">
 								<div class="container">
-									<div class="row m-3">
-										<div class="col-md-12 example" style="max-height: 300px; overflow-y: auto;">
-											<div class="row">
-												<div class="row text-center" style="justify-content: end;">
-													<div class="col-md-12 mb-3"> </div>
-												</div>
-												<div class="col-md-1 mb-3">
+									<div class="row ">
+										<div class="col-md-12 example" style=" overflow-y: auto;">
+											<div class="row" style="    justify-content: center;">
+												<!-- <div class="col-sm-1 mb-3">
 													<div class="form-check d-none">
 														<input class="form-check-input" onclick="EnableDisable()" type="checkbox" value="" id="myCheck" /> </div>
-												</div>
+												</div> -->
 												<div class="col-md-6 mb-3">
 													<div class="form-group">
 														<input class="form-control" type="text" placeholder="Muscle Ache" name="psw-repeat" id="psw-repeat" disabled /> </div>
@@ -88,13 +72,11 @@
                                             </div> -->
 													<!-- <select name="muscle_ache" class="form-control" id="txt_check_1_input1" disabled > -->
 													<select name="muscle_ache" class="form-control" id="txt_check_1_input1" style="text-align: center;" value="{{prod.muscle_ache}}" required>
-														{% if prod.muscle_ache %}
-														<option >{{prod.muscle_ache}}</option>
-														{% endif %}
-														<option value="">-----Select----- </option>
-														<option value="yes">Yes</option>
-														<option value="no">No</option>
+												
+														<option value="Yes">Yes</option>
+														<option value="No" selected>No</option>
 													</select>
+				
 												</div>
 												<div class="row">
 													<div class="col-md-4 mb-3">
@@ -102,7 +84,8 @@
 															<p>
 																<!-- <a  class="btn btn-outline-secondary "  data-bs-toggle="collapse" href="#fA1" role="button" aria-expanded="false" aria-controls="collapseExample" id="txt_1_a"> --><a class="btn btn-outline-secondary " data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                             First Aid
-                                                        </a> </p>
+                                                        </a> 
+													</p>
 															<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 																<div class="modal-dialog">
 																	<div class="modal-content">
@@ -137,10 +120,10 @@
                                                     </div> --></div>
 													</div>
 												</div>
-												<div class="col-md-1 mb-3">
+												<!-- <div class="col-md-1 mb-3">
 													<div class="form-check d-none">
 														<input class="form-check-input " onclick="EnableDisable2()" type="checkbox" value="" id="myCheck2" /> </div>
-												</div>
+												</div> -->
 												<div class="col-md-6 mb-3">
 													<div class="form-group">
 														<input class="form-control" type="text" placeholder="Headache" name="psw-repeat" id="psw-repeat" disabled /> </div>
@@ -160,12 +143,9 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
 													<select name="headache" class="form-control" id="txt_check_2_input1" style="text-align: center;" required value="{{prod.headache}}">
-														{% if prod.headache %}
-														<option >{{prod.headache}}</option>
-														{% endif %}
-														<option value="">-----Select-----</option>
-														<option value="yes">Yes</option>
-														<option value="no">No</option>
+					
+														<option value="Yes">Yes</option>
+														<option value="No" selected>No</option>
 													</select>
 												</div>
 												<div class="row">
@@ -210,10 +190,10 @@
                                                     </div> --></div>
 													</div>
 												</div>
-												<div class="col-md-1 mb-3">
+												<!-- <div class="col-md-1 mb-3">
 													<div class="form-check d-none">
 														<input class="form-check-input" onclick="EnableDisable3()" type="checkbox" value="" id="myCheck3" /> </div>
-												</div>
+												</div> -->
 												<div class="col-md-6 mb-3">
 													<div class="form-group">
 														<input class="form-control" type="text" placeholder="Fever" name="psw-repeat" id="psw-repeat" disabled /> </div>
@@ -232,12 +212,8 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
 													<select name="fever" class="form-control" id="txt_check_3_input1" style="text-align: center;" required value="{{prod.fever}}">
-														{% if prod.fever %}
-														<option >{{prod.fever}}</option>
-														{% endif %}
-														<option value="">-----Select-----</option>
-														<option value="yes">Yes</option>
-														<option value="no">No</option>
+														<option value="Yes">Yes</option>
+														<option value="No" selected>No</option>
 													</select>
 												</div>
 												<div class="row">
@@ -281,10 +257,10 @@
                                                     </div> --></div>
 													</div>
 												</div>
-												<div class="col-md-1 mb-3">
+												<!-- <div class="col-md-1 mb-3">
 													<div class="form-check">
 														<input class="form-check-input d-none" onclick="EnableDisable4()" type="checkbox" value="" id="myCheck4" /> </div>
-												</div>
+												</div> -->
 												<div class="col-md-6 mb-3">
 													<div class="form-group">
 														<input class="form-control" type="text" placeholder="Redness" name="psw-repeat" id="psw-repeat" disabled /> </div>
@@ -303,12 +279,9 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
 													<select name="redness" class="form-control" id="txt_check_4_input1" style="text-align: center;" required value="{{prod.redness}}">
-														{% if prod.redness %}
-														<option >{{prod.redness}}</option>
-														{% endif %}
-														<option value="">-----Select-----</option>
-														<option value="yes">Yes</option>
-														<option value="no">No</option>
+			
+														<option value="Yes">Yes</option>
+														<option value="No" selected>No</option>
 													</select>
 												</div>
 												<div class="row">
@@ -356,10 +329,10 @@
                                                     </div> --></div>
 													</div>
 												</div>
-												<div class="col-md-1 mb-3">
+												<!-- <div class="col-md-1 mb-3">
 													<div class="form-check">
 														<input class="form-check-input d-none" onclick="EnableDisable5()" type="checkbox" value="" id="myCheck5" /> </div>
-												</div>
+												</div> -->
 												<div class="col-md-6 mb-3">
 													<div class="form-group">
 														<input class="form-control" type="text" placeholder="Swelling" name="psw-repeat" id="psw-repeat" disabled /> </div>
@@ -378,12 +351,9 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
 													<select name="swelling" class="form-control" id="txt_check_5_input1" style="text-align: center;" required value="{{prod.swelling}}">
-														{% if prod.swelling %}
-														<option >{{prod.swelling}}</option>
-														{% endif %}
-														<option value="">-----Select-----</option>
-														<option value="yes">Yes</option>
-														<option value="no">No</option>
+					
+														<option value="Yes">Yes</option>
+														<option value="No" selected>No</option>
 													</select>
 												</div>
 												<div class="row">
@@ -431,10 +401,10 @@
                                                     </div> --></div>
 													</div>
 												</div>
-												<div class="col-md-1 mb-3">
+												<!-- <div class="col-md-1 mb-3">
 													<div class="form-check d-none">
 														<input class="form-check-input" onclick="EnableDisable6()" id="myCheck6" type="checkbox" value="" id="flexCheckChecked" /> </div>
-												</div>
+												</div> -->
 												<div class="col-md-6 mb-3">
 													<div class="form-group">
 														<input class="form-control" type="text" placeholder="Tenderness" name="psw-repeat" id="psw-repeat" disabled /> </div>
@@ -453,12 +423,9 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
 													<select name="tenderness" class="form-control" id="txt_check_6_input1" style="text-align: center;" required value="{{prod.tenderness}}">
-														{% if prod.tenderness %}
-														<option >{{prod.tenderness}}</option>
-														{% endif %}
-														<option value="">-----Select-----</option>
-														<option value="yes">Yes</option>
-														<option value="no">No</option>
+									
+														<option value="Yes">Yes</option>
+														<option value="No" selected>No</option>
 													</select>
 												</div>
 												<div class="row">
@@ -506,10 +473,10 @@
                                                     </div> --></div>
 													</div>
 												</div>
-												<div class="col-md-1 mb-3">
+												<!-- <div class="col-md-1 mb-3">
 													<div class="form-check">
 														<input class="form-check-input d-none" onclick="EnableDisable7()" id="myCheck7" type="checkbox" value="" id="flexCheckChecked" /> </div>
-												</div>
+												</div> -->
 												<div class="col-md-6 mb-3">
 													<div class="form-group">
 														<input class="form-control" type="text" placeholder="Warmth" name="psw-repeat" id="psw-repeat" disabled /> </div>
@@ -528,12 +495,9 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
 													<select name="warmth" class="form-control" id="txt_check_7_input1" style="text-align: center;" required value="{{prod.warmth}}">
-														{% if prod.warmth %}
-														<option >{{prod.warmth}}</option>
-														{% endif %}
-														<option value="">-----Select-----</option>
-														<option value="yes">Yes</option>
-														<option value="no">No</option>
+	
+														<option value="Yes">Yes</option>
+														<option value="No" selected>No</option>
 													</select>
 												</div>
 												<div class="row">
@@ -579,10 +543,10 @@
                                                     </div> --></div>
 													</div>
 												</div>
-												<div class="col-md-1 mb-3">
+												<!-- <div class="col-md-1 mb-3">
 													<div class="form-check">
 														<input class="form-check-input d-none" onclick="EnableDisable8()" id="myCheck8" type="checkbox" value="" id="flexCheckChecked" /> </div>
-												</div>
+												</div> -->
 												<div class="col-md-6 mb-3">
 													<div class="form-group">
 														<input class="form-control" type="text" placeholder="Itch" name="psw-repeat" id="psw-repeat" disabled /> </div>
@@ -600,13 +564,9 @@
                                                 <input class="form-check-input" type="radio" disabled name="Itch" id="txt_check_8_input3" value="option3" />
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
-													<select name="itch" class="form-control" id="txt_check_8_input1" style="text-align: center;" required value="{{prod.itch}}">
-														{% if prod.itch %}
-														<option >{{prod.itch}}</option>
-														{% endif %}
-														<option value="">-----Select-----</option>
-														<option value="yes">Yes</option>
-														<option value="no">No</option>
+													<select name="itch" class="form-control" id="txt_check_8_input1" style="text-align: center;" required value="{{prod.itch}}
+														<option value="Yes">Yes</option>
+														<option value="No" selected>No</option>
 													</select>
 												</div>
 												<div class="row">
@@ -648,10 +608,10 @@
                                                     </div> --></div>
 													</div>
 												</div>
-												<div class="col-md-1 mb-3">
+												<!-- <div class="col-md-1 mb-3">
 													<div class="form-check">
 														<input class="form-check-input d-none" onclick="EnableDisable9()" id="myCheck9" type="checkbox" value="" id="flexCheckChecked" /> </div>
-												</div>
+												</div> -->
 												<div class="col-md-6 mb-3">
 													<div class="form-group">
 														<input class="form-control" type="text" placeholder="Induration" name="psw-repeat" id="psw-repeat" disabled /> </div>
@@ -670,12 +630,9 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
 													<select name="induration" class="form-control" id="txt_check_9_input1" style="text-align: center;" required value="{{prod.induration}}">
-														{% if prod.induration %}
-														<option >{{prod.induration}}</option>
-														{% endif %}
-														<option value="">-----Select-----</option>
-														<option value="yes">Yes</option>
-														<option value="no">No</option>
+									
+														<option value="Yes">Yes</option>
+														<option value="No" selected>No</option>
 													</select>
 												</div>
 												<div class="row">
@@ -717,10 +674,10 @@
                                                     </div> --></div>
 													</div>
 												</div>
-												<div class="col-md-1 mb-3">
+												<!-- <div class="col-md-1 mb-3">
 													<div class="form-check">
 														<input class="form-check-input d-none" onclick="EnableDisable10()" id="myCheck10" type="checkbox" value="" id="flexCheckChecked" /> </div>
-												</div>
+												</div> -->
 												<div class="col-md-6 mb-3">
 													<div class="form-group">
 														<input class="form-control" type="text" placeholder="Feverish" name="psw-repeat" id="psw-repeat" disabled /> </div>
@@ -739,12 +696,9 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
 													<select name="feverish" class="form-control" id="txt_check_10_input1" style="text-align: center;" required value="{{prod.feverish}}">
-														{% if prod.feverish %}
-														<option >{{prod.feverish}}</option>
-														{% endif %}
-														<option value="">-----Select-----</option>
-														<option value="yes">Yes</option>
-														<option value="no">No</option>
+					
+														<option value="Yes">Yes</option>
+														<option value="No" selected>No</option>
 													</select>
 												</div>
 												<div class="row">
@@ -786,10 +740,10 @@
                                                     </div> --></div>
 													</div>
 												</div>
-												<div class="col-md-1 mb-3">
+												<!-- <div class="col-md-1 mb-3">
 													<div class="form-check">
 														<input class="form-check-input d-none" onclick="EnableDisable11()" id="myCheck11" type="checkbox" value="" id="flexCheckChecked" /> </div>
-												</div>
+												</div> -->
 												<div class="col-md-6 mb-3">
 													<div class="form-group">
 														<input class="form-control" type="text" placeholder="Chills" name="psw-repeat" id="psw-repeat" disabled /> </div>
@@ -808,12 +762,9 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
 													<select name="chills" class="form-control" id="txt_check_11_input1" style="text-align: center;" required value="{{prod.chills}}">
-														{% if prod.chills %}
-														<option >{{prod.chills}}</option>
-														{% endif %}
-														<option value="">-----Select-----</option>
-														<option value="yes">Yes</option>
-														<option value="no">No</option>
+	
+														<option value="Yes">Yes</option>
+														<option value="No" selected>No</option>
 													</select>
 												</div>
 												<div class="row">
@@ -857,10 +808,10 @@
                                                     </div> --></div>
 													</div>
 												</div>
-												<div class="col-md-1 mb-3">
+												<!-- <div class="col-md-1 mb-3">
 													<div class="form-check">
 														<input class="form-check-input d-none" onclick="EnableDisable12()" id="myCheck12" type="checkbox" value="" id="flexCheckChecked" /> </div>
-												</div>
+												</div> -->
 												<div class="col-md-6 mb-3">
 													<div class="form-group">
 														<input class="form-control" type="text" placeholder="Joint Pain" name="psw-repeat" id="psw-repeat" disabled /> </div>
@@ -879,12 +830,9 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
 													<select name="join_pain" class="form-control" id="txt_check_12_input1" style="text-align: center;" required value="{{prod.join_pain}}">
-														{% if prod.join_pain %}
-														<option >{{prod.join_pain}}</option>
-														{% endif %}
-														<option value="">-----Select-----</option>
-														<option value="yes">Yes</option>
-														<option value="no">No</option>
+							
+														<option value="Yes">Yes</option>
+														<option value="No" selected>No</option>
 													</select>
 												</div>
 												<div class="row">
@@ -930,10 +878,10 @@
                                                     </div> --></div>
 													</div>
 												</div>
-												<div class="col-md-1 mb-3">
+												<!-- <div class="col-md-1 mb-3">
 													<div class="form-check">
 														<input class="form-check-input d-none" onclick="EnableDisable13()" id="myCheck13" type="checkbox" value="" id="flexCheckChecked" /> </div>
-												</div>
+												</div> -->
 												<div class="col-md-6 mb-3">
 													<div class="form-group">
 														<input class="form-control" type="text" placeholder="Fatigue" name="psw-repeat" id="psw-repeat" disabled /> </div>
@@ -952,12 +900,9 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
 													<select name="fatigue" class="form-control" id="txt_check_13_input1" style="text-align: center;" required value="{{prod.fatigue}}">
-														{% if prod.fatigue %}
-														<option >{{prod.fatigue}}</option>
-														{% endif %}
-														<option value="">-----Select-----</option>
-														<option value="yes">Yes</option>
-														<option value="no">No</option>
+			
+														<option value="Yes">Yes</option>
+														<option value="No" selected>No</option>
 													</select>
 												</div>
 												<div class="row">
@@ -1003,10 +948,10 @@
                                                     </div> --></div>
 													</div>
 												</div>
-												<div class="col-md-1 mb-3">
+												<!-- <div class="col-md-1 mb-3">
 													<div class="form-check">
 														<input class="form-check-input d-none" onclick="EnableDisable14()" id="myCheck14" type="checkbox" value="" id="flexCheckChecked" /> </div>
-												</div>
+												</div> -->
 												<div class="col-md-6 mb-3">
 													<div class="form-group">
 														<input class="form-control" type="text" placeholder="Nausea" name="psw-repeat" id="psw-repeat" disabled /> </div>
@@ -1025,12 +970,9 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
 													<select name="nausea" class="form-control" id="txt_check_14_input1" style="text-align: center;" required value="{{prod.nausea}}">
-														{% if prod.nausea %}
-														<option >{{prod.nausea}}</option>
-														{% endif %}
-														<option value="">-----Select-----</option>
-														<option value="yes">Yes</option>
-														<option value="no">No</option>
+	
+														<option value="Yes">Yes</option>
+														<option value="No" selected>No</option>
 													</select>
 												</div>
 												<div class="row">
@@ -1076,10 +1018,10 @@
                                                     </div> --></div>
 													</div>
 												</div>
-												<div class="col-md-1 mb-3">
+												<!-- <div class="col-md-1 mb-3">
 													<div class="form-check">
 														<input class="form-check-input d-none" onclick="EnableDisable15()" id="myCheck15" type="checkbox" value="" id="flexCheckChecked" /> </div>
-												</div>
+												</div> -->
 												<div class="col-md-6 mb-3">
 													<div class="form-group">
 														<input class="form-control" type="text" placeholder="Vomiting" name="psw-repeat" id="psw-repeat" disabled /> </div>
@@ -1098,12 +1040,9 @@
                                                 <label class="form-check-label" for="inlineRadio3">3 </label>
                                             </div> -->
 													<select name="vomiting" class="form-control" id="txt_check_15_input1" required style="text-align: center;" value="{{prod.vomiting}}">
-														{% if prod.vomiting %}
-														<option >{{prod.vomiting}}</option>
-														{% endif %}
-														<option value="">-----Select-----</option>
-														<option value="yes">Yes</option>
-														<option value="no">No</option>
+					
+														<option value="Yes">Yes</option>
+														<option value="No" selected>No</option>
 													</select>
 												</div>
 												<div class="row">
@@ -1178,14 +1117,12 @@
 											</div>
 										</div>
 										<div class="col-md- mb-3">
-											<button type="button" class="btn btn-primary mb-3" data-toggle="modal" onclick="document.getElementById('id01').style.display='block'"> Emergency Hotline </button>
+											<button type="button" class="btn btn-danger mb-3" data-toggle="modal" onclick="document.getElementById('id01').style.display='block'"> Emergency Hotline </button>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
 			</form>
 		</div>
 	</section>

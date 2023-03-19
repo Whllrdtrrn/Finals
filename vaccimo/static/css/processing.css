@@ -128,7 +128,7 @@
     display: block;
 }
 .scrollClusters{
-    height: 365px;
+    height: 28rem;
     margin: 15px;
     overflow-y: scroll;
 }
@@ -136,7 +136,7 @@
     border: solid black;
     border-radius: 10px;
     width: 735px;
-    height: 400px;
+    height: 30rem;
     margin-top: -10px;
 }
 .box__result p{
@@ -170,4 +170,7 @@
 }
 .model{
     margin-top: -275px;
+}
+.btn{
+    margin-top: 1rem;
 }

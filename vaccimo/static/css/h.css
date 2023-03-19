@@ -1,118 +1,12 @@
-*{
+* {
     padding: 0%;
     margin: 0%;
     box-sizing: border-box;
 }
-body{
-    position: relative;
-    overflow: hidden;
-    height: 100vh;
+
+body {
     font-family: 'Poppins', sans-serif;
     font-family: 'Roboto', sans-serif;
-}
-header{
-    margin: 25px ;
-}
-.container{
-    position: relative;
-    
-}
-.wrapper{
-
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  
-}
-.vaccimo{
-font-family: 'Yeseva One';
-font-style: normal;
-font-weight: 400;
-font-size: 36px;
-line-height: 42px;
-/* identical to box height */
-
-text-transform: uppercase;
-
-/* Primary */
-
-color: #1DA1F2;
-}
-.container-icon{
-    display: flex;
-}
-.contact{
-    display: flex;
-    align-items: center;
-    margin-right: 45px;
-   
-}
-.contact .icon{
-    margin-right: 8px;
-    font-size: 25px;
-}
-
-.icon-title .title{
-
-    font-family: 'Work Sans';
-    font-style: normal;
-    font-weight: 500;
-    text-align: start;
-    font-size: 16px;
-    line-height: 19px;
-    text-transform: uppercase;
-
-    color: #1DA1F2;
-}
-.icon-title .text{
-    font-family: 'Work Sans';
-    font-style: normal;
-    font-weight: 500;
-
-    font-size: 16px;
-    line-height: 19px;
-}
-.nav-item ul {
-    display: flex;
-    list-style: none;
-    gap: 20px;
-    padding: 0px;
-
-}
-.nav-item ul li a{
-    cursor: pointer;
-    transition: 1ms;
-    font-family: 'Work Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 21px;
-    color: white;
-    transform: translate(0px, 10px);
-   
-    text-decoration: none;
-    list-style: none;
-}
-.nav-link:hover{
-    color: #BFD2F8;
-}
-
-.navbar{
-    width: 100%; 
-    
-}
-.nav-item{
-    margin: 0 0px;
-}
-
-nav{
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    padding: 17px 0 18px;
-    gap: 276px;
-    background-color: #1DA1F2;
-    
 }
 
 .fa-fw {
@@ -124,7 +18,7 @@ nav{
     color: white;
     padding: 2%;
     background-color: #ffff;
-    width: 500px;
+    width: 30rem;
     justify-content: center;
     text-align: center;
     position: relative;
@@ -139,7 +33,7 @@ nav{
 }
 
 .login {
-    position: absolute;
+    position: fixed;
     top: 35%;
     width: 100%;
     text-align: -webkit-center;
@@ -165,15 +59,13 @@ nav{
     font-size: 15px;
     padding: 0px;
 }
+
 .footer {
     background-color: #1DA1F2;
     padding-bottom: 1px;
     padding: 20px;
     color: white;
-   
-
 }
-
 
 .footer-item {
     text-align: -webkit-center;

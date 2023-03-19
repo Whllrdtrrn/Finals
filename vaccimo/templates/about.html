@@ -7,69 +7,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css '%}" />
-    <title>Document</title>
+    <title>Homepage</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">  
+
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="wrapper">
-                <div class="vaccimo">Vac<span style="color:#000000;">cimo</span></div>
-                <div class="container-icon">
-                    <div class="contact">
-                        <div class="icon"><i class="fa fa-volume-control-phone" aria-hidden="true"></i></div>
-                        <div class="icon-title">
-                            <div class="title">Emergency</div>
-                            <div class="text">0967-213-5477</div>
-                        </div>
-                    </div>
-                    <div class="contact">
-                        <div class="icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
-                        <div class="icon-title">
-                            <div class="title">Work Hour</div>
-                            <div class="text">09:00 - 20:00 Everyday</div>
-                        </div>
-                    </div>
-                    <div class="contact">
-                        <div class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
-                        <div class="icon-title">
-                            <div class="title">Location</div>
-                            <div class="text">Pembo Makati City</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    <nav>
-        <div class="container">
-            <div class="navbar">
-                <div class="nav-item">
-                    <ul>
-                        <li>
-                            <a href="{% url 'homepage'%}" class="nav-link">Home</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'aboutUs'%}" class="nav-link">About us</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'services'%}" class="nav-link">Services</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'contacts'%}" class="nav-link">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="nav-right"></div>
-            </div>
-        </div>
-    </nav>
+   
     <section id="about">
-        <div class="about-container">
+        {% include "header.html" %}
+        <div class="container about-container scrollAble    " >
             <div class="about-title">
                 <h1>ABOUT US</h1>
             </div>
             <div class="row featurette">
-                <div class="col-md-7" style="text-align: justify;">
+                <div class="col-md" style="text-align: justify;">
                     <p class="lead"> VACCIMO is a monitoring system,which means it appears to be based on
                         participants who reported their experiences to us. VACCIMO is not required to assess whether
                         a vaccination caused a health problem, but it is particularly beneficial for spotting odd or
@@ -80,17 +31,20 @@
                         easily share how you or your dependents are feeling after receiving a COVID-19 vaccine. This
                         data enables us to monitor the safety of COVID-19 vaccines in order to monitor. </p>
                 </div>
-                <div class="col-md-5"> <img class="featurette-image img-fluid mx-auto"
+                <div class="col-md d-none d-md-block "> <img class="featurette-image img-fluid  img-thumbnail mx-auto"
+                    
                         data-src="holder.js/500x500/auto" alt="500x500" src="{% static 'images/about.jpg' %}"
-                        data-holder-rendered="true" /> </div>
+                        data-holder-rendered="true" /> 
+                </div>
             </div>
         </div>
+        <footer class="footer">
+            <div class="footer-item">
+                <p class="text-center">© 2022 Vaccimo, Inc</p>
+            </div>
+        </footer>
     </section>
-    <footer class="footer">
-        <div class="footer-item">
-            <p class="text-center">© 2022 Vaccimo, Inc</p>
-        </div>
-    </footer>
+   
     <script src="{% static 'js/script.js' %}">
     </script>
 </body>

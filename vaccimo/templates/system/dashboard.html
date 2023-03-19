@@ -18,9 +18,8 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css'%}" />
-
-
-	<title>Document</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">  
+	<title>Dashboard</title>
 </head>
 
 <body>
@@ -57,7 +56,7 @@
 						<a href="#" class="tab" onclick="openCity(event, 'questionaire')"> <span class="icon"><i class="fa fa-fw fa-question"></i></span> <span class="item">Questionaire</span> </a>
 					</li>
 					<li>
-						<a class="btn btn-primary" href="{% url 'preprocessing' %}" class="tab" style=" display: inline-block;margin-left: 20px;"> Preprocessing </a>
+						<a class="btn btn-primary" href="{% url 'clustering' %}" class="tab" style=" display: inline-block;margin-left: 20px;"> Clustering </a>
 					</li>
 				</ul>
 			</div>

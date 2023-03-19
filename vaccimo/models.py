@@ -8,32 +8,35 @@ import os
 # Create your models here.
 
 
-
-
-def filepath(request,filename):
+def filepath(request, filename):
     old_filename = filename
     timeNow = datetime.datetime.now().strftime('%y%m%d%H:%M:%S')
-    filename = "%s%s" % (timeNow,old_filename)
-    return os.path.join('uploads/',filename)
+    filename = "%s%s" % (timeNow, old_filename)
+    return os.path.join('uploads/', filename)
+
 
 class user(models.Model):
-    id = models.AutoField(primary_key=True,)  
-    file=models.ImageField(upload_to=filepath, null=True,blank=True)
+    id = models.AutoField(primary_key=True,)
+    file = models.ImageField(upload_to=filepath, null=True, blank=True)
     email = models.CharField(max_length=100, null=True)
     name = models.CharField(max_length=100, null=True)
-    contact_number = models.CharField(max_length=100, null=True)    
+    contact_number = models.CharField(max_length=100, null=True)
     vaccination_brand = models.CharField(max_length=100, null=True)
     vaccination_site = models.CharField(max_length=100, null=True)
     address = models.CharField(max_length=100, null=True)
     age = models.CharField(max_length=100, null=True)
     bday = models.CharField(max_length=100, null=True)
     gender = models.CharField(max_length=100, null=True)
-    date_created  = models.DateField(auto_now_add=True, null=True)
+    date_created = models.DateField(auto_now_add=True, null=True)
+    author = models.ForeignKey(
+        User, default=None, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
+
     class Meta:
-        db_table="user"
+        db_table = "user"
+
 
 class sideeffect (models.Model):
     id = models.AutoField(primary_key=True)
@@ -53,14 +56,17 @@ class sideeffect (models.Model):
     fatigue = models.CharField(max_length=100, null=True)
     nausea = models.CharField(max_length=100, null=True)
     vomiting = models.CharField(max_length=100, null=True)
+    author = models.ForeignKey(
+        User, default=None, on_delete=models.CASCADE, null=True)
+
     def __str__(self):
         return self.name
 
     class Meta:
-        db_table="sideeffect"
+        db_table = "sideeffect"
 
 
-class questioner (models.Model): 
+class questioner (models.Model):
 
     id = models.AutoField(primary_key=True)
     Q0 = models.CharField(max_length=100, null=True)
@@ -94,11 +100,14 @@ class questioner (models.Model):
     allergy5 = models.CharField(max_length=100, null=True)
     Q23 = models.CharField(max_length=100, null=True)
     Q24 = models.CharField(max_length=100, null=True)
+    author = models.ForeignKey(
+        User, default=None, on_delete=models.CASCADE, null=True)
 
-   
+    def __str__(self):
+        return self.name
 
     class Meta:
-        db_table="questioner"
+        db_table = "questioner"
 
 # class User(AbstractUser):
 #     is_admin = models.BooleanField(default=False)
