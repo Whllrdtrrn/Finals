@@ -16,7 +16,7 @@ body {
 }
 
 .nav-item {
-    width: 20rem;
+    width: 15rem;
 }
 
 .wrap {
@@ -50,7 +50,6 @@ body {
 
 .container__content {
     flex-grow: 1;
-    overflow-y: scroll;
 }
 
 .container__nav {
@@ -106,4 +105,8 @@ body {
     top: 21rem;
     left: 0;
     right: 0;
+}
+
+.text-success {
+    color: #212529 !important;
 }

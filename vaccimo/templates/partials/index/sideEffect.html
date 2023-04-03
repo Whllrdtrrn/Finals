@@ -23,9 +23,8 @@
                             </div>
                             <div class="col-md-5 mb-3">
 
-                                <select name="muscle_ache" class="form-control" id="txt_check_1_input1"
-                                    style="text-align: center;" value="" required>
-
+                                <select oninput="sideEffect1()" name="muscle_ache" class="form-control"
+                                    id="txt_check_1_input1" style="text-align: center;" value="" required>
                                     <option value="Yes">Yes</option>
                                     <option value="No" selected>No</option>
                                 </select>
@@ -79,8 +78,9 @@
                                 </div>
                             </div>
                             <div class="col-md-5 mb-3">
-                                <select name="headache" class="form-control" id="txt_check_2_input1"
-                                    style="text-align: center;" required value="{{prod.headache}}">
+                                <select oninput="sideEffect2()" name="headache" class="form-control"
+                                    id="txt_check_2_input1" style="text-align: center;" required
+                                    value="{{prod.headache}}">
 
                                     <option value="Yes">Yes</option>
                                     <option value="No" selected>No</option>
@@ -131,8 +131,8 @@
                                 </div>
                             </div>
                             <div class="col-md-5 mb-3">
-                                <select name="fever" class="form-control" id="txt_check_3_input1"
-                                    style="text-align: center;" required value="{{prod.fever}}">
+                                <select oninput="sideEffect3()" name="fever" class="form-control"
+                                    id="txt_check_3_input1" style="text-align: center;" required value="{{prod.fever}}">
                                     <option value="Yes">Yes</option>
                                     <option value="No" selected>No</option>
                                 </select>
@@ -183,8 +183,9 @@
                                 </div>
                             </div>
                             <div class="col-md-5 mb-3">
-                                <select name="redness" class="form-control" id="txt_check_4_input1"
-                                    style="text-align: center;" required value="{{prod.redness}}">
+                                <select oninput="sideEffect4()" name="redness" class="form-control"
+                                    id="txt_check_4_input1" style="text-align: center;" required
+                                    value="{{prod.redness}}">
 
                                     <option value="Yes">Yes</option>
                                     <option value="No" selected>No</option>
@@ -243,8 +244,9 @@
                                 </div>
                             </div>
                             <div class="col-md-5 mb-3">
-                                <select name="swelling" class="form-control" id="txt_check_5_input1"
-                                    style="text-align: center;" required value="{{prod.swelling}}">
+                                <select oninput="sideEffect5()" name="swelling" class="form-control"
+                                    id="txt_check_5_input1" style="text-align: center;" required
+                                    value="{{prod.swelling}}">
 
                                     <option value="Yes">Yes</option>
                                     <option value="No" selected>No</option>
@@ -303,8 +305,9 @@
                                 </div>
                             </div>
                             <div class="col-md-5 mb-3">
-                                <select name="tenderness" class="form-control" id="txt_check_6_input1"
-                                    style="text-align: center;" required value="{{prod.tenderness}}">
+                                <select oninput="sideEffect6()" name="tenderness" class="form-control"
+                                    id="txt_check_6_input1" style="text-align: center;" required
+                                    value="{{prod.tenderness}}">
 
                                     <option value="Yes">Yes</option>
                                     <option value="No" selected>No</option>
@@ -363,8 +366,9 @@
                                 </div>
                             </div>
                             <div class="col-md-5 mb-3">
-                                <select name="warmth" class="form-control" id="txt_check_7_input1"
-                                    style="text-align: center;" required value="{{prod.warmth}}">
+                                <select oninput="sideEffect7()" name="warmth" class="form-control"
+                                    id="txt_check_7_input1" style="text-align: center;" required
+                                    value="{{prod.warmth}}">
 
                                     <option value="Yes">Yes</option>
                                     <option value="No" selected>No</option>
@@ -421,9 +425,9 @@
                                 </div>
                             </div>
                             <div class="col-md-5 mb-3">
-                                <select name="itch" class="form-control" id="txt_check_8_input1"
-                                    style="text-align: center;" required value="{{prod.itch}}
-                                                <option value=" Yes">Yes</option>
+                                <select oninput="sideEffect8()" name="itch" class="form-control" id="txt_check_8_input1"
+                                    style="text-align: center;" required value="{{prod.itch}}">
+                                    <option value="Yes">Yes</option>
                                     <option value="No" selected>No</option>
                                 </select>
                             </div>
@@ -474,8 +478,9 @@
                                 </div>
                             </div>
                             <div class="col-md-5 mb-3">
-                                <select name="induration" class="form-control" id="txt_check_9_input1"
-                                    style="text-align: center;" required value="{{prod.induration}}">
+                                <select oninput="sideEffect9()" name="induration" class="form-control"
+                                    id="txt_check_9_input1" style="text-align: center;" required
+                                    value="{{prod.induration}}">
 
                                     <option value="Yes">Yes</option>
                                     <option value="No" selected>No</option>
@@ -528,8 +533,9 @@
                                 </div>
                             </div>
                             <div class="col-md-5 mb-3">
-                                <select name="feverish" class="form-control" id="txt_check_10_input1"
-                                    style="text-align: center;" required value="{{prod.feverish}}">
+                                <select oninput="sideEffect10()" name="feverish" class="form-control"
+                                    id="txt_check_10_input1" style="text-align: center;" required
+                                    value="{{prod.feverish}}">
 
                                     <option value="Yes">Yes</option>
                                     <option value="No" selected>No</option>
@@ -580,8 +586,9 @@
                                 </div>
                             </div>
                             <div class="col-md-5 mb-3">
-                                <select name="chills" class="form-control" id="txt_check_11_input1"
-                                    style="text-align: center;" required value="{{prod.chills}}">
+                                <select oninput="sideEffect11()" name="chills" class="form-control"
+                                    id="txt_check_11_input1" style="text-align: center;" required
+                                    value="{{prod.chills}}">
 
                                     <option value="Yes">Yes</option>
                                     <option value="No" selected>No</option>
@@ -633,8 +640,9 @@
                                 </div>
                             </div>
                             <div class="col-md-5 mb-3">
-                                <select name="join_pain" class="form-control" id="txt_check_12_input1"
-                                    style="text-align: center;" required value="{{prod.join_pain}}">
+                                <select oninput="sideEffect12()" name="join_pain" class="form-control"
+                                    id="txt_check_12_input1" style="text-align: center;" required
+                                    value="{{prod.join_pain}}">
 
                                     <option value="Yes">Yes</option>
                                     <option value="No" selected>No</option>
@@ -691,8 +699,9 @@
                                 </div>
                             </div>
                             <div class="col-md-5 mb-3">
-                                <select name="fatigue" class="form-control" id="txt_check_13_input1"
-                                    style="text-align: center;" required value="{{prod.fatigue}}">
+                                <select oninput="sideEffect13()" name="fatigue" class="form-control"
+                                    id="txt_check_13_input1" style="text-align: center;" required
+                                    value="{{prod.fatigue}}">
 
                                     <option value="Yes">Yes</option>
                                     <option value="No" selected>No</option>
@@ -749,8 +758,9 @@
                                 </div>
                             </div>
                             <div class="col-md-5 mb-3">
-                                <select name="nausea" class="form-control" id="txt_check_14_input1"
-                                    style="text-align: center;" required value="{{prod.nausea}}">
+                                <select oninput="sideEffect14()" name="nausea" class="form-control"
+                                    id="txt_check_14_input1" style="text-align: center;" required
+                                    value="{{prod.nausea}}">
 
                                     <option value="Yes">Yes</option>
                                     <option value="No" selected>No</option>
@@ -806,8 +816,9 @@
                                 </div>
                             </div>
                             <div class="col-md-5 mb-3">
-                                <select name="vomiting" class="form-control" id="txt_check_15_input1" required
-                                    style="text-align: center;" value="{{prod.vomiting}}">
+                                <select oninput="sideEffect15()" name="vomiting" class="form-control"
+                                    id="txt_check_15_input1" required style="text-align: center;"
+                                    value="{{prod.vomiting}}">
 
                                     <option value="Yes">Yes</option>
                                     <option value="No" selected>No</option>

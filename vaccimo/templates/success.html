@@ -18,40 +18,20 @@
     {% csrf_token %}
 
     <img id="bg-main" src="{% static 'images/login.jpg' %}" alt="Cover Image" style=" position: absolute;height: 100%; width: 100%;" />
-    <div class="container text-center" >
-
-
-            <div class="card border-dark">
-                <!-- {% for message in messages %} -->
-                <!-- sweetalert js -->
-                <!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                <script>
-                    var m = "{{ message }}";
-                    Swal.fire({
-                    icon: 'success'
-                    });
-                </script>
-                {% endfor %} -->
-
-            <!-- <p>Successfully Submitted</p>
-            <p>Thank you !</p>
-            <a  class="btn btn-primary "style="font-size: 20px;align-self: center;"href="{% url 'homepage' %}">Home</a> -->
-            <!-- <script>
-            {% for message in messages %}
-            {% if message.tags == 'success' %}
-
-                var m = "{{message}}";
-                Swal.fire({
-                position: 'top-center',
-                icon: 'success',
-                showConfirmButton: true,
-                })
-
-            {% endif %}
-            {% endfor %}
-        </script> -->
-
-            </div>
-    </div>
+    <form method="POST" >
+        {% csrf_token %}
+        <div class="container text-center" >
+                <input type="hidden" value="1" 
+                name="btnYes">
+                <div class="card border-dark">
+                <p>Have You Felt Any Side Effects?</p>
+                    <div class="button">
+                        <a class="btn btn-primary "href="{% url 'homepage' %}" style="width: 5rem;">No</a>
+                        <!--<a class="btn btn-primary "href="{% url 'sideeffect' %}" style="width: 5rem;">Yes</a>-->
+                        <a class="btn btn-primary " type="submit" style="width: 5rem;">Yes</a>
+                    </div>
+                </div>
+        </div>
+    </form>
 </body>
 </html>

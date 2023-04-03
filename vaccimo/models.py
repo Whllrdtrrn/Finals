@@ -2,10 +2,12 @@ from datetime import datetime
 from distutils.command.upload import upload
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
 import datetime
 import os
 # Create your models here.
+User = settings.AUTH_USER_MODEL
 
 
 def filepath(request, filename):
@@ -28,8 +30,7 @@ class user(models.Model):
     bday = models.CharField(max_length=100, null=True)
     gender = models.CharField(max_length=100, null=True)
     date_created = models.DateField(auto_now_add=True, null=True)
-    author = models.ForeignKey(
-        User, default=None, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -56,8 +57,7 @@ class sideeffect (models.Model):
     fatigue = models.CharField(max_length=100, null=True)
     nausea = models.CharField(max_length=100, null=True)
     vomiting = models.CharField(max_length=100, null=True)
-    author = models.ForeignKey(
-        User, default=None, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -100,8 +100,7 @@ class questioner (models.Model):
     allergy5 = models.CharField(max_length=100, null=True)
     Q23 = models.CharField(max_length=100, null=True)
     Q24 = models.CharField(max_length=100, null=True)
-    author = models.ForeignKey(
-        User, default=None, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -109,6 +108,18 @@ class questioner (models.Model):
     class Meta:
         db_table = "questioner"
 
+class sideeffectYes (models.Model):
+
+    btnYes = models.CharField(max_length=100, default=0)
+    author_sideeffect = models.ForeignKey(sideeffect, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = "sideeffectYes"
+        
 # class User(AbstractUser):
 #     is_admin = models.BooleanField(default=False)
 #     is_customer = models.BooleanField(default=False)

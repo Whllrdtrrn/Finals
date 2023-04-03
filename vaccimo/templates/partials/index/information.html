@@ -8,16 +8,17 @@
     <span class="help-block"></span>
 </div>
 <div class="form-group">
-    <input style="font-size: 16px;" id="name" name="name" type="text" placeholder="Full Name" autocomplete="off"
-        class="form-control" required value="">
+    <input oninput="handleValueChange()" style="font-size: 16px;" id="name" name="name" type="text"
+        placeholder="Full Name" autocomplete="off" class="form-control" required value="">
     <span class="help-block"></span>
 </div>
 
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <select style="font-size: 16px;" id="vaccination_brand" name="vaccination_brand" type="text"
-                placeholder="Vaccination Brand" autocomplete="off" class="form-control" required aria-selected="">
+            <select oninput="handleValueChange1()" style="font-size: 16px;" id="vaccination_brand"
+                name="vaccination_brand" type="text" placeholder="Vaccination Brand" autocomplete="off"
+                class="form-control" required aria-selected="">
                 <option value="">--Please Select your vaccination brand--</option>
                 <option value="moderna">Moderna</option>
                 <option value="pfizer">Pfizer</option>
@@ -29,8 +30,9 @@
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <select style="font-size: 16px;" id="vaccination_site" name="vaccination_site" type="text"
-                placeholder="Site of Injection" autocomplete="off" class="form-control" required value="">
+            <select oninput="handleValueChange2()" style="font-size: 16px;" id="vaccination_site"
+                name="vaccination_site" type="text" placeholder="Site of Injection" autocomplete="off"
+                class="form-control" required value="">
                 <option value="">--Please Select your vaccination site--</option>
                 <option value="right">Upper Right Arm</option>
                 <option value="left">Upper Left Arm</option>
@@ -39,34 +41,37 @@
     </div>
 </div>
 <div class="form-group">
-    <input style="font-size: 16px;" id="address" name="address" type="text" placeholder="Full Address"
-        autocomplete="off" class="form-control" required value="" />
+    <input oninput="handleValueChange3()" style="font-size: 16px;" id="address" name="address" type="text"
+        placeholder="Full Address" autocomplete="off" class="form-control" required value="" />
     <span class="help-block"></span>
 </div>
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <input style="font-size: 16px;" id="contact_number" name="contact_number" type="number"
-                placeholder="Contact Number" autocomplete="off" class="form-control" required value="" /> <span
-                class="help-block"></span>
+            <input oninput="handleValueChange4()" style="font-size: 16px;" id="contact_number" name="contact_number"
+                type="number" placeholder="Contact Number" autocomplete="off" class="form-control" required value="" />
+            <span class="help-block"></span>
         </div>
     </div>
     <div class="col-md-6">
         <div class="form-group " style="display:flex;"> <span style="margin-right:3px ;">Birthdate:</span>
-            <input type="date" name="bday" style="font-size: 16px;" class="form-control" required value="">
+            <input oninput="handleValueChange5()" id="bday" type="date" name="bday" style="font-size: 16px;"
+                class="form-control" required value="">
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <input style="font-size: 16px;" id="age" name="age" type="number" placeholder="Age" autocomplete="off"
-                class="form-control" required value="" /> <span class="help-block"></span>
+            <input oninput="handleValueChange6()" style="font-size: 16px;" id="age" name="age" type="number"
+                placeholder="Age" autocomplete="off" class="form-control" required value="" /> <span
+                class="help-block"></span>
         </div>
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <select style="font-size: 16px;" id="gender" name="gender" class="form-control" required value="">
+            <select oninput="handleValueChange7()" style="font-size: 16px;" id="gender" name="gender"
+                class="form-control" required value="">
                 <option value="">--Please Select your Gender--</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>

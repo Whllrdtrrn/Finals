@@ -1,0 +1,137 @@
+{% extends "layouts/LayoutDashboard.html" %}
+
+{% block title %} Starter {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- [ Main Content ] start -->
+<div class="pc-container">
+	<div class="pcoded-content">
+		<!-- [ breadcrumb ] start -->
+		<div class="page-header">
+			<div class="page-block">
+				<div class="row align-items-center">
+					<div class="col-md-12">
+						<div class="page-header-title">
+							<h5 class="m-b-10">:: Survey</h5>
+						</div>
+						<ul class="breadcrumb">
+							<li class="breadcrumb-item"><a href="{% url 'dashboard'%}">Home</a></li>
+							<li class="breadcrumb-item"><a href="{% url 'userAccount'%}">User Account</a></li>
+							<li class="breadcrumb-item"><a href="{% url 'informationCollection'%}">Information
+									Collection</a></li>
+							<li class="breadcrumb-item"><a href="{% url 'survey'%}">Survey</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- [ breadcrumb ] end -->
+		<!-- [ Main Content ] start -->
+		<div class="row">
+			<!-- [ sample-page ] start -->
+			<!-- [ Hover-table ] start -->
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						
+					</div>
+					<div class="card-body table-border-style">
+						<div class="table-responsive">
+							<table id="myTable4" class="table table-hover">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Name</th>
+										<th>Q1</th>
+										<th>Q2</th>
+										<th>Q3</th>
+										<th>Q4</th>
+										<th>Q5</th>
+										<th>Q6</th>
+										<th>Q7</th>
+										<th>Q8</th>
+										<th>Q9</th>
+										<th>Q10</th>
+										<th>Q11</th>
+										<th>Q12</th>
+										<th>Q13</th>
+										<th>Q14</th>
+										<th>Q15</th>
+										<th>Q16</th>
+										<th>Q17</th>
+										<th>Q18</th>
+										<th>Q19</th>
+										<th>Q20</th>
+										<th>Q21</th>
+										<th>Q22</th>
+										<th>allergy</th>
+										<th>allergy</th>
+										<th>allergy</th>
+										<th>allergy</th>
+										<th>allergy</th>
+										<th>allergy</th>
+										<th>Q23</th>
+										<th>Q24</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for i in quesT %}
+									<tr>
+										<td class="cell-detail"> <span>{{ forloop.counter }}</span> </td>
+										<td class="cell-detail"> <span>{{i.author.username}}</span></td>
+										<td class="cell-detail"> <span>{{i.Q1}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q2}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q3}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q4}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q5}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q6}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q7}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q8}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q9}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q10}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q11}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q12}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q13}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q14}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q15}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q16}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q17}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q18}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q19}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q20}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q21}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q22}}</span> </td>
+										<td class="cell-detail"> <span>{{i.allergy}}</span> </td>
+										<td class="cell-detail"> <span>{{i.allergy1}}</span> </td>
+										<td class="cell-detail"> <span>{{i.allergy2}}</span> </td>
+										<td class="cell-detail"> <span>{{i.allergy3}}</span> </td>
+										<td class="cell-detail"> <span>{{i.allergy4}}</span> </td>
+										<td class="cell-detail"> <span>{{i.allergy5}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q23}}</span> </td>
+										<td class="cell-detail"> <span>{{i.Q24}}</span> </td>
+									</tr> {% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- [ Hover-table ] end -->
+
+
+			<!-- [ Typography ] end -->
+			<!-- [ sample-page ] end -->
+		</div>
+		<!-- [ Main Content ] end -->
+	</div>
+</div>
+<!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

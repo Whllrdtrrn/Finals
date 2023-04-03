@@ -9,18 +9,29 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
-	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css'%}" />
-    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">  
+	<link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
 	<title>Dashboard</title>
 </head>
+<style>
+	.dataTables_length {
+		display: none;
+	}
+
+	.dataTables_info {
+		display: none;
+	}
+
+	.card {
+		height: 0%;
+	}
+</style>
 
 <body>
 	<main>
@@ -28,7 +39,8 @@
 			<div class="adminlogo">
 				<!-- <div class="circle"><img src="{%static 'images/w.jpg' %}" alt=""width="100" height="100" class="rounded-circle"style="object-fit: cover;"></div> -->
 				<h3 style="  font-size: 35px !important;
-                     ">Vac<span style="color: #0bb8c6;">cimo</span></h3> </div>
+                     ">Vac<span style="color: #0bb8c6;">cimo</span></h3>
+			</div>
 			<div class="leftnav">
 				<!-- <div class="link-item ">
                         <a><i class="fa fa-fw fa-home"></i>Dashboard</a>
@@ -41,22 +53,29 @@
                      </div>       -->
 				<ul>
 					<li>
-						<a href="#" class="tab active" onclick="openCity(event, 'Dashboard')" id="defaultOpen"> <span class="icon"><i class="fa fa-fw fa-home"></i></span> <span class="item">My Dashboard</span> </a>
+						<a href="#" class="tab active" onclick="openCity(event, 'Dashboard')" id="defaultOpen"> <span
+								class="icon"><i class="fa fa-fw fa-home"></i></span> <span class="item">My
+								Dashboard</span> </a>
+					</li>
+					<li style="display: none;">
+						<a href="#" class="tab" onclick="openCity(event, 'Account')"> <span class="icon"><i
+									class="fa fa-fw fa-user"></i></span> <span class="item">User Account</span> </a>
 					</li>
 					<li>
-						<a href="#" class="tab" onclick="openCity(event, 'Account')"> <span class="icon"><i class="fa fa-fw fa-user"></i></span> <span class="item">User Account</span> </a>
+						<a href="#" class="tab" onclick="openCity(event, 'information')"> <span class="icon"><i
+									class="fa fa-fw fa-info"></i></span> <span class="item">Information</span> </a>
 					</li>
 					<li>
-						<a href="#" class="tab" onclick="openCity(event, 'information')"> <span class="icon"><i class="fa fa-fw fa-info"></i></span> <span class="item">Information</span> </a>
+						<a href="#" class="tab" onclick="openCity(event, 'sideeffect')"> <span class="icon"><i
+									class="fa fa-fw fa-heartbeat"></i></span> <span class="item">Side effect</span> </a>
 					</li>
 					<li>
-						<a href="#" class="tab" onclick="openCity(event, 'sideeffect')"> <span class="icon"><i class="fa fa-fw fa-heartbeat"></i></span> <span class="item">Side effect</span> </a>
+						<a href="#" class="tab" onclick="openCity(event, 'questionaire')"> <span class="icon"><i
+									class="fa fa-fw fa-question"></i></span> <span class="item">Questionaire</span> </a>
 					</li>
 					<li>
-						<a href="#" class="tab" onclick="openCity(event, 'questionaire')"> <span class="icon"><i class="fa fa-fw fa-question"></i></span> <span class="item">Questionaire</span> </a>
-					</li>
-					<li>
-						<a class="btn btn-primary" href="{% url 'clustering' %}" class="tab" style=" display: inline-block;margin-left: 20px;"> Clustering </a>
+						<a class="btn btn-primary" href="{% url 'clustering' %}" class="tab"
+							style=" display: inline-block;margin-left: 20px;"> Clustering </a>
 					</li>
 				</ul>
 			</div>
@@ -67,7 +86,10 @@
 				<div class="navbar">
 					<div class="logo">Dashboard</div>
 					<div class="dropdown">
-						<a onclick="myFunction()" href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle dropbtn  "><img src="{%static 'images/profile.jpg' %}" alt="" width="40" height="40" class="rounded-circle" style="object-fit: cover;"><span class="user-name"></span></a>
+						<a onclick="myFunction()" href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+							class="dropdown-toggle dropbtn  "><img src="{%static 'images/profile.jpg' %}" alt=""
+								width="40" height="40" class="rounded-circle" style="object-fit: cover;"><span
+								class="user-name"></span></a>
 						<div id="myDropdown" class="dropdown-content">
 							<ul>
 								<li>
@@ -84,30 +106,41 @@
 			<div class="card-container ">
 				<div class="card bg-white">
 					<div class="card-header">
-						<h5 class="card-title"><span style=" font-size: 30px;align-items: center;margin-right: 10px;"><i class="fa fa-users" ></i></span> User</h5> </div>
+						<h5 class="card-title"><span style=" font-size: 30px;align-items: center;margin-right: 10px;"><i
+									class="fa fa-users"></i></span> User</h5>
+					</div>
 					<div class="card-body">
-						<h3 class="card-title">{{total_user}}</h3> </div>
+						<h3 class="card-title">{{total_user}}</h3>
+					</div>
 				</div>
 				<div class="card bg-white">
 					<div class="card-header">
-						<h5 class="card-title"><span style=" font-size: 30px;align-items: center;margin-right: 10px;"><i class="fa fa-user-secret" ></i></span>Total Admin</h5> </div>
+						<h5 class="card-title"><span style=" font-size: 30px;align-items: center;margin-right: 10px;"><i
+									class="fa fa-user-secret"></i></span>Total Admin</h5>
+					</div>
 					<div class="card-body">
-						<h3 class="card-title">{{total_admin}}</h3> </div>
+						<h3 class="card-title">{{total_admin}}</h3>
+					</div>
 				</div>
 				<div class="card bg-white">
 					<div class="card-header">
-						<h5 class="card-title"><span style=" font-size: 30px;align-items: center;margin-right: 10px;"><i class="fa fa-eye" ></i></span>Total Views</h5> </div>
+						<h5 class="card-title"><span style=" font-size: 30px;align-items: center;margin-right: 10px;"><i
+									class="fa fa-eye"></i></span>Total Views</h5>
+					</div>
 					<div class="card-body">
-						<h3 class="card-title">{{total_user}}</h3> </div>
+						<h3 class="card-title">{{total_user}}</h3>
+					</div>
 				</div>
 			</div>
 			</div>
+
 			<div class="row " style="position: relative;">
-				<div class="card w3-white" >
-					<div class="panel-body" >
+				<div class="card w3-white">
+					<div class="panel-body">
 						<div class="contain" style="overflow-y: auto;
                         height: 100%; margin:10px;">
-							<table id="myTable" id="myTable" class="table table-hover table-wrapper " style="text-transform: capitalize;padding-left:12px ">
+							<table id="myTable" id="myTable" class="table table-hover table-wrapper "
+								style="text-transform: capitalize;padding-left:12px ">
 								<thead>
 									<tr>
 										<th>No.</th>
@@ -116,27 +149,33 @@
 										<th>date</th>
 									</tr>
 								</thead>
-								<tbody style="text-transform: capitalize;max-height: 300px; text-align: start; "> {% for i in item_list %}
+								<tbody style="text-transform: capitalize;max-height: 300px; text-align: start; ">
+									{%for i in item_list %}
 									<tr style="  border-bottom: 1px ; ">
 										<td class="cell-detail "> <span>{{ forloop.counter }}</span> </td>
 										<td class="cell-detail  "> <span>{{i.name}}</span> </td>
 										<td class="cell-detail"> <span>{{i.gender}}</span> </td>
 										<td class="cell-detail"> <span>{{i.date_created}}</span> </td>
-									</tr> {% endfor %} </tbody>
+									</tr>
+									{%endfor%}
+								</tbody>
 							</table>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-		
+
 		<!-- section account -->
-		<section class="middle-container" id="Account">
+		<section class="middle-container" id="Account" style="visibility: collapse;">
 			<header>
 				<div class="navbar">
 					<div class="logo">User Account</div>
 					<div class="dropdown">
-						<a onclick="myFunction()" href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle dropbtn  "><img src="{%static 'images/profile.jpg' %}" alt="" width="40" height="40" class="rounded-circle" style="object-fit: cover;"><span class="user-name"></span></a>
+						<a onclick="myFunction()" href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+							class="dropdown-toggle dropbtn  "><img src="{%static 'images/profile.jpg' %}" alt=""
+								width="40" height="40" class="rounded-circle" style="object-fit: cover;"><span
+								class="user-name"></span></a>
 						<div id="myDropdown1" class="dropdown-content">
 							<ul>
 								<li>
@@ -149,13 +188,15 @@
 							</ul>
 						</div>
 					</div>
+				</div>
 			</header>
 			<div class="row ">
-				<div class="card w3-white" style="height: 80vh;">
+				<div class="card w3-white" style="height: 100%;">
 					<div class="panel-body" style="height: 100%;">
 						<div class="contain" style="overflow-y: auto;
                            height: 100%; margin:10px;">
-							<table id="myTable1" class="table table-hover table-wrapper  " style="text-transform: capitalize;padding-left:12px ">
+							<table id="myTable1" class="table table-hover table-wrapper  "
+								style="text-transform: capitalize;padding-left:12px ">
 								<thead>
 									<tr>
 										<th>No.</th>
@@ -166,7 +207,8 @@
 										<!-- <th>Action</th> -->
 									</tr>
 								</thead>
-								<tbody style="text-transform: capitalize;"> {% for x in userAccount %}
+								<tbody style="text-transform: capitalize;">
+									{%for x in userAccount%}
 									<tr style="  border-bottom: 1px ; ">
 										<td class="cell-detail "> <span>{{ forloop.counter }}</span> </td>
 										<td class="cell-detail  text-left"> <span>{{x.username}}</span> </td>
@@ -175,15 +217,15 @@
 										<td> {% if x.is_active == 1 %}
 											<a href="{% url 'toggle_status' id=x.id %}" type="button">
 												<button class="btn btn-danger">Deactivate</button>
-											</a> {% else %}
+											</a> {%else%}
 											<a href="{% url 'toggle_status_active' id=x.id %}" type="button">
 												<button class="btn btn-success">Activate</button>
 											</a>
-											<!-- <input data-id="{{x.is_active}}" class="toggle-class" type="checkbox" data-onstyle="success" 
-                                       data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" > -->{% endif %} </td>
-										<!-- <td><input  onclick="change('{{x.id}}')" type="button" value="Open Curtain" id="myButton1"></input></td> -->
-										<!-- <td><a href="{% url 'delete'% x.id} ">delete</a></td> -->
-									</tr> {% endfor %} </tbody>
+											{%endif%}
+										</td>
+									</tr>
+									{%endfor%}
+								</tbody>
 							</table>
 							<div class="footer ">
 								<!--                            
@@ -217,7 +259,10 @@
 				<div class="navbar">
 					<div class="logo">Side Effect</div>
 					<div class="dropdown">
-						<a onclick="myFunction()" href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle dropbtn  "><img src="{%static 'images/profile.jpg' %}" alt="" width="40" height="40" class="rounded-circle" style="object-fit: cover;"><span class="user-name"></span></a>
+						<a onclick="myFunction()" href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+							class="dropdown-toggle dropbtn  "><img src="{%static 'images/profile.jpg' %}" alt=""
+								width="40" height="40" class="rounded-circle" style="object-fit: cover;"><span
+								class="user-name"></span></a>
 						<div id="myDropdown2" class="dropdown-content">
 							<ul>
 								<li>
@@ -232,11 +277,13 @@
 					</div>
 			</header>
 			<div class="row ">
-				<div class="card w3-white" style="height: 80vh;">
+				<div class="card w3-white" style="height: 100%;">
 					<div class="panel-body" style="height: 100%;">
 						<div class="contain" style="overflow-y: auto;
                            height: 99%; margin: 5px; ">
-							<table id="myTable2" class="table table-hover table-wrapper " style="text-transform: capitalize;padding-left:12px ">
+
+							<table id="myTable2" class="table table-hover table-wrapper "
+								style="text-transform: capitalize;padding-left:12px ">
 								<thead>
 									<tr>
 										<th>No.</th>
@@ -276,7 +323,8 @@
 										<td class="cell-detail"> <span>{{y.fatigue}}</span> </td>
 										<td class="cell-detail"> <span>{{y.nausea}}</span> </td>
 										<td class="cell-detail"> <span>{{y.vomiting}}</span> </td>
-									</tr> {% endfor %} </tbody>
+									</tr> {% endfor %}
+								</tbody>
 							</table>
 						</div>
 					</div>
@@ -288,7 +336,10 @@
 				<div class="navbar">
 					<div class="logo">Information</div>
 					<div class="dropdown">
-						<a onclick="myFunction()" href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle dropbtn  "><img src="{%static 'images/profile.jpg' %}" alt="" width="40" height="40" class="rounded-circle" style="object-fit: cover;"><span class="user-name"></span></a>
+						<a onclick="myFunction()" href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+							class="dropdown-toggle dropbtn  "><img src="{%static 'images/profile.jpg' %}" alt=""
+								width="40" height="40" class="rounded-circle" style="object-fit: cover;"><span
+								class="user-name"></span></a>
 						<div id="myDropdown3" class="dropdown-content">
 							<ul>
 								<li>
@@ -303,18 +354,54 @@
 					</div>
 			</header>
 			<div class="row ">
-				<div class="card w3-white" style="height: 80vh;">
+				<div class="card w3-white" style="height: 100%;">
 					<div class="panel-body" style="height: 100%;">
 						<div class="contain" style="overflow-y: auto;
                         height: 100%; margin:10px;">
-							<table id="myTable3" class="table table-hover table-wrapper  " style="text-transform: capitalize;padding-left:12px ">
+							<table cellpadding="3" cellspacing="0" border="0">
+								<tbody>
+									<tr id="filter_global">
+									</tr>
+									<tr id="filter_col" data-column="0">
+
+									</tr>
+									<tr id="filter_col1" data-column="1">
+										<td>Name: </td>
+										<td align="center"><input type="text" class="column_filter" id="col1_filter">
+										</td>
+									</tr>
+									<tr id="filter_col2" data-column="2">
+									</tr>
+									<tr id="filter_col3" data-column="3">
+										<td>Vaccination Brand: </td>
+										<td align="center"><input type="text" class="column_filter" id="col3_filter">
+										</td>
+									</tr>
+									<tr id="filter_col3" data-column="4">
+									</tr>
+									<tr id="filter_col3" data-column="5">
+										<td>Age: </td>
+										<td align="center"><input type="text" class="column_filter" id="col5_filter">
+										</td>
+									</tr>
+									<tr id="filter_col3" data-column="6">
+									</tr>
+									<tr id="filter_col3" data-column="7">
+										<td>Gender: </td>
+										<td align="center"><input type="text" class="column_filter" id="col7_filter">
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<table id="myTable3" class="table table-hover table-wrapper  "
+								style="text-transform: capitalize;padding-left:12px ">
 								<thead>
 									<tr>
-										<th>No.</th>
+										<th>#</th>
 										<th>Name</th>
 										<th>Contact Number</th>
 										<th>Vaccination Brand</th>
-										<th>Vaccination Site</th>
+										<!-- <th>Vaccination Site</th> -->
 										<th>Address</th>
 										<th>Age</th>
 										<th>Birth Date</th>
@@ -329,13 +416,14 @@
 										<td class="cell-detail"> <span>{{i.name}}</span> </td>
 										<td class="cell-detail"> <span>{{i.contact_number}}</span> </td>
 										<td class="cell-detail"> <span>{{i.vaccination_brand}}</span> </td>
-										<td class="cell-detail"> <span>{{i.vaccination_site}}</span> </td>
+										<!-- <td class="cell-detail"> <span>{{i.vaccination_site}}</span> </td> -->
 										<td class="cell-detail"> <span>{{i.address}}</span> </td>
 										<td class="cell-detail"> <span>{{i.age}}</span> </td>
 										<td class="cell-detail"> <span>{{i.bday}}</span> </td>
 										<td class="cell-detail"> <span>{{i.gender}}</span> </td>
 										<td class="cell-detail"> <span>{{i.date_created}}</span> </td>
-									</tr> {% endfor %} </tbody>
+									</tr> {% endfor %}
+								</tbody>
 							</table>
 						</div>
 					</div>
@@ -347,7 +435,10 @@
 				<div class="navbar">
 					<div class="logo">Questionaire</div>
 					<div class="dropdown">
-						<a onclick="myFunction()" href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle dropbtn  "><img src="{%static 'images/profile.jpg' %}" alt="" width="40" height="40" class="rounded-circle" style="object-fit: cover;"><span class="user-name"></span></a>
+						<a onclick="myFunction()" href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+							class="dropdown-toggle dropbtn  "><img src="{%static 'images/profile.jpg' %}" alt=""
+								width="40" height="40" class="rounded-circle" style="object-fit: cover;"><span
+								class="user-name"></span></a>
 						<div id="myDropdown4" class="dropdown-content">
 							<ul>
 								<li>
@@ -361,12 +452,14 @@
 						</div>
 					</div>
 			</header>
+
 			<div class="row ">
-				<div class="card w3-white" style="height: 80vh;">
+				<div class="card w3-white" style="height: 100%;">
 					<div class="panel-body" style="height: 100%;">
 						<div class="contain" style="overflow-y: auto;
                         height: 99%; margin: 5px; ">
-							<table id="myTable4" class="table table-hover table-wrapper " style="text-transform: capitalize;padding-left:12px ">
+							<table id="myTable4" class="table table-hover table-wrapper "
+								style="text-transform: capitalize;padding-left:12px ">
 								<thead>
 									<tr>
 										<th>No.</th>
@@ -429,79 +522,146 @@
 										<!-- <td>
                                           <a href="{% url 'delete'% i.id} ">delete</a>
                                       </td> -->
-									</tr> {% endfor %} </tbody>
+									</tr> {% endfor %}
+								</tbody>
 							</table>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-		
+
 	</main>
-	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf8"></script>
+	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
 	<script>
-	$(document).ready( function () {
-		$('#myTable').DataTable();
-	} );
+		// filter search
+		function filterGlobal() {
+			$('#myTable3')
+				.DataTable()
+				.search($('#global_filter').val())
+				.draw();
+		}
+		function filterColumn(i) {
+			$('#myTable3')
+				.DataTable()
+				.column(i)
+				.search(
+					$('#col' + i + '_filter').val(),
+				)
+				.draw();
+		}
+		$(document).ready(function () {
+			$('#myTable').DataTable({
+				lengthMenu: [
+					[5, 25, 50, -1],
+					[5, 25, 50, 'All'],
+				]
+			});
 
-	$(document).ready( function () {
-		$('#myTable1').DataTable();
-	} );
+			$('input.global_filter').on('keyup click', function () {
+				filterGlobal();
+			});
 
-	$(document).ready( function () {
-		$('#myTable2').DataTable();
-	} );
+			$('input.column_filter').on('keyup click', function () {
+				filterColumn($(this).parents('tr').attr('data-column'));
+			});
+		});
 
-	$(document).ready( function () {
-		$('#myTable3').DataTable();
-	} );
+		// sorting data
+		$(document).ready(function () {
+			$('#myTable').DataTable({
+				lengthMenu: [
+					[5, 25, 50, -1],
+					[5, 25, 50, 'All'],
+				]
+			});
+		});
 
-	$(document).ready( function () {
-		$('#myTable4').DataTable();
-	} );
+		$(document).ready(function () {
+			$('#myTable1').DataTable({
+				lengthMenu: [
+					[5, 25, 50, -1],
+					[5, 25, 50, 'All'],
+				],
+			});
+		});
 
-	function myFunction() {
-		document.getElementById("myDropdown").classList.toggle("show");
-		document.getElementById("myDropdown1").classList.toggle("show");
-		document.getElementById("myDropdown2").classList.toggle("show");
-		document.getElementById("myDropdown3").classList.toggle("show");
-		document.getElementById("myDropdown4").classList.toggle("show");
-		document.getElementById("myDropdown6").classList.toggle("show");
+		$(document).ready(function () {
+			$('#myTable2').DataTable({
+				lengthMenu: [
+					[5, 25, 50, -1],
+					[5, 25, 50, 'All'],
+				],
+			});
+		});
+
+		$(document).ready(function () {
+			$('#myTable3').DataTable({
+				lengthMenu: [
+					[5, 25, 50, -1],
+					[10, 25, 50, 'All'],
+				],
+			});
+		});
+
+		$(document).ready(function () {
+			$('#myTable4').DataTable({
+				lengthMenu: [
+					[5, 25, 50, -1],
+					[10, 25, 50, 'All'],
+				],
+				search: {
+					return: true,
+				},
+			});
+		});
+
+		function myFunction() {
+			document.getElementById("myDropdown").classList.toggle("show");
+			document.getElementById("myDropdown1").classList.toggle("show");
+			document.getElementById("myDropdown2").classList.toggle("show");
+			document.getElementById("myDropdown3").classList.toggle("show");
+			document.getElementById("myDropdown4").classList.toggle("show");
+			document.getElementById("myDropdown6").classList.toggle("show");
 
 
-	}
-	// Close the dropdown if the user clicks outside of it
-	window.onclick = function(event) {
-		if(!event.target.matches('img')) {
-			var dropdowns = document.getElementsByClassName("dropdown-content");
-			var i;
-			for(i = 0; i < dropdowns.length; i++) {
-				var openDropdown = dropdowns[i];
-				if(openDropdown.classList.contains('show')) {
-					openDropdown.classList.remove('show');
+		}
+		// Close the dropdown if the user clicks outside of it
+		window.onclick = function (event) {
+			if (!event.target.matches('img')) {
+				var dropdowns = document.getElementsByClassName("dropdown-content");
+				var i;
+				for (i = 0; i < dropdowns.length; i++) {
+					var openDropdown = dropdowns[i];
+					if (openDropdown.classList.contains('show')) {
+						openDropdown.classList.remove('show');
+					}
 				}
 			}
 		}
-	}
 
-	function openCity(evt, cityName) {
-		var i, tabcontent, tablinks;
-		tabcontent = document.getElementsByClassName("middle-container");
-		for(i = 0; i < tabcontent.length; i++) {
-			tabcontent[i].style.display = "none";
+		function openCity(evt, cityName) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("middle-container");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+			tablinks = document.getElementsByClassName("tab");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(" active", "");
+			}
+			document.getElementById(cityName).style.display = "block";
+			evt.currentTarget.className += " active";
 		}
-		tablinks = document.getElementsByClassName("tab");
-		for(i = 0; i < tablinks.length; i++) {
-			tablinks[i].className = tablinks[i].className.replace(" active", "");
-		}
-		document.getElementById(cityName).style.display = "block";
-		evt.currentTarget.className += " active";
-	}
-	document.getElementById("defaultOpen").click();
+		document.getElementById("defaultOpen").click();
 	// $(function() {
 	//     $('.toggle-class').change(function() {
-	//         var status = $(this).prop('checked') == true ? 1 : 0; 
-	//         var user_id = $(this).data('id'); 
+	//         var status = $(this).prop('checked') == true ? 1 : 0;
+	//         var user_id = $(this).data('id');
 	//         $.ajax({
 	//             type: "GET",
 	//             dataType: "json",
@@ -514,10 +674,10 @@
 	//     })
 	//   })
 
-	
+
 	</script>
-  
-    
+
+
 
 </body>
 

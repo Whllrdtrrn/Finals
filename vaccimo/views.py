@@ -4,6 +4,7 @@ from email import message
 from multiprocessing import context
 from urllib import response
 from venv import create
+
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.contrib import auth
@@ -14,6 +15,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import user
 from django.urls import reverse
 import os
+
+from .filters import OrderFilter
 from .models import sideeffect
 from .models import questioner
 from django.contrib.auth.decorators import login_required
@@ -30,6 +33,8 @@ import numpy as np
 import json
 import base64
 from io import BytesIO
+from django.utils.timezone import now
+from django.db.models import Q
 
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import MinMaxScaler
@@ -395,7 +400,7 @@ def verification(request):
     return render(request, 'Email_confirmation.html')
 
 
-def homepage(request):
+def home_page(request):
     return render(request, 'homepage.html')
 
 
@@ -424,11 +429,11 @@ def login_page(request):
             username=request.POST['username'], password=request.POST['password'])
         if user is not None and user.is_superuser:
             auth.login(request, user)
-            return redirect('dashboard')
+            return redirect('/dashboard/')
         elif user is not None and user.is_active:
             auth.login(request, user)
             # id = User.objects.all().values_list('id', flat=True).filter(username=user)
-            return redirect('/server-form-page/')
+            return redirect('/information-page/')
             # return HttpResponse('/information-page/')
             # return redirect('/information-page/')
         else:
@@ -454,68 +459,95 @@ def register_page(request):
                 messages.error(request, 'Email is already taken')
                 return redirect('/')
             else:
-                user = User.objects.create_user(
-                    username=username, password=password, email=email, first_name=first_name, last_name=last_name)
-
+                user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
                 user.save()
-  # to get the domain of the current site
-                current_site = get_current_site(request)
-                mail_subject = 'Activation link has been sent to your email id'
-                message = render_to_string('acc_active_email.html', {
-                    'user': user,
-                    'domain': current_site.domain,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'token': account_activation_token.make_token(user),
-                })
-                # to_email = email.get('email')
-                email = EmailMessage(
-                    mail_subject, message, to=[email]
-                )
-                email.send()
-                # return HttpResponse('Please confirm your email address to complete the registration')
-                return redirect('/email-verification/')
-                # end
-                # return redirect('/information-page/')
+                return redirect('/loginpage/')
+                #current_site = get_current_site(request)
+                #mail_subject = 'Activation link has been sent to your email id'
+                #message = render_to_string('acc_active_email.html', {
+                #    'user': user,
+                #    'domain': current_site.domain,
+                #    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                #    'token': account_activation_token.make_token(user),
+                #})
+                #email = EmailMessage(
+                #    mail_subject, message, to=[email]
+                #)
+                #email.send()
+                #return redirect('/email-verification/')
         else:
-            # messages.info(request, 'Both passwords are not matching')
             return render(request, 'homepage.html', {'error': 'Both passwords are not matching'})
 
     else:
         return render(request, 'homepage.html')
 
 
-def activate(request, uidb64, token):
-    try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-        # return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
-        return redirect('/information-page/')
-    else:
-        return HttpResponse('Activation link is invalid!')
-
-
+#def activate(request, uidb64, token):
+#    try:
+#        uid = force_str(urlsafe_base64_decode(uidb64))
+#        user = User.objects.get(pk=uid)
+#    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+#        user = None
+#    if user is not None and account_activation_token.check_token(user, token):
+#        user.is_active = True
+#        user.save()
+#        return redirect('/information-page/')
+#    else:
+#        return HttpResponse('Activation link is invalid!')
 def information_page(request):
-    prod = user()
-    if request.method == 'POST':
-        prod.name = request.POST.get('name')
-        prod.contact_number = request.POST.get('contact_number')
-        prod.vaccination_brand = request.POST.get('vaccination_brand')
-        prod.vaccination_site = request.POST.get('vaccination_site')
-        prod.address = request.POST.get('address')
-        prod.age = request.POST.get('age')
-        prod.bday = request.POST.get('bday')
-        prod.gender = request.POST.get('gender')
-        if len(request.FILES) != 0:
-            prod.file = request.FILES['file']
-        # prod.author = request.user
-        prod.save()
-        return redirect('/')
-    return render(request, 'information.html')
+    try:  # prod = user.objects.get(pk=request.user.id)
+        prod = user.objects.get(author=request.user)
+        if request.method == 'POST':
+            if len(request.FILES) != 0:
+                if len(prod.file) > 0:
+                    os.remove(prod.file.path)
+                prod.file = request.FILES['file']
+            prod.name = request.POST.get('name')
+            prod.contact_number = request.POST.get('contact_number')
+            prod.vaccination_brand = request.POST.get('vaccination_brand')
+            prod.vaccination_site = request.POST.get('vaccination_site')
+            prod.address = request.POST.get('address')
+            prod.age = request.POST.get('age')
+            prod.bday = request.POST.get('bday')
+            prod.gender = request.POST.get('gender')
+            prod.author = request.user
+            prod.save()
+            return redirect('/server-form-page/')
+        return render(request, 'information.html', {'prod': prod})
+    except user.DoesNotExist:
+        prod = user()
+        if request.method == 'POST':
+            prod.name = request.POST.get('name')
+            prod.contact_number = request.POST.get('contact_number')
+            prod.vaccination_brand = request.POST.get('vaccination_brand')
+            prod.vaccination_site = request.POST.get('vaccination_site')
+            prod.address = request.POST.get('address')
+            prod.age = request.POST.get('age')
+            prod.bday = request.POST.get('bday')
+            prod.gender = request.POST.get('gender')
+            if len(request.FILES) != 0:
+                prod.files = request.FILES['file']
+            prod.author = request.user
+            prod.save()
+            return redirect('/server-form-page/')
+        return render(request, 'information.html')
+#def information_page(request):
+#    prod = user()
+#    if request.method == 'POST':
+#        prod.name = request.POST.get('name')
+#        prod.contact_number = request.POST.get('contact_number')
+#        prod.vaccination_brand = request.POST.get('vaccination_brand')
+#        prod.vaccination_site = request.POST.get('vaccination_site')
+#        prod.address = request.POST.get('address')
+#        prod.age = request.POST.get('age')
+#        prod.bday = request.POST.get('bday')
+#        prod.gender = request.POST.get('gender')
+#        if len(request.FILES) != 0:
+#            prod.file = request.FILES['file']
+#        prod.author = request.user
+#        prod.save()
+#        return redirect('/server-form-page/')
+#    return render(request, 'information.html')
     # prod = user()
     # if request.method == 'POST':
     #     prod.name = request.POST.get('name')
@@ -551,6 +583,7 @@ def profileEdit(request):
             prod.age = request.POST.get('age')
             prod.bday = request.POST.get('bday')
             prod.gender = request.POST.get('gender')
+            prod.author = request.user
             prod.save()
             return redirect('/server-form-page/')
         return render(request, 'profileEdit.html', {'prod': prod})
@@ -611,7 +644,7 @@ def profileEdit(request):
 
 
 def sideeffect_page(request):
-    try:
+    try:    
         prod = sideeffect.objects.get(author=request.user)
         if request.method == 'POST':
             prod.muscle_ache = request.POST.get('muscle_ache')
@@ -629,6 +662,7 @@ def sideeffect_page(request):
             prod.fatigue = request.POST.get('fatigue')
             prod.nausea = request.POST.get('nausea')
             prod.vomiting = request.POST.get('vomiting')
+            prod.author = request.user
             prod.save()
             messages.success(request, "Successfully Submitted")
             return redirect('/')
@@ -701,8 +735,9 @@ def server_form(request):
             #    item = questioner(Q0=Q0,Q1=Q1,Q2=Q2,Q3=Q3,Q4=Q4,Q5=Q5,Q6=Q6,Q7=Q7,Q8=Q8,Q9=Q9,Q10=Q10,Q11=Q11,
             #     Q12=Q12,Q13=Q13,Q14=Q14,Q15=Q15,Q16=Q16,Q17=Q17,Q18=Q18,Q19=Q19,Q20=Q20,Q21=Q21,Q22=Q22,allergy=allergy,
             #     Q23=Q23,Q24=Q24)
+            prod.author = request.user
             prod.save()
-            return redirect('/side-effect-page/')
+            return redirect('/success-page/')
         else:
             return render(request, 'serverform.html', {'prod': prod})
 
@@ -748,8 +783,7 @@ def server_form(request):
             # instance.save
             prod.author = request.user
             prod.save()
-
-            return redirect('/side-effect-page/')
+            return redirect('/success-page/')
         else:
             return render(request, 'serverform.html')
 
@@ -774,24 +808,188 @@ def toggle_status_active(request, id):
     return redirect('/dashboard/')
 
 
+# def dashboard(request):
+#     item_list = user.objects.all().values().order_by('-date_created')
+#     item_lists = sideeffect.objects.all().values()
+#     quesT = questioner.objects.all().values()
+#     userAccount = User.objects.all().values().filter(
+#         is_superuser=False).order_by('-date_joined')
+#     total_user = userAccount.count()
+#     total_admin = User.objects.filter(is_superuser=True).count()
+
+#     context = {
+#         'item_list': item_list,
+#         'item_lists': item_lists,
+#         'quesT': quesT,
+#         'userAccount': userAccount,
+#         'total_user': total_user,
+#         'total_admin': total_admin,
+#     }
+
+#     return render(request, 'system/dashboard.html', context)
+
 def dashboard(request):
-    item_list = user.objects.all().values()
-    item_lists = sideeffect.objects.all().values()
+    #Total teen,adult and Senior
+    childTotal = user.objects.filter(age__lte=17).values().count()
+    seniorTotal = user.objects.filter(age__gte=60).values().count()
+    adultTotal = user.objects.filter(age__gte=18 , age__lte=59).values().count()
+    myFilter = OrderFilter()
+    ###
+    item_list = user.objects.all().values().order_by('-date_created')
+    maleTotal = user.objects.filter(Q(gender='Male') | Q(gender='male')).values().count()
+    femaleTotal = user.objects.filter(Q(gender='Female') | Q(gender='female')).values().count()
+    item_lists = sideeffect.objects.all()
+    item_listsTotal = sideeffect.objects.all().values().count()
+    totalModerna = user.objects.filter(vaccination_brand='moderna').values().count()
+    totalPfizer = user.objects.filter(vaccination_brand='pfizer').values().count()
+    totalAstraZeneca = user.objects.filter(vaccination_brand='astraZeneca').values().count()
+    totalSinovac = user.objects.filter(vaccination_brand='sinovac').values().count()
+    totalJnj = user.objects.filter(vaccination_brand='johnson_and_Johnsons').values().count()
     quesT = questioner.objects.all().values()
-    userAccount = User.objects.all().values().filter(is_superuser=False)
+    userAccount = User.objects.all().values().filter(is_superuser=False).order_by('-date_joined').order_by('-last_login')
+    total_user = userAccount.count()
     total_user = userAccount.count()
     total_admin = User.objects.filter(is_superuser=True).count()
+    chills = sideeffect.objects.filter(Q(chills='Yes') | Q(chills='yes')).values().count()
+    fatigue = sideeffect.objects.filter(Q(fatigue='Yes') | Q(fatigue='yes')).values().count()
+    feverTotal = sideeffect.objects.filter(Q(fever='Yes') | Q(fever='yes')).values().count()
+    feverish = sideeffect.objects.filter(Q(feverish='Yes') | Q(feverish='yes')).values().count()
+    headache = sideeffect.objects.filter(Q(headache='Yes') | Q(headache='yes')).values().count()
+    induration = sideeffect.objects.filter(Q(induration='Yes') | Q(induration='yes')).values().count()
+    itch = sideeffect.objects.filter(Q(itch='Yes') | Q(itch='yes')).values().count()
+    join_pain = sideeffect.objects.filter(Q(join_pain='Yes') | Q(join_pain='yes')).values().count()
+    muscle_ache = sideeffect.objects.filter(Q(muscle_ache='Yes') | Q(muscle_ache='yes')).values().count()
+    nausea = sideeffect.objects.filter(Q(nausea='Yes') | Q(nausea='yes')).values().count()
+    redness = sideeffect.objects.filter(Q(redness='Yes') | Q(redness='yes')).values().count()
+    swelling = sideeffect.objects.filter(Q(swelling='Yes') | Q(swelling='yes')).values().count()
+    tenderness = sideeffect.objects.filter(Q(tenderness='Yes') | Q(tenderness='yes')).values().count()
+    vomiting = sideeffect.objects.filter(Q(vomiting='Yes') | Q(vomiting='yes')).values().count()
+    warmth = sideeffect.objects.filter(Q(warmth='Yes') | Q(warmth='yes')).values().count()
+    chillsN = sideeffect.objects.filter(Q(chills='No') | Q(chills='no')).values().count()
+    fatigueN = sideeffect.objects.filter(Q(fatigue='No') | Q(fatigue='no')).values().count()
+    feverTotalN = sideeffect.objects.filter(Q(fever='No') | Q(fever='no')).values().count()
+    feverishN = sideeffect.objects.filter(Q(feverish='No') | Q(feverish='no')).values().count()
+    headacheN = sideeffect.objects.filter(Q(headache='No') | Q(headache='no')).values().count()
+    indurationN = sideeffect.objects.filter(Q(induration='No') | Q(induration='no')).values().count()
+    itchN = sideeffect.objects.filter(Q(itch='No') | Q(itch='no')).values().count()
+    join_painN = sideeffect.objects.filter(Q(join_pain='No') | Q(join_pain='no')).values().count()
+    muscle_acheN = sideeffect.objects.filter(Q(muscle_ache='No') | Q(muscle_ache='no')).values().count()
+    nauseaN = sideeffect.objects.filter(Q(nausea='No') | Q(nausea='no')).values().count()
+    rednessN = sideeffect.objects.filter(Q(redness='No') | Q(redness='no')).values().count()
+    swellingN = sideeffect.objects.filter(Q(swelling='No') | Q(swelling='no')).values().count()
+    tendernessN = sideeffect.objects.filter(Q(tenderness='No') | Q(tenderness='no')).values().count()
+    vomitingN = sideeffect.objects.filter(Q(vomiting='No') | Q(vomiting='no')).values().count()
+    warmthN = sideeffect.objects.filter(Q(warmth='No') | Q(warmth='no')).values().count()
 
     context = {
+        'childTotal': childTotal,
+        'adultTotal': adultTotal,
+        'seniorTotal': seniorTotal,
         'item_list': item_list,
         'item_lists': item_lists,
+        'item_listsTotal': item_listsTotal,
         'quesT': quesT,
         'userAccount': userAccount,
         'total_user': total_user,
         'total_admin': total_admin,
+        'maleTotal': maleTotal,
+        'femaleTotal': femaleTotal,
+        'totalModerna': totalModerna,
+        'totalPfizer': totalPfizer,
+        'totalAstraZeneca': totalAstraZeneca,
+        'totalSinovac': totalSinovac,
+        'totalJnj': totalJnj,
+        'chills': chills,
+        'fatigue': fatigue,
+        'feverTotal': feverTotal,
+        'feverish': feverish,
+        'headache': headache,
+        'induration': induration,
+        'itch': itch,
+        'join_pain': join_pain,
+        'muscle_ache': muscle_ache,
+        'nausea': nausea,
+        'redness': redness,
+        'swelling': swelling,
+        'tenderness': tenderness,
+        'vomiting': vomiting,
+        'warmth': warmth,
+        'chillsN':chillsN,
+        'fatigueN':fatigueN,
+        'feverTotalN':feverTotalN,
+        'feverishN':feverishN,
+        'headacheN':headacheN,
+        'indurationN':indurationN,
+        'itchN':itchN,
+        'join_painN':join_painN,
+        'muscle_acheN':muscle_acheN,
+        'nauseaN':nauseaN,
+        'rednessN':rednessN,
+        'swellingN':swellingN,
+        'tendernessN':tendernessN,
+        'vomitingN':vomitingN,
+        'warmthN':warmthN,
+    }
+    return render(request, 'home/index.html', context)
+
+
+def userAccount(request):
+    userAccount = User.objects.all().values().filter(
+        is_superuser=False).order_by('-date_joined')
+    context = {
+        'userAccount': userAccount,
+    }
+    return render(request, 'home/UserAccount.html', context)
+
+def informationCollection(request):
+    orders = user.objects.all()
+    item_list = user.objects.all().values().order_by('-date_created')
+    myFilter = OrderFilter(request.GET, queryset=orders)
+    orders = myFilter.qs
+    context = {
+        'orders': orders,
+        'myFilter': myFilter,
+        'item_list': item_list,
     }
 
-    return render(request, 'system/dashboard.html', context)
+    return render(request, 'home/InformationCollection.html', context)
+
+
+def survey(request):
+    quesT = questioner.objects.all()
+    context = {
+        'quesT': quesT,
+    }
+    return render(request, 'home/Survey.html', context)
+
+
+def sideEffect(request):
+    item_lists = sideeffect.objects.all()
+
+    context = {
+        'item_lists': item_lists,
+    }
+    return render(request, 'home/SideEffect.html', context)
+
+# def dashboard(request):
+#     item_list = user.objects.all().values().order_by('-date_created')
+#     item_lists = sideeffect.objects.all().values()
+#     quesT = questioner.objects.all().values()
+#     userAccount = User.objects.all().values().filter(
+#         is_superuser=False).order_by('-date_joined')
+#     total_user = userAccount.count()
+#     total_admin = User.objects.filter(is_superuser=True).count()
+
+#     context = {
+#         'item_list': item_list,
+#         'item_lists': item_lists,
+#         'quesT': quesT,
+#         'userAccount': userAccount,
+#         'total_user': total_user,
+#         'total_admin': total_admin,
+#     }
+
+#     return render(request, 'layouts/LayoutDashboard.html', context)
 
     # template = loader.get_template('system/dashboard.html')
     # return HttpResponse(template.render())

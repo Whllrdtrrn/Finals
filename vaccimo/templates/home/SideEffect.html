@@ -1,0 +1,131 @@
+{% extends "layouts/LayoutDashboard.html" %}
+{% load widget_tweaks %}
+
+{% block title %} Typography {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- [ Main Content ] start -->
+<div class="pc-container">
+	<div class="pcoded-content">
+		<!-- [ breadcrumb ] start -->
+		<div class="page-header">
+			<div class="page-block">
+				<div class="row align-items-center">
+					<div class="col-md-12">
+						<div class="page-header-title">
+							<h5 class="m-b-10">:: Side Effect</h5>
+						</div>
+						<ul class="breadcrumb">
+							<li class="breadcrumb-item"><a href="{% url 'dashboard'%}">Home</a></li>
+							<li class="breadcrumb-item"><a href="{% url 'userAccount'%}">User Account</a></li>
+							<li class="breadcrumb-item"><a href="{% url 'informationCollection'%}">Information
+									Collection</a></li>
+							<li class="breadcrumb-item"><a href="{% url 'survey'%}">Survey</a></li>
+							<li class="breadcrumb-item"><a href="{% url 'sideEffect'%}">Side Effect</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- [ breadcrumb ] end -->
+		<!-- [ Main Content ] start -->
+		<div class="row mb-3">
+			<div class="col-md-8">
+				
+			</div>
+		</div>
+		<div class="row">
+			<!-- [ Hover-table ] start -->
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						
+					</div>
+					<div class="card-body table-border-style">
+						<div class="table-responsive">
+							<table id="myTable2" class="table table-hover">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Name</th>
+										<th>Muscle ache</th>
+										<th>Headache</th>
+										<th>fever</th>
+										<th>redness</th>
+										<th>swelling</th>
+										<th>tenderness</th>
+										<th>warmth</th>
+										<th>itch</th>
+										<th>induration</th>
+										<th>feverish</th>
+										<th>chills</th>
+										<th>join pain</th>
+										<th>fatigue</th>
+										<th>nausea</th>
+										<th>vomiting</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for y in item_lists %}
+									<tr>
+										<td class="cell-detail"> <span>{{ forloop.counter }}</span> </td>
+										<td class="cell-detail"> {{y.author.username}}<span></span> </td>
+										<td class="cell-detail"> <span>{{y.muscle_ache}}</span> </td>
+										<td class="cell-detail"> <span>{{y.headache}}</span> </td>
+										<td class="cell-detail"> <span>{{y.fever}}</span> </td>
+										<td class="cell-detail"> <span>{{y.redness}}</span> </td>
+										<td class="cell-detail"> <span>{{y.swelling}}</span> </td>
+										<td class="cell-detail"> <span>{{y.tenderness}}</span> </td>
+										<td class="cell-detail"> <span>{{y.warmth}}</span> </td>
+										<td class="cell-detail"> <span>{{y.itch}}</span> </td>
+										<td class="cell-detail"> <span>{{y.induration}}</span> </td>
+										<td class="cell-detail"> <span>{{y.feverish}}</span> </td>
+										<td class="cell-detail"> <span>{{y.chills}}</span> </td>
+										<td class="cell-detail"> <span>{{y.join_pain}}</span> </td>
+										<td class="cell-detail"> <span>{{y.fatigue}}</span> </td>
+										<td class="cell-detail"> <span>{{y.nausea}}</span> </td>
+										<td class="cell-detail"> <span>{{y.vomiting}}</span> </td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- [ Hover-table ] end -->
+		</div>
+		<!-- [ Main Content ] end -->
+
+	</div>
+</div>
+<!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" charset="utf8"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+<script>
+	// sorting data
+	$(document).ready(function () {
+		$('#myTable1').DataTable({
+			lengthMenu: [
+				[5, 25, 50, -1],
+				[5, 25, 50, 'All'],
+			],
+		});
+	});
+
+</script>
+{% endblock javascripts %}

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'active_link',
     'vaccimo',
+    'django_filters',
+    'widget_tweaks',
 
 ]
 
