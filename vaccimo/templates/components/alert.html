@@ -18,5 +18,13 @@
         title: m,
     });
 </script>
+{% elif msg.tags == 'info' %}
+<script>
+    var m = "{{ msg }}";
+    Swal.fire({
+        icon: 'success',
+        title: m,
+    });
+</script>
 {% endif %}
 {% endfor %}

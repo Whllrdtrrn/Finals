@@ -1,6 +1,6 @@
 {% extends "layouts/LayoutDashboard.html" %}
 
-{% block title %} Typography {% endblock %}
+{% block title %} <title> User Account</title> {% endblock %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
@@ -35,7 +35,7 @@
 		</div>
 		<!-- [ breadcrumb ] end -->
 		<!-- [ Main Content ] start -->
-		<div class="row mb-3">
+		<!--<div class="row mb-3">
 			<div class="card">
 				<div class="col-md-8">
 					<h3>Typography</h3>
@@ -46,8 +46,9 @@
 							target="_blank" class="badge bg-light-primary">Documentation</a></p>
 				</div>
 			</div>
-		</div>
+		</div>-->
 		<div class="row">
+			<div class="card p-3">
 			<!-- [ Typography ] start -->
 			</table>
 			<div class="col-sm-12">
@@ -56,10 +57,13 @@
 					<thead>
 						<tr>
 							<th>No.</th>
+							<th>User Id</th>
 							<th>Username</th>
+							<th>Firstname</th>
+							<th>Lastname</th>   
 							<th>Email</th>
-							<th>date/time</th>
-							<th>Action</th>
+							<th>Previous Login</th>
+							<!--<th>Action</th>-->
 							<!-- <th>Action</th> -->
 						</tr>
 					</thead>
@@ -67,10 +71,13 @@
 						{%for x in userAccount%}
 						<tr style="  border-bottom: 1px ; ">
 							<td class="cell-detail "> <span>{{ forloop.counter }}</span> </td>
+							<td class="cell-detail  text-left"> <span>{{x.id}}</span> </td>
 							<td class="cell-detail  text-left"> <span>{{x.username}}</span> </td>
+							<td class="cell-detail  text-left"> <span>{{x.first_name}}</span> </td>
+							<td class="cell-detail  text-left"> <span>{{x.last_name}}</span> </td>
 							<td class="cell-detail"> <span>{{x.email}}</span> </td>
-							<td class="cell-detail"> <span>{{x.last_login}}</span> </td>
-							<td> {% if x.is_active == 1 %}
+							<td class="cell-detail"> <span>{% if x.last_login == Null %}default{% else %}{{x.last_login}}{% endif %} </span> </td>
+							<!--<td> {% if x.is_active == 1 %}
 								<a href="{% url 'toggle_status' id=x.id %}" type="button">
 									<button class="btn btn-danger">Deactivate</button>
 								</a> {%else%}
@@ -78,11 +85,12 @@
 									<button class="btn btn-success">Activate</button>
 								</a>
 								{%endif%}
-							</td>
+							</td>-->
 						</tr>
 						{%endfor%}
 					</tbody>
 				</table>
+			</div>
 			</div>
 
 
@@ -100,6 +108,7 @@
 <script>
 $(document).ready(function () {
 	$('#myTable11').DataTable({
+		sorting: false,
 		lengthMenu: [
 			[5, 25, 50, -1],
 			[5, 25, 50, 'All'],

@@ -6,6 +6,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="sweetalert2.all.min.js"></script>
+	<script src="sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
@@ -24,15 +28,12 @@
 </head>
 
 <body>
-
-
-    {% include "components/alert.html" %}
-
     <section>
+
         {% include "header.html" %}
         <!-- <img id="bg-main" src="{% static 'images/vaccine.jpg' %}" alt="Cover Image"
             style=" width: 100%;    height: 100%;" /> -->
-        <div class=" login">
+            <div class=" login">
             <div class="be-wrapper be-login" style="border-radius: 20px !important;">
                 <div class="be-content">
                     <div class="main-content container">
@@ -40,14 +41,8 @@
                             <div class="panel">
                                 <form action="{%url 'loginpage'%}" method="POST">
                                     {% csrf_token %}
-                                    <div class="panel-body" style="margin-top: 0;"> {% if error %}
-                                        <div class="alert alert-danger error">
-                                            <div>
-                                                <p><b>Wrong Credentials </b>
-                                                    <br>{{ error }}
-                                                </p>
-                                            </div>
-                                        </div> {% endif %}
+                                    {% include "components/alert.html" %}
+
                                         <div class="form-group" style="display:flex"> <i class="fa fa-fw fa-envelope"
                                                 style="align-self: center;
                                                                 margin: 5px;"></i>
@@ -74,9 +69,8 @@
                                                 class="btn btn-primary btn-xl w-100">Log In</button>
                                         </div>
                                         <hr style="color: black;">
-                                        <button class="btn btn-success w-50" type="button" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">Sign
-                                            up</button>
+                                        <a href="{% url 'register' %}"> <button class="btn btn-success w-50" type="button">Sign up</button></a> 
+                                           
                                     </div>
                                 </form>
                             </div>
@@ -85,90 +79,6 @@
                 </div>
             </div>
         </div>
-        <!-- Modal -->
-        <div class="modal fade" style="z-index: 10000;" id="exampleModal" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content" style="padding: 30px;">
-                    <form action="{% url 'register' %}" method="POST">
-                        <div class="modal-header">
-                            <div class="modal-title " style="color:black ;" id="exampleModalLabel">
-                                <h6 style="font-size: 32px;">Sign up </h6>
-                                <p style="font-size: 15px;">It’s quick and easy.</p>
-                                {% csrf_token %}
-
-                                <!-- {% if messages %}
-                                <ul class="messages">
-                                    {% for message in messages %}
-                                    <li class="{{ message.tags }}">{{ message }}</li>
-                                    {% endfor %}
-                                </ul> {% endif %} -->
-                            </div>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" style="text-align: center;">
-                            <div class="flex" style="    display: flex;gap: 30px;">
-                                <div class="form-group" style="display:flex ;"> <span class="input-group-text"
-                                        style="border-radius: 0px;" id="basic-addon1"><i
-                                            class="fa fa-fw fa-user"></i></span>
-                                    <input style="font-size: 16px; border-radius: 0px;width: 100%!important;"
-                                        id="first_name" name="first_name" type="name" placeholder="First Name"
-                                        autocomplete="off" class="form-control" required /> <span
-                                        class="help-block"></span>
-                                </div>
-                                <div class="form-group" style="display:flex ;"> <span class="input-group-text"
-                                        style="border-radius: 0px;" id="basic-addon1"><i
-                                            class="fa fa-fw fa-user"></i></span>
-                                    <input style="font-size: 16px; border-radius: 0px;width: 100%!important;"
-                                        id="last_name" name="last_name" type="name" placeholder="Last Name"
-                                        autocomplete="off" class="form-control" required /> <span
-                                        class="help-block"></span>
-                                </div>
-                            </div>
-                            <div class="form-group" style="display:flex ;"> <span class="input-group-text"
-                                    style="border-radius: 0px;" id="basic-addon1"><i
-                                        class="fa fa-fw fa-envelope"></i></span>
-                                <input style="font-size: 16px; border-radius: 0px;width: 100%!important;" id="email"
-                                    name="email" type="email" placeholder="Email" autocomplete="off"
-                                    class="form-control" required /> <span class="help-block"></span>
-                            </div>
-                            <div class="form-group" style="display:flex ;"> <span class="input-group-text"
-                                    style="border-radius: 0px;" id="basic-addon1"><i
-                                        class="fa fa-fw fa-user "><b></b></i></span>
-                                <input style="font-size: 16px; border-radius: 0px;width: 100%!important;" id="username"
-                                    name="username" type="text" placeholder="Username" autocomplete="off"
-                                    class="form-control" minlength="8" required /> <span class="help-block"></span>
-                            </div>
-                            <div class="form-group" style="display:flex ;"> <span class="input-group-text"
-                                    style="border-radius: 0px;" id="basic-addon1"><i class="fa fa-fw fa-key"></i></span>
-                                <input style="font-size: 16px; border-radius: 0px;width: 100%!important;" id="password2"
-                                    name="password" type="password" data-bs-toggle="popover" placeholder="Password"
-                                    class="form-control" minlength="8" pattern="(?=.*\d)(?=.*[\W_]).{7,}"
-                                    title="Must contain at least one number and one uppercase and lowercase letter,and special characters, and at least 8 or more characters"
-                                    required /> <span class="eye" onclick="passwordShow2()">
-                                    <i class="fa fa-fw fa-eye" id="hide1s" style="align-self: center;
-                                            margin: 7px; position: absolute;color: black;right: 0%; display:none"></i>
-                                    <i class="fa fa-fw fa-eye-slash" id="hide2s" style="align-self: center;
-                                            margin: 7px; position: absolute;color: black;right: 0%;"></i>
-                                </span> <span class="help-block"></span>
-                            </div>
-                            <div class="form-group" style="display:flex ;"> <span class="input-group-text"
-                                    style="border-radius: 0px;" id="basic-addon1"><i class="fa fa-fw fa-key"></i></span>
-                                <input style="font-size: 16px; border-radius: 0px;width: 100%!important;"
-                                    id="password_confirmation" name="password_confirmation" type="password"
-                                    placeholder="Verify Password" class="form-control" required /> <span
-                                    class="help-block"></span>
-                            </div>
-                            <div class="form-group login-submit mt-4">
-                                <button style="font-size: 20px; " data-dismiss="modal" type="submit"
-                                    class="btn btn-primary btn-xl">Sign up</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- modal end -->
 
         <footer class="container-fluid" style=" position: absolute;
                     bottom: 0px;
@@ -180,7 +90,13 @@
             </div>
         </footer>
     </section>
-
+    {% if error %}
+    <script>
+    $(document).on('ready', function(){
+        $('#exampleModal').modal('show');
+    });
+    </script>
+    {% endif %}
     <script>
         function passwordShow2() {
             var pass = document.getElementById("password2");

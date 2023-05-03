@@ -4,18 +4,19 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 
-import datetime
 import os
 # Create your models here.
-User = settings.AUTH_USER_MODEL
+#User = settings.AUTH_USER_MODEL
 
 
-def filepath(request, filename):
-    old_filename = filename
-    timeNow = datetime.datetime.now().strftime('%y%m%d%H:%M:%S')
-    filename = "%s%s" % (timeNow, old_filename)
-    return os.path.join('uploads/', filename)
-
+#def filepath(request, filename):
+#    old_filename = filename
+#    timeNow = datetime.datetime.now().strftime('%y%m%d%H:%M:%S')
+#    filename = "%s%s" % (timeNow, old_filename)
+#    return os.path.join('uploads/', filename)
+def filepath(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'user_{0}/{1}'.format(instance.id, filename)
 
 class user(models.Model):
     id = models.AutoField(primary_key=True,)
@@ -37,35 +38,7 @@ class user(models.Model):
 
     class Meta:
         db_table = "user"
-
-
-class sideeffect (models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100, null=True)
-    muscle_ache = models.CharField(max_length=100, null=True)
-    headache = models.CharField(max_length=100, null=True)
-    fever = models.CharField(max_length=100, null=True)
-    redness = models.CharField(max_length=100, null=True)
-    swelling = models.CharField(max_length=100, null=True)
-    tenderness = models.CharField(max_length=100, null=True)
-    warmth = models.CharField(max_length=100, null=True)
-    itch = models.CharField(max_length=100, null=True)
-    induration = models.CharField(max_length=100, null=True)
-    feverish = models.CharField(max_length=100, null=True)
-    chills = models.CharField(max_length=100, null=True)
-    join_pain = models.CharField(max_length=100, null=True)
-    fatigue = models.CharField(max_length=100, null=True)
-    nausea = models.CharField(max_length=100, null=True)
-    vomiting = models.CharField(max_length=100, null=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        db_table = "sideeffect"
-
-
+        
 class questioner (models.Model):
 
     id = models.AutoField(primary_key=True)
@@ -92,8 +65,6 @@ class questioner (models.Model):
     Q20 = models.CharField(max_length=100, null=True)
     Q21 = models.CharField(max_length=100, null=True)
     Q22 = models.CharField(max_length=100, null=True)
-    allergy = models.CharField(max_length=100, null=True)
-    allergy1 = models.CharField(max_length=100, null=True)
     allergy2 = models.CharField(max_length=100, null=True)
     allergy3 = models.CharField(max_length=100, null=True)
     allergy4 = models.CharField(max_length=100, null=True)
@@ -101,6 +72,8 @@ class questioner (models.Model):
     Q23 = models.CharField(max_length=100, null=True)
     Q24 = models.CharField(max_length=100, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    allergy = models.ForeignKey(user, on_delete=models.CASCADE)
+    allergy1 = models.DateField(auto_now_add=True, null=True)
 
     def __str__(self):
         return self.name
@@ -108,17 +81,35 @@ class questioner (models.Model):
     class Meta:
         db_table = "questioner"
 
-class sideeffectYes (models.Model):
 
-    btnYes = models.CharField(max_length=100, default=0)
-    author_sideeffect = models.ForeignKey(sideeffect, on_delete=models.CASCADE)
+class sideeffect (models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, default='No')
+    muscle_ache = models.CharField(max_length=100, default='No')
+    headache = models.CharField(max_length=100, default='No')
+    fever = models.CharField(max_length=100, default='No')
+    redness = models.CharField(max_length=100, default='No')
+    swelling = models.CharField(max_length=100, default='No')
+    #warmth = models.CharField(max_length=100, default='No')
+    chills = models.CharField(max_length=100, default='No')
+    join_pain = models.CharField(max_length=100, default='No')
+    fatigue = models.CharField(max_length=100, default='No')
+    nausea = models.CharField(max_length=100, default='No')
+    vomiting = models.CharField(max_length=100, default='No')
+    feverish = models.CharField(max_length=100, default='No')
+    warmth = models.DateField(auto_now=True)
+    induration = models.CharField(max_length=100, default='No')
+    itch = models.ForeignKey(questioner, on_delete=models.CASCADE)
+    tenderness = models.ForeignKey('user', on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+
 
     def __str__(self):
         return self.name
 
     class Meta:
-        db_table = "sideeffectYes"
+        db_table = "sideeffect"
+
         
 # class User(AbstractUser):
 #     is_admin = models.BooleanField(default=False)

@@ -1,7 +1,7 @@
 {% extends "layouts/LayoutDashboard.html" %}
 {% load static %}
 
-{% block title %} Dashboard {% endblock %}
+{% block title %} <title>Dashboard</title>  {% endblock %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -29,6 +29,38 @@
         <!-- [ Main Content ] start -->
         <div class="row">
             <!-- support-section start -->
+            <div class="col-xl-12 col-md-12">
+                <div class="">
+                    <div class="card-body">
+                        <div class="row pb-2">
+                            <div class="col-3"> 
+                                <div class="col-auto m-b-10">
+                                    <div id="chart1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3"> 
+                                <div class="col-auto m-b-10 sm">
+                                    <div id="chart2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3"> 
+                                <div class="col-auto m-b-10 sm">
+                                    <div id="chart3">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3"> 
+                                <div class="col-auto m-b-10 sm">
+                                    <div id="chart4">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-xl-6 col-md-12">
                 <div class="card flat-card">
                     <div class="row-table">
@@ -74,7 +106,7 @@
                                 </div>
                                 <div class="col-sm-8 text-md-center">
                                     <h5>{{childTotal}}</h5>
-                                    <span>Teenagers </span>
+                                    <span>Child<br>(18-below)</span>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +117,7 @@
                                 </div>
                                 <div class="col-sm-8 text-md-center">
                                     <h5>{{adultTotal}}</h5>
-                                    <span>Adult</span>
+                                    <span>Adult<br>(18-59)</span>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +128,7 @@
                                 </div>
                                 <div class="col-sm-8 text-md-center">
                                     <h5>{{seniorTotal}}</h5>
-                                    <span>Senior</span>
+                                    <span>Senior<br>(60-Above)</span>
                                 </div>
                             </div>
                         </div>
@@ -106,34 +138,25 @@
                     <div class="col-md-12">
                         <div class="card support-bar overflow-hidden">
                             <div class="card-body pb-0">
-                                <h2 class="m-0">53.94%</h2>
-                                <span class="text-primary">Conversion Rate</span>
-                                <p class="mb-3 mt-3">Number of conversions divided by the total visitors. </p>
+                                <h2 class="m-0"></h2>
+                                <span class="text-primary">Total</span>
+                                <p class="mb-3 mt-3">Number of users divided by the total per day </p>
                             </div>
                             <div id="support-chart"></div>
                             <div class="card-footer border-0 bg-primary text-white background-pattern-white">
                                 <div class="row text-center">
+                                    {%for x in dateTotal%}
                                     <div class="col">
-                                        <h4 class="m-0 text-white"></h4>
-                                        <span>f}</span>
+                                        <h4 class="m-0 text-white">{{x.total}}</h4>
+                                        <span> {{x.date}}</span>     
                                     </div>
-                                    <!--<div class="col">
-                                        <h4 class="m-0 text-white">15</h4>
-                                        <span>2017</span>
-                                    </div>
-                                    <div class="col">
-                                        <h4 class="m-0 text-white">13</h4>
-                                        <span>2016</span>
-                                    </div>
-                                    <div class="col">
-                                        <h4 class="m-0 text-white">13</h4>
-                                        <span>2016</span>
-                                    </div>
-                                    <div class="col">
-                                        <h4 class="m-0 text-white">13</h4>
-                                        <span>2016</span>
-                                    </div>-->
+                                    {% empty %}
+									<div class="col">
+                                        <h4 class="m-0 text-white">No one has signed up today.</h4>
+                                    </div>      
+                                    {%endfor%}
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -165,6 +188,7 @@
                     </div>-->
                 </div>
             </div>
+            
             <div class="col-xl-6 col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -226,9 +250,10 @@
                     </div>
                 </div>
             </div>
+          
             <div class="col-xl-6 col-md-12">
                     <!--// carousel start-->
-                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" style="height: 363px;">
                         <div class="carousel-inner">
                             <!--// first carousel-item-->
                             <div class="carousel-item active">
@@ -308,42 +333,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="card prod-p-card bg-primary background-pattern-white">
-                                            <div class="card-body">
-                                                <div class="row align-items-center m-b-0">
-                                                    <div class="col">
-                                                        <h6 class="m-b-5 text-white">Warmth</h6>
-                                                        <h3 class="m-b-0 text-white">{{warmth}}</h3>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <i class="material-icons-two-tone text-white">person</i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                   
                                 </div>
                             </div>
                             <!--end 1st carousel-item-->
                             <!--start 2nd carousel-item-->
                             <div class="carousel-item">
                                 <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="card prod-p-card background-pattern">
-                                            <div class="card-body">
-                                                <div class="row align-items-center m-b-0">
-                                                    <div class="col">
-                                                        <h6 class="m-b-5">Feverish</h6>
-                                                        <h3 class="m-b-0">{{feverish}}</h3>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <i class="material-icons-two-tone text-primary">person</i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                  
                                     <div class="col-sm-6">
                                         <div class="card prod-p-card bg-primary background-pattern-white">
                                             <div class="card-body">
@@ -374,21 +371,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="card prod-p-card background-pattern">
-                                            <div class="card-body">
-                                                <div class="row align-items-center m-b-0">
-                                                    <div class="col">
-                                                        <h6 class="m-b-5 text-black">Itch</h6>
-                                                        <h3 class="m-b-0 text-black">{{itch}}</h3>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <i class="material-icons-two-tone text-primary">person</i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+            
                                     <div class="col-sm-6">
                                         <div class="card prod-p-card background-pattern">
                                             <div class="card-body">
@@ -455,21 +438,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="card prod-p-card bg-primary background-pattern-white">
-                                            <div class="card-body">
-                                                <div class="row align-items-center m-b-0">
-                                                    <div class="col">
-                                                        <h6 class="m-b-5 text-white">Tenderness</h6>
-                                                        <h3 class="m-b-0 text-white">{{tenderness}}</h3>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <i class="material-icons-two-tone text-white">person</i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                             </div>
                             <!--end 3rd item carousel-->
@@ -591,7 +560,20 @@
                         </div>
                     </div>
                 </div>-->
+                    <div class="card">
+                        <div class="card-body">
+                            <h6>Side Effect</h6>
+                            <!--<span>It takes continuous effort to maintain high customer satisfaction levels Internal and
+                                external.</span>-->
+                            <div class="row d-flex justify-content-center align-items-center">
+                                <div class="col">
+                                    <div id="satisfaction-chart1"></div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
             </div>
+            
             <!-- customer-section end -->
         </div>
         <!-- [ Main Content ] end -->
@@ -606,11 +588,229 @@
 
 <script src="{% static 'js/plugins/apexcharts.min.js' %}"></script>
 <script src="{% static 'js/pages/dashboard-sale.js' %}"></script>
+<script>
+ var options1 = {
+    chart: {
+    height: 280,
+    type: "radialBar",
+  },
+  series: [{{totalNoSymptoms}}],
+  colors: ["#20E647"],
+  plotOptions: {
+    radialBar: {
+      hollow: {
+        margin: 0,
+        size: "70%",
+        background: "#7267EF"
+      },
+      track: {
+        dropShadow: {
+          enabled: true,
+          top: 2,
+          left: 0,
+          blur: 4,
+          opacity: 0.15
+        }
+      },
+      dataLabels: {
+        name: {
+          offsetY: -10,
+          color: "#fff",
+          fontSize: "13px"
+        },
+        value: {
+          color: "#fff",
+          fontSize: "30px",
+          show: true
+        }
+      }
+    }
+  },
+  fill: {
+    type: "gradient",
+    gradient: {
+      shade: "dark",
+      type: "vertical",
+      gradientToColors: ["#87D4F9"],
+      stops: [0, 100]
+    }
+  },
+  stroke: {
+    lineCap: "round"
+  },
+  labels: ["No Symptoms"]
+};
 
+new ApexCharts(document.querySelector("#chart1"), options1).render();
+
+var options2 = {
+    chart: {
+    height: 280,
+    type: "radialBar",
+  },
+
+  series: [{{totalMild}}],
+  colors: ["#20E647"],
+  plotOptions: {
+    radialBar: {
+      hollow: {
+        margin: 0,
+        size: "70%",
+        background: "#7267EF"
+      },
+      track: {
+        dropShadow: {
+          enabled: true,
+          top: 2,
+          left: 0,
+          blur: 4,
+          opacity: 0.15
+        }
+      },
+      dataLabels: {
+        name: {
+          offsetY: -10,
+          color: "#fff",
+          fontSize: "13px"
+        },
+        value: {
+          color: "#fff",
+          fontSize: "30px",
+          show: true
+        }
+      }
+    }
+  },
+  fill: {
+    type: "gradient",
+    gradient: {
+      shade: "dark",
+      type: "vertical",
+      gradientToColors: ["#87D4F9"],
+      stops: [0, 100]
+    }
+  },
+  stroke: {
+    lineCap: "round"
+  },
+  labels: ["Mild"]
+};
+
+new ApexCharts(document.querySelector("#chart2"), options2).render();
+var options3 = {
+chart: {
+    height: 280,
+    type: "radialBar",
+  },
+
+  series: [{{totalModerate}}],
+  colors: ["#20E647"],
+  plotOptions: {
+    radialBar: {
+      hollow: {
+        margin: 0,
+        size: "70%",
+        background: "#7267EF"
+      },
+      track: {
+        dropShadow: {
+          enabled: true,
+          top: 2,
+          left: 0,
+          blur: 4,
+          opacity: 0.15
+        }
+      },
+      dataLabels: {
+        name: {
+          offsetY: -10,
+          color: "#fff",
+          fontSize: "13px"
+        },
+        value: {
+          color: "#fff",
+          fontSize: "30px",
+          show: true
+        }
+      }
+    }
+  },
+  fill: {
+    type: "gradient",
+    gradient: {
+      shade: "dark",
+      type: "vertical",
+      gradientToColors: ["#87D4F9"],
+      stops: [0, 100]
+    }
+  },
+  stroke: {
+    lineCap: "round"
+  },
+  labels: ["Moderate"]
+};
+
+new ApexCharts(document.querySelector("#chart3"), options3).render();
+
+var options4 = {
+    chart: {
+    height: 280,
+    type: "radialBar",
+  },
+
+  series: [{{totalSevere}}],
+  colors: ["#20E647"],
+  plotOptions: {
+    radialBar: {
+      hollow: {
+        margin: 0,
+        size: "70%",
+        background: "#7267EF"
+      },
+      track: {
+        dropShadow: {
+          enabled: true,
+          top: 2,
+          left: 0,
+          blur: 4,
+          opacity: 0.15
+        }
+      },
+      dataLabels: {
+        name: {
+          offsetY: -10,
+          color: "#fff",
+          fontSize: "13px"
+        },
+        value: {
+          color: "#fff",
+          fontSize: "30px",
+          show: true
+        }
+      }
+    }
+  },
+  fill: {
+    type: "gradient",
+    gradient: {
+      shade: "dark",
+      type: "vertical",
+      gradientToColors: ["#87D4F9"],
+      stops: [0, 100]
+    }
+  },
+  stroke: {
+    lineCap: "round"
+  },
+  labels: ["Severe"]
+};
+
+new ApexCharts(document.querySelector("#chart4"), options4).render();
+
+</script>
 <script>
     // [ satisfaction-chart ] start
     // [ account-chart ] start
-
     (function() {
         var options={
             chart: {
@@ -631,16 +831,16 @@
             series: [{
                 name: 'Total Yes',
                 type: 'column',
-                data: [{{muscle_ache}},{{fatigue}},{{feverTotal}},{{feverish}},{{headache}},{{induration}},{{itch}},{{join_pain}},{{muscle_ache}},{{nausea}},{{redness}},{{swelling}},{{tenderness}},{{vomiting}},{{warmth}}],
+                data: [{{muscle_ache}},{{fatigue}},{{feverTotal}},{{headache}},{{induration}},{{join_pain}},{{muscle_ache}},{{nausea}},{{redness}},{{swelling}},{{vomiting}}],
             },{
                 name: 'Total No',
                 type: 'line',
-                data: [{{muscle_acheN}},{{fatigueN}},{{feverTotalN}},{{feverishN}},{{headacheN}},{{indurationN}},{{itchN}},{{join_painN}},{{muscle_acheN}},{{nauseaN}},{{rednessN}},{{swellingN}},{{tendernessN}},{{vomitingN}},{{warmthN}}],
+                data: [{{muscle_acheN}},{{fatigueN}},{{feverTotalN}},{{headacheN}},{{indurationN}},{{join_painN}},{{muscle_acheN}},{{nauseaN}},{{rednessN}},{{swellingN}},{{vomitingN}}],
             }],
             fill: {
                 opacity: [0.85,1],
                 },
-            labels: ['Muscle Ache','Fatigue','Fever','Feverish','Headache','Induration','Itch','Join Pain','Nausea','Redness','Swelling','Tenderness','Vomiting','Warmth'],
+            labels: ['Muscle Ache','Fatigue','Fever','Headache','Induration','Itch','Join Pain','Nausea','Redness','Swelling','Tenderness','Vomiting'],
                 markers:{
                 size: 0
             },
@@ -699,8 +899,55 @@
             series: [{{totalModerna}},{{totalPfizer}},{{totalAstraZeneca}},{{totalSinovac}},{{totalJnj}}],
             labels: [`Moderna - {{totalModerna}}`, `Pfizer - {{totalPfizer}}`,`AstraZeneca - {{totalAstraZeneca}}`,`Sinovac - {{totalSinovac}}`,`Johnson and Johnson's - {{totalJnj}}`],
             legend: {
+            show: true,
+            horizontalAlign: 'center', 
+            },
+            dataLabels: {
+                enabled: true,
+                dropShadow: {
+                    enabled: false,
+                }
+            },
+            theme: {
+                monochrome: {
+                    enabled: true,
+                    color: '#7267EF',
+                }
+            },
+            responsive: [{
+                breakpoint: 768,
+                options: {
+                    chart: {
+                        height: 320,
+
+                    },
+                    legend: {
+                        position: 'bottom',
+                        offsetY: 0,
+                        
+                    }
+                }
+            }]
+        }
+        var chart = new ApexCharts(document.querySelector("#satisfaction-chart"), options);
+        chart.render();
+    })();
+    // [ satisfaction-chart ] end
+</script>
+<script>
+    // [ satisfaction-chart1 ] start
+    (function () {
+        var options = {
+            chart: {
+                height: 260,
+                type: 'pie',
+            },
+            series: [{{totalHaveSideeffect}},{{totalNoSideeffect}}],
+            labels: [`With Adverse Side Effect - {{totalHaveSideeffect}}`, `With Out Adverse Side Effect  - {{totalNoSideeffect}}`],
+            legend: {
                 show: true,
-                offsetY: 50,
+                position: 'bottom',
+
             },
             dataLabels: {
                 enabled: true,
@@ -728,10 +975,9 @@
                 }
             }]
         }
-        var chart = new ApexCharts(document.querySelector("#satisfaction-chart"), options);
+        var chart = new ApexCharts(document.querySelector("#satisfaction-chart1"), options);
         chart.render();
     })();
-    // [ satisfaction-chart ] end
+    // [ satisfaction-chart1 ] end
 </script>
-
 {% endblock javascripts %}

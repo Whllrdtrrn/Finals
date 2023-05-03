@@ -3,16 +3,28 @@ from django.contrib import admin
 from vaccimo import views
 
 urlpatterns = [
+    # pdf 
+    path('pdf/<int:pk>/', views.generate_pdf, name='generate_pdf'),
+    path('pdf/', views.pdfAllReport, name='pdfAllReport'),
+
     #     path('admin/', admin.site.urls),
     path('', views.LayoutHome, name='LayoutHome'),
     #     path('admin/', views.homepage, name='homepage'),
-    #     path('index/', views.LayoutIndex, name='LayoutIndex'),
+    #path('vaccimo/', views.LayoutIndex, name='LayoutIndex'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('dashboard/user-account/', views.userAccount, name='userAccount'),
     path('dashboard/information-collection/',
          views.informationCollection, name='informationCollection'),
     path('dashboard/survey/', views.survey, name='survey'),
     path('dashboard/side-effect/', views.sideEffect, name='sideEffect'),
+    path('dashboard/side-effect-reports/', views.sideEffectReports, name='sideEffectReports'),
+    
+    #path('vaccimo/follow-up/', views.followUp, name='followUp'),
+    path('vaccimo/', views.informationNew, name='informationNew'),
+    path('vaccimo/survey/', views.surveyNew, name='surveyNew'),
+    path('vaccimo/whatDoYouFeel/', views.whatDoYouFeel, name='whatDoYouFeel'),
+    path('vaccimo/side-effect-new/', views.sideEffectNew, name='sideEffectNew'),
+
 
     path('', views.home_page, name='homepage'),
     path('services/', views.services, name='services'),
@@ -36,9 +48,8 @@ urlpatterns = [
     path('chooseMethod/', views.chooseMethod, name='chooseMethod'),
     # path('classification/', views.classification, name='classification'),
     path('clustering/', views.clustering, name='clustering'),
-#    path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',
-#         views.activate, name='activate'),
-#    path('email-verification/', views.verification, name='verification'),
+    path('activate/<uidb64>/<token>/',views.activate, name='activate'),  
+    path('email-verification/', views.verification, name='verification'),
 
     # path('delete/', views.delete, name='delete'),
     # path('edit/<str:pk>', views.edit, name='edit') ,

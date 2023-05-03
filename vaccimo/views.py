@@ -15,10 +15,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import user
 from django.urls import reverse
 import os
+from django.http import FileResponse
 
-from .filters import OrderFilter
+from .filters import OrderFilter, EffectFilter
 from .models import sideeffect
 from .models import questioner
+
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.core.files.storage import FileSystemStorage
@@ -33,8 +35,12 @@ import numpy as np
 import json
 import base64
 from io import BytesIO
+
 from django.utils.timezone import now
 from django.db.models import Q
+from django.db.models import Count
+from django.db.models.functions import TruncDate
+from datetime import datetime, timedelta
 
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import MinMaxScaler
@@ -46,6 +52,12 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.decomposition import PCA
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
+from django.forms.models import model_to_dict
+
+# pdf
+from django.template.loader import get_template
+from django.http import HttpResponse
+from xhtml2pdf import pisa
 
 # email verification
 from django.contrib.sites.shortcuts import get_current_site
@@ -122,6 +134,36 @@ warnings.filterwarnings('ignore')
 #                 "rows": rows,
 #             }
 #     return render(request, 'system/index.html', data)
+    
+def generate_pdf(request, pk):
+    # Get the object with the corresponding ID
+    obj = sideeffect.objects.get(pk=pk)
+    # Render the HTML template with the object data
+    template = get_template('home/pdfReport.html')
+    html = template.render({'obj': obj})
+    # Generate the PDF file
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    
+    if pisa_status.err:
+        return HttpResponse('An error occurred while creating the PDF file')
+    return response
+
+def pdfAllReport(request):
+    # Get the object with the corresponding ID
+    obj = sideeffect.objects.filter(name=1)
+    # Render the HTML template with the object data
+    template = get_template('home/pdfAllReport.html')
+    html = template.render({'obj': obj})
+    # Generate the PDF file
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="AllReport.pdf"'
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    if pisa_status.err:
+        return HttpResponse('An error occurred while creating the PDF file')
+    return response
+
 def LayoutHome(request):
     return render(request, 'Layout/LayoutHome.html')
 
@@ -433,11 +475,12 @@ def login_page(request):
         elif user is not None and user.is_active:
             auth.login(request, user)
             # id = User.objects.all().values_list('id', flat=True).filter(username=user)
-            return redirect('/information-page/')
+            return redirect('/vaccimo/')
             # return HttpResponse('/information-page/')
             # return redirect('/information-page/')
         else:
-            return render(request, 'homepage.html', {'error': 'Invalid username or password'})
+            messages.error(request, 'Invalid username or password')
+            return redirect('/loginpage/')
     else:
         return render(request, 'homepage.html')
 
@@ -454,46 +497,358 @@ def register_page(request):
         if password == confirm_password:
             if User.objects.filter(username=username).exists():
                 messages.error(request, 'Username is already taken')
-                return redirect('/')
+                return redirect('/register/')
             elif User.objects.filter(email=email).exists():
                 messages.error(request, 'Email is already taken')
-                return redirect('/')
+                return redirect('/register/')
             else:
                 user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
                 user.save()
-                return redirect('/loginpage/')
-                #current_site = get_current_site(request)
-                #mail_subject = 'Activation link has been sent to your email id'
-                #message = render_to_string('acc_active_email.html', {
-                #    'user': user,
-                #    'domain': current_site.domain,
-                #    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                #    'token': account_activation_token.make_token(user),
-                #})
-                #email = EmailMessage(
-                #    mail_subject, message, to=[email]
-                #)
-                #email.send()
-                #return redirect('/email-verification/')
+                auth.login(request, user)
+                current_site = get_current_site(request)
+                mail_subject = 'Activation link has been sent to your email id'
+                message = render_to_string('acc_active_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': account_activation_token.make_token(user),
+                })
+                email = EmailMessage(
+                    mail_subject, message, to=[email]
+                )
+                email.send()
+                return redirect('/email-verification/')
         else:
-            return render(request, 'homepage.html', {'error': 'Both passwords are not matching'})
+            return render(request, 'register.html', {'error': 'Both passwords are not matching'})
 
     else:
-        return render(request, 'homepage.html')
+        return render(request, 'register.html')
+
+def informationNew(request):
+    try:  # prod = user.objects.get(pk=request.user.id)
+        prod = user.objects.get(author=request.user)
+        if request.method == 'POST':
+            if len(request.FILES) != 0:
+                if len(prod.file) > 0:
+                    os.remove(prod.file.path)
+                prod.file = request.FILES['file']
+            prod.name = request.POST.get('name')
+            prod.contact_number = request.POST.get('contact_number')
+            prod.vaccination_brand = request.POST.get('vaccination_brand')
+            prod.vaccination_site = request.POST.get('vaccination_site')
+            prod.address = request.POST.get('address')
+            prod.age = request.POST.get('age')
+            prod.bday = request.POST.get('bday')
+            prod.gender = request.POST.get('gender')
+            prod.author = request.user
+            prod.save()
+            return redirect('/vaccimo/survey/')
+        return render(request, 'newUserPage/information/information.html', {'prod': prod})
+
+    except user.DoesNotExist:
+        prod = user()
+        if request.method == 'POST':
+            prod.name = request.POST.get('name')
+            prod.contact_number = request.POST.get('contact_number')
+            prod.vaccination_brand = request.POST.get('vaccination_brand')
+            prod.vaccination_site = request.POST.get('vaccination_site')
+            prod.address = request.POST.get('address')
+            prod.age = request.POST.get('age')
+            prod.bday = request.POST.get('bday')
+            prod.gender = request.POST.get('gender')
+            if len(request.FILES) != 0:
+                prod.files = request.FILES['file']
+            prod.author = request.user
+            prod.save()
+            return redirect('/vaccimo/survey/')
+        return render(request, 'newUserPage/information/information.html')
+
+#def followUp(request):
+#    return render(request, 'newUserPage/followUp/index.html')
+
+def surveyNew(request):
+    try:
+        prod = questioner.objects.get(author=request.user)
+        if request.method == 'POST':
+            # author_id = get
+            # author = User.objects.get(id=author_id)
+            prod.Q0 = request.POST.get('Q0')
+            prod.Q1 = request.POST.get('Q1')
+            prod.Q2 = request.POST.get('Q2')
+            prod.Q3 = request.POST.get('Q3')
+            prod.Q4 = request.POST.get('Q4')
+            prod.Q5 = request.POST.get('Q5')
+            prod.Q6 = request.POST.get('Q6')
+            prod.Q7 = request.POST.get('Q7')
+            prod.Q8 = request.POST.get('Q8')
+            prod.Q9 = request.POST.get('Q9')
+            prod.Q10 = request.POST.get('Q10')
+            prod.Q11 = request.POST.get('Q11')
+            prod.Q12 = request.POST.get('Q12')
+            prod.Q13 = request.POST.get('Q13')
+            prod.Q14 = request.POST.get('Q14')
+            prod.Q15 = request.POST.get('Q15')
+            prod.Q16 = request.POST.get('Q16')
+            prod.Q17 = request.POST.get('Q17')
+            prod.Q18 = request.POST.get('Q18')
+            prod.Q19 = request.POST.get('Q19')
+            prod.Q20 = request.POST.get('Q20')
+            prod.Q21 = request.POST.get('Q21')
+            prod.Q22 = request.POST.get('Q22')
+            prod.allergy2 = request.POST.get('allergy2')
+            prod.allergy3 = request.POST.get('allergy3')
+            prod.allergy4 = request.POST.get('allergy4')
+            prod.allergy5 = request.POST.get('allergy5')
+            prod.Q23 = request.POST.get('Q23')
+            prod.Q24 = request.POST.get('Q24')
+            prod.author = request.user
+            prod.save()
+            return redirect('/vaccimo/whatDoYouFeel/')
+        else:
+            users = user()
+            return render(request, 'newUserPage/survey/index.html', {'prod': prod, 'users': users})
+
+    except questioner.DoesNotExist:
+        prod = questioner()
+        if request.method == 'POST':
+            prod.Q0 = request.POST.get('Q0')
+            prod.Q1 = request.POST.get('Q1')
+            prod.Q2 = request.POST.get('Q2')
+            prod.Q3 = request.POST.get('Q3')
+            prod.Q4 = request.POST.get('Q4')
+            prod.Q5 = request.POST.get('Q5')
+            prod.Q6 = request.POST.get('Q6')
+            prod.Q7 = request.POST.get('Q7')
+            prod.Q8 = request.POST.get('Q8')
+            prod.Q9 = request.POST.get('Q9')
+            prod.Q10 = request.POST.get('Q10')
+            prod.Q11 = request.POST.get('Q11')
+            prod.Q12 = request.POST.get('Q12')
+            prod.Q13 = request.POST.get('Q13')
+            prod.Q14 = request.POST.get('Q14')
+            prod.Q15 = request.POST.get('Q15')
+            prod.Q16 = request.POST.get('Q16')
+            prod.Q17 = request.POST.get('Q17')
+            prod.Q18 = request.POST.get('Q18')
+            prod.Q19 = request.POST.get('Q19')
+            prod.Q20 = request.POST.get('Q20')
+            prod.Q21 = request.POST.get('Q21')
+            prod.Q22 = request.POST.get('Q22')
+            prod.allergy2 = request.POST.get('allergy2')
+            prod.allergy3 = request.POST.get('allergy3')
+            prod.allergy4 = request.POST.get('allergy4')
+            prod.allergy5 = request.POST.get('allergy5')
+            prod.Q23 = request.POST.get('Q23')
+            prod.Q24 = request.POST.get('Q24')
+            #    item = questioner(Q0=Q0,Q1=Q1,Q2=Q2,Q3=Q3,Q4=Q4,Q5=Q5,Q6=Q6,Q7=Q7,Q8=Q8,Q9=Q9,Q10=Q10,Q11=Q11,
+            #     Q12=Q12,Q13=Q13,Q14=Q14,Q15=Q15,Q16=Q16,Q17=Q17,Q18=Q18,Q19=Q19,Q20=Q20,Q21=Q21,Q22=Q22,allergy=allergy,
+            #     Q23=Q23,Q24=Q24)
+            # instance = prod.save(commit=False)
+            # instance.author = request.user
+            # instance.save
+            prod.author = request.user
+            prod.save()
+            return redirect('/vaccimo/whatDoYouFeel/')
+        else:
+            prod = user()
+            return render(request, 'newUserPage/survey/index.html', {'prod': prod})
+        
+
+def whatDoYouFeel(request):
+    try:
+        prod = sideeffect.objects.get(author=request.user)
+        if request.method == 'POST'  and 'btnform1' in request.POST:
+            prod.name = request.POST.get('name')
+            prod.author = request.user
+            prod.save()
+            return redirect('/')
+        if request.method == 'POST'  and 'btnform2' in request.POST:
+            prod.name = request.POST.get('name')
+            prod.author = request.user
+            prod.save()
+            return redirect('/vaccimo/side-effect-new/')
+        else:
+            return render(request, 'newUserPage/whatDoyouFeel/index.html', {'prod': prod})
+    except sideeffect.DoesNotExist:
+        prod = sideeffect()
+        if request.method == 'POST'  and 'btnform1' in request.POST:
+            prod.name = request.POST.get('name')
+            prod.author = request.user
+            prod.save()
+            return redirect('/')
+        if request.method == 'POST'  and 'btnform2' in request.POST:
+            prod.name = request.POST.get('name')
+            prod.author = request.user
+            prod.save()
+            return redirect('/vaccimo/side-effect-new/')
+        else:
+            return render(request, 'newUserPage/whatDoyouFeel/index.html')
+        
+def sideEffectNew(request):
+    try:    
+        prod = sideeffect.objects.get(author=request.user)
+        if request.method == 'POST':
+            prod.muscle_ache = request.POST.get('muscle_ache', 'No')
+            if prod.muscle_ache == "Yes":
+                prod.muscle_ache = 1
+            else:
+                prod.muscle_ache = 0
+            prod.headache = request.POST.get('headache', 'No')
+            if prod.headache == "Yes":
+                prod.headache = 1
+            else:
+                prod.headache = 0
+            prod.fever = request.POST.get('fever', 'No')
+            if prod.fever == "Yes":
+                prod.fever = 1
+            else:
+                prod.fever = 0
+            prod.redness = request.POST.get('redness', 'No')
+            if prod.redness == "Yes":
+                prod.redness = 1
+            else:
+                prod.redness = 0
+            prod.swelling = request.POST.get('swelling', 'No')
+            if prod.swelling == "Yes":
+                prod.swelling = 1
+            else:
+                prod.swelling = 0
+            prod.induration = request.POST.get('induration', 'No')
+            if prod.induration == "Yes":
+                prod.induration = 1
+            else:
+                prod.induration = 0
+            prod.chills = request.POST.get('chills', 'No')
+            if prod.chills == "Yes":
+                prod.chills = 1
+            else:
+                prod.chills = 0
+            prod.join_pain = request.POST.get('join_pain', 'No')
+            if prod.join_pain == "Yes":
+                prod.join_pain = 1
+            else:
+                prod.join_pain = 0
+            prod.fatigue = request.POST.get('fatigue', 'No')
+            if prod.fatigue == "Yes":
+                prod.fatigue = 1
+            else:
+                prod.fatigue = 0
+            prod.nausea = request.POST.get('nausea', 'No')
+            if prod.nausea == "Yes":
+                prod.nausea = 1
+            else:
+                prod.nausea = 0
+            prod.vomiting = request.POST.get('vomiting', 'No')
+            if prod.vomiting == "Yes":
+                prod.vomiting = 1
+            else:
+                prod.vomiting = 0
+
+        # Calculate total symptom value
+            total_symptoms = (prod.muscle_ache + prod.headache + prod.fever + prod.redness + prod.swelling + prod.induration + prod.chills + prod.join_pain + prod.fatigue + prod.nausea + prod.vomiting)
+            prod.feverish = total_symptoms
+            prod.author = request.user
+            prod.save()
+            
+            if total_symptoms < 5:
+                severity = 'Mild'
+            elif total_symptoms <= 6:
+                severity = 'Moderate'
+            else:
+                severity = 'Severe'
+            messages.success(request, f"Successfully Submitted. Status: {severity}")
+            return redirect('/')
+        else:
+            return render(request, 'newUserPage/sideEffectNew/index.html', {'prod': prod})
+    except sideeffect.DoesNotExist:
+        prod = sideeffect()
+        if request.method == 'POST':
+            prod.muscle_ache = request.POST.get('muscle_ache')
+            if prod.muscle_ache == "Yes":
+                prod.muscle_ache = 1
+            else:
+                prod.muscle_ache = 0
+            prod.headache = request.POST.get('headache')
+            if prod.headache == "Yes":
+                prod.headache = 1
+            else:
+                prod.headache = 0
+            prod.fever = request.POST.get('fever')
+            if prod.fever == "Yes":
+                prod.fever = 1
+            else:
+                prod.fever = 0
+            prod.redness = request.POST.get('redness')
+            if prod.redness == "Yes":
+                prod.redness = 1
+            else:
+                prod.redness = 0
+            prod.swelling = request.POST.get('swelling')
+            if prod.swelling == "Yes":
+                prod.swelling = 1
+            else:
+                prod.swelling = 0
+            prod.induration = request.POST.get('induration')
+            if prod.induration == "Yes":
+                prod.induration = 1
+            else:
+                prod.induration = 0
+            prod.chills = request.POST.get('chills')
+            if prod.chills == "Yes":
+                prod.chills = 1
+            else:
+                prod.chills = 0
+            prod.join_pain = request.POST.get('join_pain')
+            if prod.join_pain == "Yes":
+                prod.join_pain = 1
+            else:
+                prod.join_pain = 0
+            prod.fatigue = request.POST.get('fatigue')
+            if prod.fatigue == "Yes":
+                prod.fatigue = 1
+            else:
+                prod.fatigue = 0
+            prod.nausea = request.POST.get('nausea')
+            if prod.nausea == "Yes":
+                prod.nausea = 1
+            else:
+                prod.nausea = 0
+            prod.vomiting = request.POST.get('vomiting')
+            if prod.vomiting == "Yes":
+                prod.vomiting = 1
+            else:
+                prod.vomiting = 0
+            # Calculate total symptom value
+            total_symptoms = (prod.muscle_ache + prod.headache + prod.fever + prod.redness + prod.swelling + prod.induration + prod.chills + prod.join_pain + prod.fatigue + prod.nausea + prod.vomiting)
+            prod.feverish = total_symptoms
+            prod.author = request.user
+            prod.save()
+            if total_symptoms < 5:
+                severity = 'Mild'
+            elif total_symptoms <= 6:
+                severity = 'Moderate'
+            else:
+                severity = 'Severe'
+            messages.success(request, f"Successfully Submitted. Status: {severity}")
+            return redirect('/')
+        else:
+            return render(request, 'newUserPage/sideEffectNew/index.html')
 
 
-#def activate(request, uidb64, token):
-#    try:
-#        uid = force_str(urlsafe_base64_decode(uidb64))
-#        user = User.objects.get(pk=uid)
-#    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-#        user = None
-#    if user is not None and account_activation_token.check_token(user, token):
-#        user.is_active = True
-#        user.save()
-#        return redirect('/information-page/')
-#    else:
-#        return HttpResponse('Activation link is invalid!')
+def activate(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.info(request, 'Thank you for your email confirmation. Now you can login your account.')
+        return redirect('/loginpage/')
+    else:
+        return HttpResponse('Activation link is invalid!')
+
 def information_page(request):
     try:  # prod = user.objects.get(pk=request.user.id)
         prod = user.objects.get(author=request.user)
@@ -789,10 +1144,34 @@ def server_form(request):
 
 
 def success_page(request):
-
-    template = loader.get_template('success.html')
-    return HttpResponse(template.render())
-
+    try:
+        prod = sideeffect.objects.get(author=request.user)
+        if request.method == 'POST'  and 'btnform1' in request.POST:
+            prod.name = request.POST.get('name')
+            prod.author = request.user
+            prod.save()
+            return redirect('/')
+        if request.method == 'POST'  and 'btnform2' in request.POST:
+            prod.name = request.POST.get('name')
+            prod.author = request.user
+            prod.save()
+            return redirect('/side-effect-page/')
+        else:
+            return render(request, 'success.html', {'prod': prod})
+    except sideeffect.DoesNotExist:
+        prod = sideeffect()
+        if request.method == 'POST'  and 'btnform1' in request.POST:
+            prod.name = request.POST.get('name')
+            prod.author = request.user
+            prod.save()
+            return redirect('/')
+        if request.method == 'POST'  and 'btnform2' in request.POST:
+            prod.name = request.POST.get('name')
+            prod.author = request.user
+            prod.save()
+            return redirect('/side-effect-page/')
+        else:
+            return render(request, 'success.html')
 
 def toggle_status(request, id):
     status = User.objects.get(id=id)
@@ -830,11 +1209,17 @@ def toggle_status_active(request, id):
 
 def dashboard(request):
     #Total teen,adult and Senior
+    totalNoSymptoms = sideeffect.objects.filter(feverish = 0).values().count()
+    totalMild = sideeffect.objects.filter(feverish__gte=1 , feverish__lte=3).values().count()
+    totalModerate = sideeffect.objects.filter(feverish__gte=4 , feverish__lte=6).values().count()
+    totalSevere = sideeffect.objects.filter(feverish__gte=7).values().count()
+
     childTotal = user.objects.filter(age__lte=17).values().count()
     seniorTotal = user.objects.filter(age__gte=60).values().count()
     adultTotal = user.objects.filter(age__gte=18 , age__lte=59).values().count()
     myFilter = OrderFilter()
-    ###
+    totalHaveSideeffect = sideeffect.objects.filter(name=1).count()
+    totalNoSideeffect = sideeffect.objects.filter(name=0).count()
     item_list = user.objects.all().values().order_by('-date_created')
     maleTotal = user.objects.filter(Q(gender='Male') | Q(gender='male')).values().count()
     femaleTotal = user.objects.filter(Q(gender='Female') | Q(gender='female')).values().count()
@@ -847,41 +1232,47 @@ def dashboard(request):
     totalJnj = user.objects.filter(vaccination_brand='johnson_and_Johnsons').values().count()
     quesT = questioner.objects.all().values()
     userAccount = User.objects.all().values().filter(is_superuser=False).order_by('-date_joined').order_by('-last_login')
-    total_user = userAccount.count()
-    total_user = userAccount.count()
+    total_user = user.objects.count()
     total_admin = User.objects.filter(is_superuser=True).count()
-    chills = sideeffect.objects.filter(Q(chills='Yes') | Q(chills='yes')).values().count()
-    fatigue = sideeffect.objects.filter(Q(fatigue='Yes') | Q(fatigue='yes')).values().count()
-    feverTotal = sideeffect.objects.filter(Q(fever='Yes') | Q(fever='yes')).values().count()
-    feverish = sideeffect.objects.filter(Q(feverish='Yes') | Q(feverish='yes')).values().count()
-    headache = sideeffect.objects.filter(Q(headache='Yes') | Q(headache='yes')).values().count()
-    induration = sideeffect.objects.filter(Q(induration='Yes') | Q(induration='yes')).values().count()
-    itch = sideeffect.objects.filter(Q(itch='Yes') | Q(itch='yes')).values().count()
-    join_pain = sideeffect.objects.filter(Q(join_pain='Yes') | Q(join_pain='yes')).values().count()
-    muscle_ache = sideeffect.objects.filter(Q(muscle_ache='Yes') | Q(muscle_ache='yes')).values().count()
-    nausea = sideeffect.objects.filter(Q(nausea='Yes') | Q(nausea='yes')).values().count()
-    redness = sideeffect.objects.filter(Q(redness='Yes') | Q(redness='yes')).values().count()
-    swelling = sideeffect.objects.filter(Q(swelling='Yes') | Q(swelling='yes')).values().count()
-    tenderness = sideeffect.objects.filter(Q(tenderness='Yes') | Q(tenderness='yes')).values().count()
-    vomiting = sideeffect.objects.filter(Q(vomiting='Yes') | Q(vomiting='yes')).values().count()
-    warmth = sideeffect.objects.filter(Q(warmth='Yes') | Q(warmth='yes')).values().count()
-    chillsN = sideeffect.objects.filter(Q(chills='No') | Q(chills='no')).values().count()
-    fatigueN = sideeffect.objects.filter(Q(fatigue='No') | Q(fatigue='no')).values().count()
-    feverTotalN = sideeffect.objects.filter(Q(fever='No') | Q(fever='no')).values().count()
-    feverishN = sideeffect.objects.filter(Q(feverish='No') | Q(feverish='no')).values().count()
-    headacheN = sideeffect.objects.filter(Q(headache='No') | Q(headache='no')).values().count()
-    indurationN = sideeffect.objects.filter(Q(induration='No') | Q(induration='no')).values().count()
-    itchN = sideeffect.objects.filter(Q(itch='No') | Q(itch='no')).values().count()
-    join_painN = sideeffect.objects.filter(Q(join_pain='No') | Q(join_pain='no')).values().count()
-    muscle_acheN = sideeffect.objects.filter(Q(muscle_ache='No') | Q(muscle_ache='no')).values().count()
-    nauseaN = sideeffect.objects.filter(Q(nausea='No') | Q(nausea='no')).values().count()
-    rednessN = sideeffect.objects.filter(Q(redness='No') | Q(redness='no')).values().count()
-    swellingN = sideeffect.objects.filter(Q(swelling='No') | Q(swelling='no')).values().count()
-    tendernessN = sideeffect.objects.filter(Q(tenderness='No') | Q(tenderness='no')).values().count()
-    vomitingN = sideeffect.objects.filter(Q(vomiting='No') | Q(vomiting='no')).values().count()
-    warmthN = sideeffect.objects.filter(Q(warmth='No') | Q(warmth='no')).values().count()
-
+    chills = sideeffect.objects.filter(Q(chills='Yes') | Q(chills='yes') | Q(chills='1')).values().count()
+    fatigue = sideeffect.objects.filter(Q(fatigue='Yes') | Q(fatigue='yes') | Q(fatigue='1')).values().count()
+    feverTotal = sideeffect.objects.filter(Q(fever='Yes') | Q(fever='yes') | Q(fever='1')).values().count()
+    headache = sideeffect.objects.filter(Q(headache='Yes') | Q(headache='yes') | Q(headache='1')).values().count()
+    induration = sideeffect.objects.filter(Q(induration='Yes') | Q(induration='yes') | Q(induration='1')).values().count()
+    join_pain = sideeffect.objects.filter(Q(join_pain='Yes') | Q(join_pain='yes') | Q(join_pain='1')).values().count()
+    muscle_ache = sideeffect.objects.filter(Q(muscle_ache='Yes') | Q(muscle_ache='yes') | Q(muscle_ache='1')).values().count()
+    nausea = sideeffect.objects.filter(Q(nausea='Yes') | Q(nausea='yes') | Q(nausea='1')).values().count()
+    redness = sideeffect.objects.filter(Q(redness='Yes') | Q(redness='yes') | Q(redness='1')).values().count()
+    swelling = sideeffect.objects.filter(Q(swelling='Yes') | Q(swelling='yes') | Q(swelling='1')).values().count()
+    vomiting = sideeffect.objects.filter(Q(vomiting='Yes') | Q(vomiting='yes') | Q(vomiting='1')).values().count()
+    chillsN = sideeffect.objects.filter(Q(chills='No') | Q(chills='no') | Q(chills='0')).values().count()
+    fatigueN = sideeffect.objects.filter(Q(fatigue='No') | Q(fatigue='no') | Q(fatigue='0')).values().count()
+    feverTotalN = sideeffect.objects.filter(Q(fever='No') | Q(fever='no') | Q(fever='0')).values().count()
+    headacheN = sideeffect.objects.filter(Q(headache='No') | Q(headache='no') | Q(headache='0')).values().count()
+    indurationN = sideeffect.objects.filter(Q(induration='No') | Q(induration='no') | Q(induration='0')).values().count()
+    join_painN = sideeffect.objects.filter(Q(join_pain='No') | Q(join_pain='no') | Q(join_pain='0')).values().count()
+    muscle_acheN = sideeffect.objects.filter(Q(muscle_ache='No') | Q(muscle_ache='no') | Q(muscle_ache='0')).values().count()
+    nauseaN = sideeffect.objects.filter(Q(nausea='No') | Q(nausea='no') | Q(nausea='0')).values().count()
+    rednessN = sideeffect.objects.filter(Q(redness='No') | Q(redness='no') | Q(redness='0')).values().count()
+    swellingN = sideeffect.objects.filter(Q(swelling='No') | Q(swelling='no') | Q(swelling='0')).values().count()
+    vomitingN = sideeffect.objects.filter(Q(vomiting='No') | Q(vomiting='no') | Q(vomiting='0')).values().count()
+    num_days = 3
+    dates = [datetime.today().date() - timedelta(days=x) for x in range(num_days)]
+    # create a filter that includes multiple dates
+    date_filter = Q()
+    for date in dates:
+        date_filter |= Q(date_created=date)
+    dateTotal = user.objects.filter(date_filter).annotate(date=TruncDate('date_created')).values('date').annotate(total=Count('id')).order_by('-date')
+    dateTotals = dateTotal.count()
     context = {
+        'totalNoSymptoms': totalNoSymptoms,
+        'totalMild': totalMild,
+        'totalModerate': totalModerate,
+        'totalSevere': totalSevere,
+        'totalHaveSideeffect': totalHaveSideeffect,
+        'totalNoSideeffect': totalNoSideeffect,
+        'dateTotals': dateTotals,
+        'dateTotal': dateTotal,
         'childTotal': childTotal,
         'adultTotal': adultTotal,
         'seniorTotal': seniorTotal,
@@ -902,33 +1293,25 @@ def dashboard(request):
         'chills': chills,
         'fatigue': fatigue,
         'feverTotal': feverTotal,
-        'feverish': feverish,
         'headache': headache,
         'induration': induration,
-        'itch': itch,
         'join_pain': join_pain,
         'muscle_ache': muscle_ache,
         'nausea': nausea,
         'redness': redness,
         'swelling': swelling,
-        'tenderness': tenderness,
         'vomiting': vomiting,
-        'warmth': warmth,
         'chillsN':chillsN,
         'fatigueN':fatigueN,
         'feverTotalN':feverTotalN,
-        'feverishN':feverishN,
         'headacheN':headacheN,
         'indurationN':indurationN,
-        'itchN':itchN,
         'join_painN':join_painN,
         'muscle_acheN':muscle_acheN,
         'nauseaN':nauseaN,
         'rednessN':rednessN,
         'swellingN':swellingN,
-        'tendernessN':tendernessN,
         'vomitingN':vomitingN,
-        'warmthN':warmthN,
     }
     return render(request, 'home/index.html', context)
 
@@ -941,6 +1324,7 @@ def userAccount(request):
     }
     return render(request, 'home/UserAccount.html', context)
 
+    
 def informationCollection(request):
     orders = user.objects.all()
     item_list = user.objects.all().values().order_by('-date_created')
@@ -957,17 +1341,133 @@ def informationCollection(request):
 
 def survey(request):
     quesT = questioner.objects.all()
+    Q0 = quesT.filter(Q(Q0='Yes') | Q(Q0='yes') | Q(Q0='1')).count()
+    Q1 = quesT.filter(Q(Q1='Yes') | Q(Q1='yes') | Q(Q1='1')).count()
+    Q2 = quesT.filter(Q(Q2='Yes') | Q(Q2='yes') | Q(Q2='1')).count()
+    Q3 = quesT.filter(Q(Q3='Yes') | Q(Q3='yes') | Q(Q3='1')).count()
+    Q4 = quesT.filter(Q(Q4='Yes') | Q(Q4='yes') | Q(Q4='1')).count()
+    Q5 = quesT.filter(Q(Q5='Yes') | Q(Q5='yes') | Q(Q5='1')).count()
+    Q6 = quesT.filter(Q(Q6='Yes') | Q(Q6='yes') | Q(Q6='1')).count()
+    Q7 = quesT.filter(Q(Q7='Yes') | Q(Q7='yes') | Q(Q7='1')).count()
+    Q8 = quesT.filter(Q(Q8='Yes') | Q(Q8='yes') | Q(Q8='1')).count()
+    Q9 = quesT.filter(Q(Q9='Yes') | Q(Q9='yes') | Q(Q9='1')).count()
+    Q10 = quesT.filter(Q(Q10='Yes') | Q(Q10='yes') | Q(Q10='1')).count()
+    Q11 = quesT.filter(Q(Q11='Yes') | Q(Q11='yes') | Q(Q11='1')).count()
+    Q12 = quesT.filter(Q(Q12='Yes') | Q(Q12='yes') | Q(Q12='1')).count()
+    Q13 = quesT.filter(Q(Q13='Yes') | Q(Q13='yes') | Q(Q13='1')).count()
+    Q14 = quesT.filter(Q(Q14='Yes') | Q(Q14='yes') | Q(Q14='1')).count()
+    Q15 = quesT.filter(Q(Q15='Yes') | Q(Q15='yes') | Q(Q15='1')).count()
+    Q16 = quesT.filter(Q(Q16='Yes') | Q(Q16='yes') | Q(Q16='1')).count()
+    Q17 = quesT.filter(Q(Q17='Yes') | Q(Q17='yes') | Q(Q17='1')).count()
+    Q18 = quesT.filter(Q(Q18='Yes') | Q(Q18='yes') | Q(Q18='1')).count()
+    Q19 = quesT.filter(Q(Q19='Yes') | Q(Q19='yes') | Q(Q19='1')).count()
+    Q20 = quesT.filter(Q(Q20='Yes') | Q(Q20='yes') | Q(Q20='1')).count()
+    Q21 = quesT.filter(Q(Q21='Yes') | Q(Q21='yes') | Q(Q21='1')).count()
+    Q22 = quesT.filter(Q(Q22='Yes') | Q(Q22='yes') | Q(Q22='1')).count()
+    Q23 = quesT.filter(Q(Q23='Yes') | Q(Q23='yes') | Q(Q23='1')).count()
+    Q24 = quesT.filter(Q(Q24='Yes') | Q(Q24='yes') | Q(Q24='1')).count()
+    allergy2 = quesT.filter(Q(allergy2='Latex Allergy')).count()
+    allergy3 = quesT.filter(Q(allergy3='Mold Allergy')).count()
+    allergy4 = quesT.filter(Q(allergy4='Pet Allergy')).count()
+    allergy5 = quesT.filter(Q(allergy5='Pollen Allergy')).count()
     context = {
         'quesT': quesT,
+        'allergyss': allergy2,
+        'allergysss': allergy3,
+        'allergyssss': allergy4,
+        'allergysssss': allergy5,
+        'Q0': Q0,
+        'Q1': Q1,
+        'Q2': Q2,
+        'Q3': Q3,
+        'Q4': Q4,
+        'Q5': Q5,
+        'Q6': Q6,
+        'Q7': Q7,
+        'Q8': Q8,
+        'Q9': Q9,
+        'Q10': Q10,
+        'Q11': Q11,
+        'Q12': Q12,
+        'Q13': Q13,
+        'Q14': Q14,
+        'Q15': Q15,
+        'Q16': Q16,
+        'Q17': Q17,
+        'Q18': Q18,
+        'Q19': Q19,
+        'Q20': Q20,
+        'Q21': Q21,
+        'Q22': Q22,
+        'Q23': Q23,
+        'Q24': Q24,
+        
     }
     return render(request, 'home/Survey.html', context)
 
+#def count_symptoms_by_row(side_effects):
+#    symptom_counts = []
+#    for effect in side_effects:
+#        count = 0
+#        if effect.muscle_ache == 'Yes':
+#            count += 1
+#        if effect.headache == 'Yes':
+#            count += 1
+#        if effect.fever == 'Yes':
+#            count += 1
+#        if effect.redness == 'Yes':
+#            count += 1
+#        if effect.swelling == 'Yes':
+#            count += 1
+#        if effect.tenderness == 'Yes':
+#            count += 1
+        
+      
+#    return symptom_counts
+
+def sideEffectReports(request):
+    haveSideeffect = sideeffect.objects.filter(name=1)
+    NoSideeffect = sideeffect.objects.filter(name=0)
+    s = sideeffect.objects.all().values()
+    myFilters = EffectFilter(request.GET, queryset=haveSideeffect)
+    orders = myFilters.qs
+    context = {
+    's': s,
+    'orders': orders,
+    'myFilters': myFilters,
+    'haveSideeffect': haveSideeffect,
+    'NoSideeffect': NoSideeffect,
+
+    } 
+    print(s);
+    return render(request, 'home/SideEffectReports.html', context)
 
 def sideEffect(request):
     item_lists = sideeffect.objects.all()
-
+    muscle_ache = item_lists.filter(Q(muscle_ache='Yes') | Q(muscle_ache='yes') | Q(muscle_ache='1')).count()
+    headache = item_lists.filter(Q(headache='Yes') | Q(headache='yes') | Q(headache='1')).count()
+    fever = item_lists.filter(Q(fever='Yes') | Q(fever='yes') | Q(fever='1')).count()
+    redness = item_lists.filter(Q(redness='Yes') | Q(redness='yes') | Q(redness='1')).count()
+    swelling = item_lists.filter(Q(swelling='Yes') | Q(swelling='yes') | Q(swelling='1')).count()
+    induration = item_lists.filter(Q(induration='Yes') | Q(induration='yes') | Q(induration='1')).count()
+    chills = item_lists.filter(Q(chills='Yes') | Q(chills='yes') | Q(chills='1')).count()
+    join_pain = item_lists.filter(Q(join_pain='Yes') | Q(join_pain='yes') | Q(join_pain='1')).count()
+    fatigue = item_lists.filter(Q(fatigue='Yes') | Q(fatigue='yes') | Q(fatigue='1')).count()
+    nausea = item_lists.filter(Q(nausea='Yes') | Q(nausea='yes') | Q(nausea='1')).count()
+    vomiting = item_lists.filter(Q(vomiting='Yes') | Q(vomiting='yes') | Q(vomiting='1')).count()
     context = {
         'item_lists': item_lists,
+        'muscle_ache': muscle_ache,
+        'headache': headache,
+        'fever': fever,
+        'redness': redness,
+        'swelling': swelling,
+        'induration': induration,
+        'chills': chills,
+        'join_pain': join_pain,
+        'fatigue': fatigue,
+        'nausea': nausea,
+        'vomiting': vomiting,
     }
     return render(request, 'home/SideEffect.html', context)
 

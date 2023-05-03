@@ -35,8 +35,8 @@
         <label class="form-check-label " style="font-size: x-large !important;" for="flexCheckChecked"> I agree to terms
             and
             condition </label>
-        <a class="btn btn-primary btnNext disabled" id="txt_1_a" style="right: 0;
-        position: absolute;color: white !important;">Next</a>
+        <!--<a class="btn btn-primary btnNext disabled" id="txt_1_a" style="right: 0;
+        position: absolute;color: white !important;">Next</a>-->
 
     </div>
     <!-- <a class="btn btn-primary btnPrevious" style="width: auto;color: white !important;">Back</a> -->
@@ -44,14 +44,14 @@
 <script>
     function EnableDisable() {
         var btnSubmit = document.getElementById("myCheck");
-        var element = document.getElementById("txt_1_a");
+        var element = document.getElementById("nextBtn");
         if (btnSubmit.checked == true) {
-            element.classList.remove("disabled");
+            element.removeAttribute("disabled");
             document.getElementById("txt_check_1_input1").disabled = false;
             document.getElementById("txt_check_1_input2").disabled = false;
             document.getElementById("txt_check_1_input3").disabled = false;
         } else {
-            element.classList.add("disabled");
+            element.setAttribute("disabled", "");
             document.getElementById("txt_check_1_input1").disabled = true;
             document.getElementById("txt_check_1_input2").disabled = true;
             document.getElementById("txt_check_1_input3").disabled = true;

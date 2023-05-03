@@ -1,0 +1,401 @@
+<!-- Modal -->
+<style>
+  table .display{
+    margin-bottom: 40px;
+  }
+</style>
+{% for y in haveSideeffect %}
+<div class="modal fade" id="exampleModal{{y.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog  modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">With Adverse Side Effect</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="card">
+                    <div class="table-responsive">
+                      <table class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Name</th>
+                              <th>Contact Number</th>
+                              <th>Vaccination Brand</th>
+                              <th>Address</th>
+                              <th>Age</th>
+                              <th>Date Vaccinated</th>
+                              <th>Gender</th>
+                              <!--<th>date/time</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                              <td class="cell-detail"> <span>{{forloop.counter}}</span></td>
+                              <td class="cell-detail"> <span>{{y.author.first_name}} {{y.author.last_name}}</span> </td>
+                              <td class="cell-detail"> <span>{{y.tenderness.contact_number}}</span> </td>
+                              <td class="cell-detail"> <span>{{y.tenderness.vaccination_brand}}</span> </td>
+                              <td class="cell-detail"> <span>{{y.tenderness.address}}</span> </td>
+                              <td class="cell-detail"> <span>{{y.tenderness.age}}</span> </td>
+                              <td class="cell-detail"> <span>{{y.tenderness.bday}}</span> </td>
+                              <td class="cell-detail"> <span>{{y.tenderness.gender}}</span> </td>
+                              <!--<td class="cell-detail"> <span>{{i.date_created}}</span> </td>-->
+                            </tr>
+                        </tbody>
+                       
+                    </table>
+                    <table class="display" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Have you (or any family member/s) been diagnosed with or tested positive for COVID-19 in the past three (3) months?">Q1</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Do you or have you the following symptoms in the past 14 days? Fever of greater than 37.5°C">Q2</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Do you or have you had any 'flu-like' symptoms, such as cough or chills, in the past 14 days?">Q3</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Do you experience shortness of breath or breathing difficulty?">Q4</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Do you have any difficulties with your sense of taste or smell at present?">Q5</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Headache, muscle or body ache?">Q6</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Weakness or fatigue?">Q7</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Are you experiencing diarrhea?">Q8</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Do you have any allergy to food, antibiotics, or any medicine?">Q9</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Have you ever had a severe reaction to vaccines in the past?">Q10</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Have you received any vaccine in the last 14 days?">Q11</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Do you have any of the following illness/disease?">Q12</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="For women : Are you pregnant">F-Q1</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="For women who are pregnant, are you in your 1st trimester (1 to 3 months) of pregnancy?">F-Q2</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="For women : Plans to get pregnant in the next 6 months?">F-Q3</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="For women : Do you have a bleeding disorder or are you taking a blood thinner? (Example of Bleeding disorder: Hemophilia, Thalassemia)(Example of blood thinning medications: Aspirin, Clopidogrel, Warfarin, Cilostazol)">F-Q4</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="HIV Diagnosis">Q13</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Cancer/Malignancy">Q14</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Transplant Patient">Q15</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Under steroid treatment">Q16</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Bed ridden, terminal illness, less than 6mos prognosis">Q17</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Are you bedridden?">Q18</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Are you wheelchair bound?">Q19</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Insect Allergy">allergy</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Latex Allergy">allergy</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Mold Allergy">allergy</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Pet Allergy">allergy</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Pollen Allergy">allergy</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="With Co-morbidities?">Q20</th>
+                          <th data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Was diagnosed with COVID-19?">Q21</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="cell-detail"> <span>{{forloop.counter}}</span></td>
+                          <td class="cell-detail"> <span>{{y.itch.Q0}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q1}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q2}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q3}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q4}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q5}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q6}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q7}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q8}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q9}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q10}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q15}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q11}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q12}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q13}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q14}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q16}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q17}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q18}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q19}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q20}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q21}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q22}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.allergy1}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.allergy2}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.allergy3}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.allergy4}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.allergy5}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q23}}</span> </td>
+                          <td class="cell-detail"> <span>{{y.itch.Q24}}</span> </td>
+                        </tr> 
+                      </tbody>
+                    </table>
+                    <table class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                              <th>Muscle ache</th>
+                              <th>Headache</th>
+                              <th>fever</th>
+                              <th>redness</th>
+                              <th>swelling</th>
+                              <th>induration</th>
+                              <th>chills</th>
+                              <th>join pain</th>
+                              <th>fatigue</th>
+                              <th>nausea</th>
+                              <th>vomiting</th>
+                              <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                              <td class="cell-detail"> <span>{% if y.muscle_ache == '1'%}Yes{% elif y.muscle_ache == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                              <td class="cell-detail"> <span>{% if y.headache == '1'%}Yes{% elif y.headache == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                              <td class="cell-detail"> <span>{% if y.fever == '1'%}Yes{% elif y.fever == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                              <td class="cell-detail"> <span>{% if y.redness == '1'%}Yes{% elif y.redness == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                              <td class="cell-detail"> <span>{% if y.swelling == '1'%}Yes{% elif y.swelling == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                              <td class="cell-detail"> <span>{% if y.induration == '1'%}Yes{% elif y.induration == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                              <td class="cell-detail"> <span>{% if y.chills == '1'%}Yes{% elif y.chills == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                              <td class="cell-detail"> <span>{% if y.join_pain == '1'%}Yes{% elif y.join_pain == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                              <td class="cell-detail"> <span>{% if y.fatigue == '1'%}Yes{% elif y.fatigue == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                              <td class="cell-detail"> <span>{% if y.nausea == '1'%}Yes{% elif y.nausea == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                              <td class="cell-detail"> <span>{% if y.vomiting == '1'%}Yes{% elif y.vomiting == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                              <td class="cell-detail"> <span>{{y.warmth}}</span> </td>
+                              {% if y.feverish == '0'%}
+                              <td style="background-color: rgb(255, 204, 0);">No Symptoms</td>
+                              {% elif y.feverish == '1'%}
+                              <td style="background-color: rgb(255, 204, 0);">Mild</td>
+                              {% elif y.feverish == '2'%}
+                              <td style="background-color: rgb(255, 204, 0);">Mild</td>
+                              {% elif y.feverish == '3' %}
+                              <td style="background-color: rgb(255, 153, 51);">Moderate</td>
+                              {% elif y.feverish == '4' %}
+                              <td style="background-color: rgb(255, 153, 51);">Moderate</td>
+                              {% elif y.feverish == '5' %}
+                              <td style="background-color: rgb(255, 153, 51);">Moderate</td>
+                              {% elif y.feverish == '6' %}
+                              <td style="background-color: rgb(255, 153, 51);">Moderate</td>
+                              {% else %}
+                              <td style="background-color: rgb(255 0 0 / 79%);">Severe</td>
+                              {% endif %}
+                            </tr>
+                        </tbody>
+                       
+                    </table>
+            
+                    </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger"><a href="{% url 'generate_pdf' pk=y.id %}" class="text-white">Download PDF</a></button>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">With Adverse Side Effect</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="card">
+                    <div class="table-responsive">
+                        <table id="myTable6" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>User Id</th>
+                                    <th>Username</th>
+                                    <th>Muscle ache</th>
+                                    <th>Headache</th>
+                                    <th>fever</th>
+                                    <th>redness</th>
+                                    <th>swelling</th>
+                                    <th>induration</th>
+                                    <th>chills</th>
+                                    <th>join pain</th>
+                                    <th>fatigue</th>
+                                    <th>nausea</th>
+                                    <th>vomiting</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for y in haveSideeffect %}
+                                <tr>
+                                    <td class="cell-detail"> <span>{{ forloop.counter }}</span> </td>
+                                    <td class="cell-detail"> {{y.author_id}}<span></span> </td>
+                                    <td class="cell-detail"> {{y.author.username}}<span></span> </td>
+                                    <td class="cell-detail"> <span>{% if y.muscle_ache == '1'%}Yes{% elif y.muscle_ache == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.headache == '1'%}Yes{% elif y.headache == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.fever == '1'%}Yes{% elif y.fever == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.redness == '1'%}Yes{% elif y.redness == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.swelling == '1'%}Yes{% elif y.swelling == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.induration == '1'%}Yes{% elif y.induration == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.chills == '1'%}Yes{% elif y.chills == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.join_pain == '1'%}Yes{% elif y.join_pain == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.fatigue == '1'%}Yes{% elif y.fatigue == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.nausea == '1'%}Yes{% elif y.nausea == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.vomiting == '1'%}Yes{% elif y.vomiting == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{{y.warmth}}</span> </td>
+                                    {% if y.feverish == '0'%}
+                                    <td style="background-color: rgb(255, 204, 0);">No Symptoms</td>
+                                    {% elif y.feverish == '1'%}
+                                    <td style="background-color: rgb(255, 204, 0);">Mild</td>
+                                    {% elif y.feverish == '2'%}
+                                    <td style="background-color: rgb(255, 204, 0);">Mild</td>
+                                    {% elif y.feverish == '3' %}
+                                    <td style="background-color: rgb(255, 153, 51);">Moderate</td>
+                                    {% elif y.feverish == '4' %}
+                                    <td style="background-color: rgb(255, 153, 51);">Moderate</td>
+                                    {% elif y.feverish == '5' %}
+                                    <td style="background-color: rgb(255, 153, 51);">Moderate</td>
+                                    {% elif y.feverish == '6' %}
+                                    <td style="background-color: rgb(255, 153, 51);">Moderate</td>
+                                    {% else %}
+                                    <td style="background-color: rgb(255 0 0 / 79%);">Severe</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <!--<button type="button" class="btn btn-danger " ><a class="text-white" href="{% url 'pdfAllReport' %}">Download PDF</a></button>-->
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- Modal -->
+{% for y in NoSideeffect %}
+<div class="modal fade" id="exampleModal{{y.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">With Out Adverse Side Effect</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="card">
+                    <div class="table-responsive">
+                        <table id="myTable6" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>User Id</th>
+                                    <th>Username</th>
+                                    <th>Muscle ache</th>
+                                    <th>Headache</th>
+                                    <th>fever</th>
+                                    <th>redness</th>
+                                    <th>swelling</th>
+                                    <th>induration</th>
+                                    <th>chills</th>
+                                    <th>join pain</th>
+                                    <th>fatigue</th>
+                                    <th>nausea</th>
+                                    <th>vomiting</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="cell-detail"> <span>{{ forloop.counter }}</span> </td>
+                                    <td class="cell-detail"> {{y.author_id}}<span></span> </td>
+                                    <td class="cell-detail"> {{y.author.username}}<span></span> </td>
+                                    <td class="cell-detail"> <span>{% if y.muscle_ache == '1'%}Yes{% elif y.muscle_ache == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.headache == '1'%}Yes{% elif y.headache == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.fever == '1'%}Yes{% elif y.fever == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.redness == '1'%}Yes{% elif y.redness == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.swelling == '1'%}Yes{% elif y.swelling == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.induration == '1'%}Yes{% elif y.induration == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.chills == '1'%}Yes{% elif y.chills == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.join_pain == '1'%}Yes{% elif y.join_pain == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.fatigue == '1'%}Yes{% elif y.fatigue == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.nausea == '1'%}Yes{% elif y.nausea == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{% if y.vomiting == '1'%}Yes{% elif y.vomiting == 'Yes' %}Yes{% else %}No{% endif %} </span> </td>
+                                    <td class="cell-detail"> <span>{{y.warmth}}</span> </td>
+                                    {% if y.feverish == '0'%}
+                                    <td style="background-color: rgb(153, 153, 153);">No Symptoms</td>
+                                    {% else %}
+                                    <td style="background-color: rgb(153, 153, 153);">No Symptoms</td>
+                                    {% endif %}
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger"><a href="{% url 'generate_pdf' pk=y.id %}" class="text-white">Download PDF</a></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <script>
+    $(document).ready(function () {
+      $('table.display').DataTable({
+        orderCellsTop: true,
+          bPaginate: false,
+          fixedHeader: false,
+          sorting: false,
+          bSort: false,
+      });
+  });
+  </script>
+  
+
+  <script>
+    $(document).ready(function() {
+      // Setup - add a text input to each footer cell
+      $('#myTable6').DataTable( {
+          pageLength: 5,
+          orderCellsTop: true,
+          fixedHeader: false,
+          dom: 'Bfrtip',
+          buttons: [
+            {
+              orientation: 'landscape',
+              extend: 'pdfHtml5',
+              messageTop: 'PDF created by vaccimo with Buttons for DataTables.',
+            },
+            {
+              extend: 'csv',
+              messageTop: 'PDF created by vaccimo with Buttons for DataTables.'
+            },
+            {
+              extend: 'copy',
+              messageTop: 'PDF created by vaccimo with Buttons for DataTables.'
+            },
+          ]    
+      });});
+  </script>
+  <script>
+    $(document).ready(function() {
+      // Setup - add a text input to each footer cell
+      $('#myTable10').DataTable( {
+          orderCellsTop: true,
+          fixedHeader: false,
+          sorting: false,
+          bSort: false,
+          dom: 'Bfrtip',
+          buttons: [
+            {
+              orientation: 'landscape',
+              extend: 'pdfHtml5',
+              messageTop: 'PDF created by vaccimo with Buttons for DataTables.',
+            },
+            {
+              extend: 'csv',
+              messageTop: 'PDF created by vaccimo with Buttons for DataTables.'
+            },
+            {
+              extend: 'copy',
+              messageTop: 'PDF created by vaccimo with Buttons for DataTables.'
+            },
+          ]    
+      });});
+  </script>

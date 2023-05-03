@@ -29,6 +29,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,7 +44,6 @@ INSTALLED_APPS = [
     'vaccimo',
     'django_filters',
     'widget_tweaks',
-
 ]
 
 MIDDLEWARE = [
@@ -144,6 +145,6 @@ LOGIN_REDIRECT_URL = '^information-page/(?P<id>\d+)/$'
 # email verification
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'wtorreno.k11722006@umak.edu.ph'
-EMAIL_HOST_PASSWORD = '09193225150'
+EMAIL_HOST_USER = 'whllrdtrrn@gmail.com'
+EMAIL_HOST_PASSWORD = 'lspvkqeklrgmsjvt'
 EMAIL_PORT = 587

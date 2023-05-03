@@ -15,23 +15,27 @@
     <title>SuccessPage</title>
 </head>
 <body>
-    {% csrf_token %}
 
     <img id="bg-main" src="{% static 'images/login.jpg' %}" alt="Cover Image" style=" position: absolute;height: 100%; width: 100%;" />
-    <form method="POST" >
-        {% csrf_token %}
+        
         <div class="container text-center" >
-                <input type="hidden" value="1" 
-                name="btnYes">
+                
                 <div class="card border-dark">
                 <p>Have You Felt Any Side Effects?</p>
                     <div class="button">
-                        <a class="btn btn-primary "href="{% url 'homepage' %}" style="width: 5rem;">No</a>
+                        <form method="POST" enctype="multipart/form-data" >
+                        {% csrf_token %}
+                        <input type="hidden" value="0" name="name">
+                        <button class="btn btn-primary " name="btnform1" type="submit" style="width: 5rem;">No</button>
+                        </form>
                         <!--<a class="btn btn-primary "href="{% url 'sideeffect' %}" style="width: 5rem;">Yes</a>-->
-                        <a class="btn btn-primary " type="submit" style="width: 5rem;">Yes</a>
+                        <form method="POST" enctype="multipart/form-data" >
+                        {% csrf_token %}
+                        <input type="hidden" value="1" name="name">
+                        <button class="btn btn-primary " name="btnform2" type="submit" style="width: 5rem;">Yes</button>
+                        </form>
                     </div>
                 </div>
         </div>
-    </form>
 </body>
 </html>

@@ -1,0 +1,205 @@
+{% extends "newUserPage/indexLayout.html" %}
+{% block static %}
+    {% load static %}
+{% endblock static %}
+{% block title %} <title>Information Collection</title> {% endblock %}
+
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{% static 'newUserPage/information/index.css' %}">
+{% endblock stylesheets %}
+
+
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-md-8">
+            <form id="regForm" method="POST" action="">
+                {% csrf_token %}
+                <h1 id="register">Personal Information Form</h1>
+                <div class="all-steps" id="all-steps">
+                  <span class="step"></span> 
+                  <span class="step"></span>
+                  <span class="step"></span>
+                </div>
+                <div class="tab">
+                    {% include "partials/index/term.html" %}
+                </div>
+                <div class="tab">     
+                    <div class="col-lg-12 mb-3 text-center"> {% if prod.file %} <img
+                            id="blah_primary_back" src="{{prod.file.url}}"
+                            style="width: auto; height: 200px;" alt="" /> {% endif %} </div>
+                    <div class="form-group">
+                        <h6>Vaccination Card</h6>
+                        <input class="form-control" type="file" accept="image/png, image/gif, image/jpeg" name="file" placeholder="file" id="img_primary_back" value="{{prod.file}}">
+                    </div>
+                    <div class="form-group">
+                        <h6>What's your name?</h6>
+                        <p>
+                            <input placeholder="Name..." oninput="this.className = ''" id="name" name="name" value="{{prod.name }}">
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <h6>What's your Vaccination Brand</h6>
+                        <select oninput="this.className = ''" style="font-size: 16px;" id="vaccination_brand"
+							name="vaccination_brand" type="text" placeholder="Vaccination Brand"
+							autocomplete="off" class="form-control" required
+							aria-selected="{{prod.vaccination_brand}}">
+							{% if prod.vaccination_brand %}
+							<option>{{prod.vaccination_brand}}</option>
+							{% endif %}
+							<option value="">--Please Select your vaccination brand--</option>
+							<option value="moderna">Moderna</option>
+							<option value="pfizer">Pfizer</option>
+							<option value="astraZeneca">AstraZeneca</option>
+							<option value="sinovac">Sinovac</option>
+							<option value="johnson_and_Johnsons">Johnson and Johnson's</option>
+						</select>
+                    </div>
+                    <div class="form-group">
+                        <h6>What's your Address?</h6>
+                        <input placeholder="Address" oninput="this.className = ''"  id="address" name="address" value="{{prod.address}}" required>
+                    </div>
+                </div>
+                <div class="tab">
+                    <div class="form-group">
+                        <h6>What's your Contact number?</h6>
+                        <input placeholder="Contact number" oninput="this.className = ''" name="contact_number" type="number" value="{{prod.contact_number}}" required>
+                    </div>
+                    <div class="form-group">
+                        <h6>What's your Date vaccinated?</h6>
+                        <input placeholder="Date vaccinated" oninput="this.className = ''" type="date" name="bday" value="{{prod.bday}}" required>
+                    </div>
+                    <div class="form-group">
+                        <h6>What's your Age?</h6>
+                        <input placeholder="Age" oninput="this.className = ''" id="age" name="age" value="{{prod.age}}">
+                    </div>
+                    <div class="form-group">
+                        <h6>What's your Gender?</h6>
+                            <select style="font-size: 16px;" oninput="this.className = ''" id="gender" name="gender"
+                            class="form-control" required value="{{prod.gender}}">
+                            {% if prod.gender %}
+                            <option>{{prod.gender}}</option>
+                            {% endif %}
+                            <option value="">--Please Select your Gender--</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            </select>   
+                    </div>
+                </div>  
+                <div style="overflow:auto;" id="nextprevious">
+                    <div id="prevSubmit" style="float:right;">
+                      <button type="button" id="prevBtn"  onclick="nextPrev(-1)"><i class="fa fa-angle-double-left"></i></button> 
+                      <button type="button" id="nextBtn" disabled onclick="nextPrev(1)" ><i class="fa fa-angle-double-right "></i></button> 
+                      <button type="submit" id="submit" ><i class="fa fa-angle-double-left "></i></button> 
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+
+{% endblock content %}
+
+
+
+
+{% block javascripts %}
+<script>
+    const dropdownElementList = document.querySelectorAll('.dropdown-toggle')
+    const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl))
+    
+    img_primary_back.onchange = (evt) => {
+			const [file] = img_primary_back.files;
+			if (file) {
+				blah_primary_back.src = URL.createObjectURL(file);
+			}
+		};
+
+    var currentTab = 0;
+              document.addEventListener("DOMContentLoaded", function(event) {
+
+
+              showTab(currentTab);
+
+              });
+
+              function showTab(n) {
+              var x = document.getElementsByClassName("tab");
+              x[n].style.display = "block";
+              if (n == 0) {
+                document.getElementById("prevBtn").style.display = "none";
+                document.getElementById("submit").style.display = "none";
+              } 
+              else if (n == 2) {
+                document.getElementById("submit").innerHTML = '<i class="fa fa-angle-double-right"></i>';
+                document.getElementById("submit").style.display = "block";
+                document.getElementById("nextBtn").style.display = "none";
+                document.getElementById("prevSubmit").style.display = "flex";
+                document.getElementById("prevBtn").style.display = "block";
+              }   
+              else {
+                document.getElementById("submit").style.display = "none";
+                document.getElementById("nextBtn").style.display = "block";
+                document.getElementById("prevSubmit").style.display = "flex";
+                document.getElementById("prevBtn").style.display = "inline";
+          
+              }
+              if (n == (x.length - 1)) {
+              document.getElementById("nextBtn").innerHTML = '<i class="fa fa-angle-double-right"></i>';
+              }
+              else {
+              document.getElementById("nextBtn").innerHTML = '<i class="fa fa-angle-double-right"></i>';
+              }
+              fixStepIndicator(n)
+              }
+
+              function nextPrev(n) {
+              var x = document.getElementsByClassName("tab");
+              if (n == 1 && !validateForm()) return false;
+              x[currentTab].style.display = "none";
+              currentTab = currentTab + n;
+              if (currentTab >= x.length) {
+            
+              document.getElementById("nextprevious").style.display = "none";
+              document.getElementById("all-steps").style.display = "none";
+              document.getElementById("register").style.display = "none";
+              document.getElementById("text-message").style.display = "block";
+              }
+              showTab(currentTab);
+              }
+
+              function validateForm() {
+                   var x, y, i, valid = true;
+                   x = document.getElementsByClassName("tab");
+                   y = x[currentTab].getElementsByTagName("input");
+                   for (i = 1; i < y.length; i++) {
+                       if (y[i].value == "") {
+                           y[i].className += " invalid";
+                           valid = false;
+                       }
+
+
+                   }
+                   if (valid) {
+                       document.getElementsByClassName("step")[currentTab].className += " finish";
+                   }
+                   return valid;
+               }
+
+               function fixStepIndicator(n) {
+                   var i, x = document.getElementsByClassName("step");
+                   for (i = 0; i < x.length; i++) {
+                       x[i].className = x[i].className.replace(" active", "");
+                   }
+                   x[n].className += " active";
+               }
+</script>
+{% endblock javascripts %}
